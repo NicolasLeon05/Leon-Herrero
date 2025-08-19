@@ -13,7 +13,7 @@ int main(void)
     if (!window)
     {
         glfwTerminate();
-        return -1;
+        return -1; 
     }
 
     /* Make the window's context current */
