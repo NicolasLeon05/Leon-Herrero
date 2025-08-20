@@ -1,18 +1,17 @@
 #include <GLFW/glfw3.h>
 
 #include "Window.h"
+#include "Renderer.h"
 
 int main(void)
 {
     Window window = Window(640, 480, "Engine");
 
-    GLFWwindow* gflwWindow;
+    Renderer renderer;
 
-    /* Initialize the library */
     if (!glfwInit())
         return -1;
 
-    /* Create a windowed mode window and its OpenGL context */
     window.CreateWindow();
     if (!window.GetGlfwWindow())
     {
@@ -20,19 +19,14 @@ int main(void)
         return -1; 
     }
 
-    /* Make the window's context current */
-    glfwMakeContextCurrent(window.GetGlfwWindow());
+    renderer.MakeContextCurrent(window);
 
-    /* Loop until the user closes the window */
     while (!window.ShouldClose())
     {
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
+        renderer.Clear();
 
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window.GetGlfwWindow());
+        renderer.SwapBuffers(window);
 
-        /* Poll for and process events */
         glfwPollEvents();
     }
 

@@ -20,9 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BaseGame.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -88,17 +90,28 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)lib\glfw-3.4.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\glfw-3.4.bin.WIN32\include;$(SolutionDir)lib\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\glfw-3.4.bin.WIN32\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;Opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\glew-2.1.0\lib;$(SolutionDir)lib\glfw-3.4.bin.WIN32\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;glew32.lib;Opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
       </Command>
     </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
