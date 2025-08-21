@@ -98,8 +98,7 @@
       <AdditionalDependencies>glfw3.lib;glew32.lib;Opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy "$(SolutionDir)lib\glew-2.1.0\bin\glew32.dll" "$(OutDir)" /y /i /s</Command>
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>
@@ -125,6 +124,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)lib\glew-2.1.0\bin\glew32.dll" "%CD%\bin\Debug"/y /i /s
+xcopy "$(SolutionDir)lib\glew-2.1.0\bin\glew32.dll" "%CD%\bin\Release"/y /i /s</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
