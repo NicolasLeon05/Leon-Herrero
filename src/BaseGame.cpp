@@ -40,6 +40,8 @@ int main(void)
     {
         renderer.Clear();
 
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
         renderer.SwapBuffers(window);
 
         glfwPollEvents();
