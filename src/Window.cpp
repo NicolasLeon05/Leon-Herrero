@@ -23,6 +23,12 @@ Window::~Window()
 void Window::CreateWindow()
 {
 	glfwWindow = glfwCreateWindow(width, height, title, NULL, NULL);
+
+	if (!glfwWindow)
+	{
+		glfwTerminate();
+		exit(-1);
+	}
 }
 
 GLFWwindow* Window::GetGlfwWindow()

@@ -14,11 +14,6 @@ int main(void)
         return -1;
 
     window.CreateWindow();
-    if (!window.GetGlfwWindow())
-    {
-        glfwTerminate();
-        return -1; 
-    }
 
     renderer.MakeContextCurrent(window);
 
