@@ -1,8 +1,8 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
-#include "Window.h"
-#include "Renderer.h"
+#include "window/Window.h"
+#include "renderer/Renderer.h"
 
 int main(void)
 {
