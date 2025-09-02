@@ -68,6 +68,9 @@
     <ClInclude Include="src\entity\Entity2D.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="src\BaseGame.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\material\Basic.shader" />

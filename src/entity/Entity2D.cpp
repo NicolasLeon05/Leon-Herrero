@@ -20,3 +20,8 @@ void Entity2D::SetMaterial(std::string filepath)
 	material = material.ParseShader(filepath);
 }
 
+void Entity2D::Draw()
+{
+	Renderer::DrawEntity(*this);
+}
+

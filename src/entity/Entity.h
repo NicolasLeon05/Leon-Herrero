@@ -1,6 +1,5 @@
 #pragma once
 
-#include "GL/glew.h"
 #include "../renderer/Renderer.h"
 
 class Entity
@@ -17,4 +16,6 @@ public:
 
 	unsigned int GetVerticesSize();
 	float* GetVertices();
+
+	 virtual void Draw() = 0;
 };

@@ -27,3 +27,8 @@ float* Entity::GetVertices()
 {
 	return vertices;
 }
+
+void Entity::Draw()
+{
+
+}

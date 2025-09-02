@@ -14,4 +14,6 @@ public:
 
 	Material& GetMaterial();
 	void SetMaterial(std::string filepath);
+
+	void Draw() override;
 };
