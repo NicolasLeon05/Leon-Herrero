@@ -13,7 +13,7 @@ Material::Material(std::string vertexSource, std::string fragmentSource)
 
 Material::~Material()
 {
-	std::cout << "QUE" << std::endl;
+
 }
 
 Material Material::ParseShader(const std::string& filepath)

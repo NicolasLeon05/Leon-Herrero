@@ -12,6 +12,6 @@ public:
 	Entity2D();
 	~Entity2D();
 
-	Material GetMaterial();
+	Material& GetMaterial();
 	void SetMaterial(std::string filepath);
 };
