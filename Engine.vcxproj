@@ -20,11 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BaseGame.cpp" />
+    <ClCompile Include="src\entity\Entity.cpp" />
+    <ClCompile Include="src\entity\Entity2D.cpp" />
     <ClCompile Include="src\material\Material.cpp" />
     <ClCompile Include="src\renderer\Renderer.cpp" />
     <ClCompile Include="src\window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\entity\Entity.h" />
+    <ClInclude Include="src\entity\Entity2D.h" />
     <ClInclude Include="src\material\Material.h" />
     <ClInclude Include="src\renderer\Renderer.h" />
     <ClInclude Include="src\window\Window.h" />
