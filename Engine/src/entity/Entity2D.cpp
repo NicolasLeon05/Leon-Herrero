@@ -24,7 +24,7 @@ void Entity2D::Draw()
 {
 	Renderer::DrawEntity(*this);
 
-	GetMaterial().SetFilepath("src/material/Basic.shader");
+	GetMaterial().SetFilepath("Basic.shader");
 	SetMaterial();
 	std::cout << "Vertex" << std::endl;
 	std::cout << GetMaterial().GetVertexSource() << std::endl;

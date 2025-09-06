@@ -118,6 +118,8 @@ std::string Material::GetFilepath()
 
 std::string Material::GetVertexSource()
 {
+	std::cout << "Vertex source: " << vertexSource << std::endl;
+
 	return vertexSource;
 }
 
