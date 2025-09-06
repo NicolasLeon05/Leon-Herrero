@@ -5,8 +5,6 @@
 class Entity
 {
 private:
-	Renderer renderer;
-
 	float vertices[9];
 	float color[4];
 

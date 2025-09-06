@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "../entity/Entity2D.h"
 
 Renderer::Renderer()
 {
@@ -25,7 +26,7 @@ void Renderer::SwapBuffers(Window window)
 	glfwSwapBuffers(window.GetGlfwWindow());
 }
 
-void Renderer::DrawEntity(Entity2D entity)
+void Renderer::DrawEntity(Entity2D& entity)
 {
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
