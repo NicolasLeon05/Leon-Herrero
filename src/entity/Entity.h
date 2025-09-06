@@ -5,7 +5,8 @@
 class Entity
 {
 private:
-	float vertices[9];
+	float vertices[12];
+	unsigned int indices[6];
 	float color[4];
 
 public:
@@ -14,6 +15,9 @@ public:
 
 	unsigned int GetVerticesSize();
 	float* GetVertices();
+
+	unsigned int GetIndicesSize();
+	unsigned int* GetIndices();
 
 	 virtual void Draw() = 0;
 };

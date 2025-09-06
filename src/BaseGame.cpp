@@ -8,9 +8,10 @@
 #include <sstream>
 #include <string>
 
-
-int main(void)
+int BaseGame::RunEngine()
 {
+	//BaseGame game = BaseGame();
+
 	Entity2D entity2D = Entity2D();
 
 	Window window = Window(640, 480, "Engine");
@@ -32,12 +33,16 @@ int main(void)
 	{
 		Renderer::Clear();
 
-		Renderer::DrawArrays(GL_TRIANGLES, 0, 3);
+		//game.Update();
+
+		Renderer::Draw(GL_TRIANGLES, 0, 6);		
 
 		Renderer::SwapBuffers(window);
 
 		Renderer::PollEvents();
 	}
+
+	//game.DeInitGame();
 
 	entity2D.GetMaterial().DeinitShader();
 

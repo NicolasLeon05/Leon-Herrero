@@ -16,5 +16,5 @@ public:
 	static void SwapBuffers(Window window);
 	static void DrawEntity(Entity2D& entity);
 	static void PollEvents();
-	static void DrawArrays(GLenum primitive, GLint first, GLsizei count);
+	static void Draw(GLenum primitive, GLint first, GLsizei count);
 };

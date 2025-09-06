@@ -29,6 +29,7 @@ void Renderer::SwapBuffers(Window window)
 void Renderer::DrawEntity(Entity2D& entity)
 {
 	unsigned int VBO;
+	unsigned int EBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, entity.GetVerticesSize(),
@@ -36,6 +37,11 @@ void Renderer::DrawEntity(Entity2D& entity)
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
+
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, entity.GetIndicesSize(),
+		entity.GetIndices(), GL_STREAM_DRAW);
 }
 
 void Renderer::PollEvents()
@@ -43,7 +49,8 @@ void Renderer::PollEvents()
 	glfwPollEvents();
 }
 
-void Renderer::DrawArrays(GLenum primitive, GLint first, GLsizei count)
+void Renderer::Draw(GLenum primitive, GLint first, GLsizei count)
 {
-	glDrawArrays(primitive, first, count);
+
+	glDrawElements(primitive, count, GL_UNSIGNED_INT, 0);
 }
