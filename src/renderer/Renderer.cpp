@@ -43,7 +43,7 @@ void Renderer::PollEvents()
 	glfwPollEvents();
 }
 
-void Renderer::DrawArrays()
+void Renderer::DrawArrays(GLenum primitive, GLint first, GLsizei count)
 {
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(primitive, first, count);
 }

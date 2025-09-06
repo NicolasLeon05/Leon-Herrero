@@ -13,7 +13,7 @@ public:
 	~Entity2D();
 
 	Material& GetMaterial();
-	void SetMaterial(std::string filepath);
+	void SetMaterial();
 
 	void Draw() override;
 };

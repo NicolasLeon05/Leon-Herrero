@@ -14,16 +14,21 @@ private:
 
 	std::string shaderFilepath;
 
+	unsigned int shader;
+
 public:
 	Material();
 	Material(std::string vertexSource, std::string fragmentSource);
 	~Material();
 
-	static Material ParseShader(const std::string& filepath);
-	static unsigned int CompileShader(unsigned int type, 
+	Material ParseShader();
+	unsigned int CompileShader(unsigned int type, 
 		const std::string& source);
-	static int CreateShader(const std::string& vertexShader,
+	int CreateShader(const std::string& vertexShader,
 		const std::string& fragmentShader);
+
+	void InitShader();
+	void DeinitShader();
 
 	void SetFilepath(std::string filepath);
 

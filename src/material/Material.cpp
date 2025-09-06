@@ -16,9 +16,9 @@ Material::~Material()
 
 }
 
-Material Material::ParseShader(const std::string& filepath)
+Material Material::ParseShader()
 {
-	std::ifstream stream(filepath);
+	std::ifstream stream(shaderFilepath);
 
 	enum class ShaderType
 	{
@@ -92,6 +92,18 @@ int Material::CreateShader(const std::string& vertexShader, const std::string& f
 	glDeleteShader(fs);
 
 	return program;
+}
+
+void Material::InitShader()
+{
+	shader = CreateShader(vertexSource, fragmentSource);
+
+	glUseProgram(shader);
+}
+
+void Material::DeinitShader()
+{
+	glDeleteProgram(shader);
 }
 
 void Material::SetFilepath(std::string filepath)
