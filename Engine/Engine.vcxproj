@@ -99,16 +99,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)lib\glfw-3.4.bin.WIN32\include;$(SolutionDir)lib\glew-2.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)lib\glfw-3.4.bin.WIN32\include;$(ProjectDir)lib\glew-2.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\glew-2.2.0\lib;$(SolutionDir)lib\glfw-3.4.bin.WIN32\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\glew-2.2.0\lib;$(ProjectDir)lib\glfw-3.4.bin.WIN32\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;glew32.lib;Opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)lib\glew-2.2.0\lib\glew32.dll" "$(OutDir)" /y /i /s</Command>
+      <Command>xcopy "$(ProjectDir)lib\glew-2.2.0\lib\glew32.dll" "$(OutDir)" /y /i /s</Command>
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>
