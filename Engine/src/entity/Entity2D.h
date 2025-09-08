@@ -5,7 +5,7 @@
 
 class Entity2D : public Entity
 {
-private:
+protected:
 	Material material;
 
 public:
@@ -16,4 +16,5 @@ public:
 	void SetMaterial();
 
 	void Draw() override;
+	void virtual SetVertices(float posX, float posY, float posZ);
 };

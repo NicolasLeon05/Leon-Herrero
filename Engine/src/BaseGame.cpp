@@ -1,4 +1,4 @@
-#include "entity/Entity2D.h"
+#include "shape/Shape.h"
 #include "renderer/Renderer.h"
 #include "window/Window.h"
 
@@ -12,7 +12,8 @@ int BaseGame::RunEngine()
 {
 	//BaseGame game = BaseGame();
 
-	Entity2D entity2D = Entity2D();
+	Shape entity2D = Shape(SHAPE_TYPE::SQUARE);
+	entity2D.SetVertices(0.5f, 0.5f, 0.0f);
 
 	Window window = Window(640, 480, "Engine");
 

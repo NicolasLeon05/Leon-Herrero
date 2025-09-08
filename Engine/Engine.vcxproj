@@ -24,6 +24,7 @@
     <ClCompile Include="src\entity\Entity2D.cpp" />
     <ClCompile Include="src\material\Material.cpp" />
     <ClCompile Include="src\renderer\Renderer.cpp" />
+    <ClCompile Include="src\shape\Shape.cpp" />
     <ClCompile Include="src\window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -32,6 +33,8 @@
     <ClInclude Include="src\entity\Entity2D.h" />
     <ClInclude Include="src\material\Material.h" />
     <ClInclude Include="src\renderer\Renderer.h" />
+    <ClInclude Include="src\shape\Shape.h" />
+    <ClInclude Include="src\shape\ShapeType.h" />
     <ClInclude Include="src\window\Window.h" />
   </ItemGroup>
   <ItemGroup>

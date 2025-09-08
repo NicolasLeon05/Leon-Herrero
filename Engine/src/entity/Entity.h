@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../renderer/Renderer.h"
+#include <vector>
 
 class Entity
 {
-private:
-	float vertices[12];
-	unsigned int indices[6];
+protected:
+	std::vector<float> vertices;
+	std::vector <unsigned int> indices;
 	float color[4];
 
 public:
@@ -19,5 +19,6 @@ public:
 	unsigned int GetIndicesSize();
 	unsigned int* GetIndices();
 
-	 virtual void Draw() = 0;
+	virtual void Draw() = 0;
+	virtual void SetVertices(float posX, float posY, float posZ) = 0;
 };

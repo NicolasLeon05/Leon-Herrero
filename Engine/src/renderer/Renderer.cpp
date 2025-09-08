@@ -30,18 +30,24 @@ void Renderer::DrawEntity(Entity2D& entity)
 {
 	unsigned int VBO;
 	unsigned int EBO;
+	unsigned int VAO;
+
+	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+
+	glBindVertexArray(VAO);
+
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, entity.GetVerticesSize(),
 		entity.GetVertices(), GL_STREAM_DRAW);
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
-
-	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, entity.GetIndicesSize(),
 		entity.GetIndices(), GL_STREAM_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
+	glEnableVertexAttribArray(0);
 }
 
 void Renderer::PollEvents()

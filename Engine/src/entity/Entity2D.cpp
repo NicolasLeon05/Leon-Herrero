@@ -1,5 +1,7 @@
 #include "Entity2D.h"
 
+#include "../renderer/Renderer.h"
+
 Entity2D::Entity2D()
 {
 	material = Material();
@@ -30,5 +32,9 @@ void Entity2D::Draw()
 	std::cout << GetMaterial().GetVertexSource() << std::endl;
 	std::cout << "Fragment" << std::endl;
 	std::cout << GetMaterial().GetFragmentSource() << std::endl;
+}
+
+void Entity2D::SetVertices(float posX, float posY, float posZ)
+{
 }
 
