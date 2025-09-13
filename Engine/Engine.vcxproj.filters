@@ -48,6 +48,9 @@
     <ClCompile Include="src\shape\Shape.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="src\vertex\Vertex.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\window\Window.h">
@@ -78,6 +81,12 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="src\shape\ShapeType.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vertex\Vertex.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vertex\Color.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

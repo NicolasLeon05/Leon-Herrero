@@ -5,7 +5,7 @@
 class Entity
 {
 protected:
-	std::vector<float> vertices;
+	std::vector<float> verticesData;
 	std::vector <unsigned int> indices;
 	float color[4];
 

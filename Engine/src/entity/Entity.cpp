@@ -13,12 +13,12 @@ Entity::~Entity()
 
 unsigned int Entity::GetVerticesSize()
 {
-	return static_cast<unsigned int> (vertices.size() * sizeof(float));
+	return static_cast<unsigned int> (verticesData.size() * sizeof(float));
 }
 
 float* Entity::GetVertices()
 {
-	return &vertices[0];
+	return &verticesData[0];
 }
 
 unsigned int Entity::GetIndicesSize()

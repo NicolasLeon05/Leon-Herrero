@@ -25,12 +25,15 @@
     <ClCompile Include="src\material\Material.cpp" />
     <ClCompile Include="src\renderer\Renderer.cpp" />
     <ClCompile Include="src\shape\Shape.cpp" />
+    <ClCompile Include="src\vertex\Vertex.cpp" />
     <ClCompile Include="src\window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BaseGame.h" />
     <ClInclude Include="src\entity\Entity.h" />
     <ClInclude Include="src\entity\Entity2D.h" />
+    <ClInclude Include="src\vertex\Color.h" />
+    <ClInclude Include="src\vertex\Vertex.h" />
     <ClInclude Include="src\material\Material.h" />
     <ClInclude Include="src\renderer\Renderer.h" />
     <ClInclude Include="src\shape\Shape.h" />
