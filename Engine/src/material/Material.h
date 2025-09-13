@@ -30,6 +30,8 @@ public:
 	void InitShader();
 	void DeinitShader();
 
+	void UseShader();
+
 	void SetFilepath(std::string filepath);
 
 	std::string GetFilepath();

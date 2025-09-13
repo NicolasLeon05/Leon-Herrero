@@ -96,14 +96,17 @@ int Material::CreateShader(const std::string& vertexShader, const std::string& f
 
 void Material::InitShader()
 {
-	shader = CreateShader(vertexSource, fragmentSource);
-
-	glUseProgram(shader);
+	shader = CreateShader(vertexSource, fragmentSource);	
 }
 
 void Material::DeinitShader()
 {
 	glDeleteProgram(shader);
+}
+
+void Material::UseShader()
+{
+	glUseProgram(shader);
 }
 
 void Material::SetFilepath(std::string filepath)

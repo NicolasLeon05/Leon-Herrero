@@ -12,8 +12,12 @@ int BaseGame::RunEngine()
 {
 	//BaseGame game = BaseGame();
 
-	Shape entity2D = Shape(SHAPE_TYPE::SQUARE);
-	entity2D.SetVertices(0.5f, 0.5f, 0.0f);
+	Vertex one = Vertex(-0.5f, 0.5f, 0.0f);
+	Vertex two = Vertex(-0.5f, -0.5f, 0.0f);
+	Vertex three = Vertex(0.0f, 0.5f, 0.0f);
+
+	Shape triangle = Shape();
+	triangle.CreateTriangle(one, two, three, Color::RED);
 
 	Window window = Window(640, 480, "Engine");
 
@@ -26,15 +30,17 @@ int BaseGame::RunEngine()
 
 	glewInit();
 
-	entity2D.Draw();
+	triangle.Draw();
 
-	entity2D.GetMaterial().InitShader();
+	triangle.GetMaterial().InitShader();
 
 	while (!window.ShouldClose())
 	{
 		Renderer::Clear();
 
 		//game.Update();
+
+		triangle.GetMaterial().UseShader();
 
 		Renderer::Draw(GL_TRIANGLES, 0, 6);		
 
@@ -45,7 +51,7 @@ int BaseGame::RunEngine()
 
 	//game.DeInitGame();
 
-	entity2D.GetMaterial().DeinitShader();
+	triangle.GetMaterial().DeinitShader();
 
 	glfwTerminate();
 	return 0;

@@ -46,8 +46,11 @@ void Renderer::DrawEntity(Entity2D& entity)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, entity.GetIndicesSize(),
 		entity.GetIndices(), GL_STREAM_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 7, 0);
 	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)(sizeof(float) * 4));
+	glEnableVertexAttribArray(1);
 }
 
 void Renderer::PollEvents()
