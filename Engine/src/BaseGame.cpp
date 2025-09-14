@@ -28,7 +28,10 @@ int BaseGame::RunEngine()
 	Vertex v6 = Vertex(0.5f, 0.0f, 0.0f, Color::RED);
 
 	Shape triangle2 = Shape();
-	triangle2.CreateTriangle(v4, v5, v6); //Color::WHITE);	
+	triangle2.CreateTriangle(v4, v5, v6); //Color::WHITE);
+
+	shapes.push_back(triangle1);
+	shapes.push_back(triangle2);
 
 	Window window = Window(640, 480, "Engine");
 
@@ -41,14 +44,11 @@ int BaseGame::RunEngine()
 
 	glewInit();
 
-	triangle1.Draw();
-	triangle2.Draw();
-
-	triangle1.GetMaterial().InitShader();
-	triangle2.GetMaterial().InitShader();
-
-	shapes.push_back(triangle1);
-	shapes.push_back(triangle2);
+	for (int i = 0; i < shapes.size(); i++)
+	{
+		shapes[i].Draw();
+		shapes[i].GetMaterial().InitShader();
+	}
 
 	while (!window.ShouldClose())
 	{
@@ -56,13 +56,12 @@ int BaseGame::RunEngine()
 
 		//game.Update();
 
-		triangle1.GetMaterial().UseShader();
+		shapes[0].GetMaterial().UseShader();
 
 		for  (int i = 0; i < shapes.size(); i++)
 		{
 			Renderer::Draw(&shapes[i], 3);
 		}
-
 
 		Renderer::SwapBuffers(window);
 
