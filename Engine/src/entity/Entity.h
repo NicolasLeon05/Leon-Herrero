@@ -8,10 +8,17 @@ protected:
 	std::vector<float> verticesData;
 	std::vector <unsigned int> indices;
 	float color[4];
+	unsigned int VBO;
+	unsigned int EBO;
+	unsigned int VAO;
 
 public:
 	Entity();
 	~Entity();
+
+	unsigned int* GetVBO();
+	unsigned int* GetEBO();
+	unsigned int* GetVAO();
 
 	unsigned int GetVerticesSize();
 	float* GetVertices();

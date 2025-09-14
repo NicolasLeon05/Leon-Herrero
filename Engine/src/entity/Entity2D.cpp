@@ -24,7 +24,7 @@ void Entity2D::SetMaterial()
 
 void Entity2D::Draw()
 {
-	Renderer::DrawEntity(*this);
+	Renderer::DrawShape(*this);
 
 	GetMaterial().SetFilepath("Basic.shader");
 	SetMaterial();

@@ -1,6 +1,5 @@
 #include "Entity.h"
 
-
 Entity::Entity()
 {
 
@@ -9,6 +8,21 @@ Entity::Entity()
 Entity::~Entity()
 {
 
+}
+
+unsigned int* Entity::GetVBO()
+{
+	return &VBO;
+}
+
+unsigned int* Entity::GetEBO()
+{
+	return &EBO;
+}
+
+unsigned int* Entity::GetVAO()
+{
+	return &VAO;
 }
 
 unsigned int Entity::GetVerticesSize()

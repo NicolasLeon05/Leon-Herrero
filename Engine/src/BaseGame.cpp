@@ -8,16 +8,27 @@
 #include <sstream>
 #include <string>
 
+using namespace std;
+
 int BaseGame::RunEngine()
 {
 	//BaseGame game = BaseGame();
 
-	Vertex one = Vertex(-0.5f, 0.5f, 0.0f);
-	Vertex two = Vertex(-0.5f, -0.5f, 0.0f);
-	Vertex three = Vertex(0.0f, 0.5f, 0.0f);
+	vector<Shape> shapes;
 
-	Shape triangle = Shape();
-	triangle.CreateTriangle(one, two, three, Color::RED);
+	Vertex v1 = Vertex(-0.25f, 0.0f, 0.0f, Color::BLUE);
+	Vertex v2 = Vertex(0.0f, -0.5f, 0.0f, Color::GREEN);
+	Vertex v3 = Vertex(-0.5f, 0.0f, 0.0f, Color::WHITE);
+
+	Shape triangle1 = Shape();
+	triangle1.CreateTriangle(v1, v2, v3); //Color::WHITE);
+
+	Vertex v4 = Vertex(0.75f, 0.0f, 0.0f, Color::GREEN);
+	Vertex v5 = Vertex(0.0f, 0.75f, 0.0f, Color::WHITE);
+	Vertex v6 = Vertex(0.5f, 0.0f, 0.0f, Color::RED);
+
+	Shape triangle2 = Shape();
+	triangle2.CreateTriangle(v4, v5, v6); //Color::WHITE);	
 
 	Window window = Window(640, 480, "Engine");
 
@@ -30,9 +41,14 @@ int BaseGame::RunEngine()
 
 	glewInit();
 
-	triangle.Draw();
+	triangle1.Draw();
+	triangle2.Draw();
 
-	triangle.GetMaterial().InitShader();
+	triangle1.GetMaterial().InitShader();
+	triangle2.GetMaterial().InitShader();
+
+	shapes.push_back(triangle1);
+	shapes.push_back(triangle2);
 
 	while (!window.ShouldClose())
 	{
@@ -40,9 +56,13 @@ int BaseGame::RunEngine()
 
 		//game.Update();
 
-		triangle.GetMaterial().UseShader();
+		triangle1.GetMaterial().UseShader();
 
-		Renderer::Draw(GL_TRIANGLES, 0, 6);		
+		for  (int i = 0; i < shapes.size(); i++)
+		{
+			Renderer::Draw(&shapes[i], 3);
+		}
+
 
 		Renderer::SwapBuffers(window);
 
@@ -51,7 +71,8 @@ int BaseGame::RunEngine()
 
 	//game.DeInitGame();
 
-	triangle.GetMaterial().DeinitShader();
+	triangle1.GetMaterial().DeinitShader();
+	triangle2.GetMaterial().DeinitShader();
 
 	glfwTerminate();
 	return 0;

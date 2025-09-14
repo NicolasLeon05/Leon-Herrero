@@ -14,7 +14,7 @@ public:
 	static void MakeContextCurrent(Window window);
 	static void Clear();
 	static void SwapBuffers(Window window);
-	static void DrawEntity(Entity2D& entity);
+	static void DrawShape(Entity2D& entity);
 	static void PollEvents();
-	static void Draw(GLenum primitive, GLint first, GLsizei count);
+	static void Draw(Entity2D* entity, GLsizei count);
 };

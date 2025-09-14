@@ -5,9 +5,9 @@ void Vertex::AssignColor()
 	switch (color)
 	{
 	case Color::WHITE:
-		r = 0.0f;
-		g = 0.0f;
-		b = 0.0f;
+		r = 1.0f;
+		g = 1.0f;
+		b = 1.0f;
 		break;
 	case Color::RED:
 		r = 1.0f;
@@ -38,7 +38,7 @@ Vertex::Vertex(float x, float y, float z)
 	this->y = y;
 	this->z = z;
 	color = Color::WHITE;
-
+	a = 1.0f;
 	AssignColor();
 }
 
@@ -48,7 +48,7 @@ Vertex::Vertex(float x, float y, float z, Color color)
 	this->y = y;
 	this->z = z;
 	this->color = color;
-
+	a = 1.0f;
 	AssignColor();
 }
 
