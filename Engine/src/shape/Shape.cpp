@@ -157,38 +157,10 @@ void Shape::CreateTriangle(Vertex one, Vertex two, Vertex three)
 
 void Shape::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color)
 {
-	verticesData.resize(21);
-	indices.resize(3);
+	CreateTriangle(one, two, three);
 
 	one.SetColor(color);
 	two.SetColor(color);
 	three.SetColor(color);
 
-	verticesData[0] = one.GetPosX();
-	verticesData[1] = one.GetPosY();
-	verticesData[2] = one.GetPosZ();
-	verticesData[3] = one.GetR();
-	verticesData[4] = one.GetG();
-	verticesData[5] = one.GetB();
-	verticesData[6] = one.GetA();
-
-	verticesData[7] = two.GetPosX();
-	verticesData[8] = two.GetPosY();
-	verticesData[9] = two.GetPosZ();
-	verticesData[10] = two.GetR();
-	verticesData[11] = two.GetG();
-	verticesData[12] = two.GetB();
-	verticesData[13] = two.GetA();
-
-	verticesData[14] = three.GetPosX();
-	verticesData[15] = three.GetPosY();
-	verticesData[16] = three.GetPosZ();
-	verticesData[17] = three.GetR();
-	verticesData[18] = three.GetG();
-	verticesData[19] = three.GetB();
-	verticesData[20] = three.GetA();	
-
-	indices[0] = 0;
-	indices[1] = 1;
-	indices[2] = 2;
 }

@@ -66,7 +66,6 @@ void Renderer::Draw(Entity2D* entity, GLsizei count)
 	entity->Rotate(0.0f, 0.0f, 1.0f);
 	entity->Scale(0.99f, 1.0f, 1.0f);
 
-
 	unsigned int transformLoc = glGetUniformLocation(entity->GetMaterial().GetShader(), "transform");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(entity->GetTRS()));
 
