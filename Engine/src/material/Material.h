@@ -32,6 +32,8 @@ public:
 
 	void UseShader();
 
+	unsigned int GetShader();
+
 	void SetFilepath(std::string filepath);
 
 	std::string GetFilepath();

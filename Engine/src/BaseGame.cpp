@@ -2,6 +2,10 @@
 #include "renderer/Renderer.h"
 #include "window/Window.h"
 
+#include "glm.hpp"
+#include "gtc/matrix_transform.hpp"
+#include "gtc/type_ptr.hpp"
+
 #include "BaseGame.h"
 
 #include <fstream>
@@ -24,7 +28,7 @@ int BaseGame::RunEngine()
 	triangle1.CreateTriangle(v1, v2, v3); //Color::WHITE);
 
 	Vertex v4 = Vertex(0.75f, 0.0f, 0.0f, Color::GREEN);
-	Vertex v5 = Vertex(0.0f, 0.75f, 0.0f, Color::WHITE);
+	Vertex v5 = Vertex(0.0f, 0.75f, 0.0f, Color::RED);
 	Vertex v6 = Vertex(0.5f, 0.0f, 0.0f, Color::RED);
 
 	Shape triangle2 = Shape();

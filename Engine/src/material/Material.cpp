@@ -109,6 +109,11 @@ void Material::UseShader()
 	glUseProgram(shader);
 }
 
+unsigned int Material::GetShader()
+{
+	return shader;
+}
+
 void Material::SetFilepath(std::string filepath)
 {
 	shaderFilepath = filepath;
