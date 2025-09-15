@@ -34,8 +34,19 @@ int BaseGame::RunEngine()
 	Shape triangle2 = Shape();
 	triangle2.CreateTriangle(v4, v5, v6); //Color::WHITE);
 
+	float x = -0.7f;
+	float y = -0.7f;
+	float widht = 0.25f;
+	float height = 0.25f;
+
+	Vertex v7 = Vertex(x, y, 0.0f);
+
+	Shape square = Shape();
+	square.CreateSquare(v7, widht, height, Color::GREEN);
+
 	shapes.push_back(triangle1);
 	shapes.push_back(triangle2);
+	shapes.push_back(square);
 
 	Window window = Window(640, 480, "Engine");
 
@@ -62,9 +73,9 @@ int BaseGame::RunEngine()
 
 		shapes[0].GetMaterial().UseShader();
 
-		for  (int i = 0; i < shapes.size(); i++)
+		for (int i = 0; i < shapes.size(); i++)
 		{
-			Renderer::Draw(&shapes[i], 3);
+			Renderer::Draw(&shapes[i], 6);
 		}
 
 		Renderer::SwapBuffers(window);

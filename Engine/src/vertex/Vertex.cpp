@@ -118,6 +118,11 @@ float Vertex::GetA()
 	return a;
 }
 
+Color Vertex::GetColor()
+{
+	return color;
+}
+
 void Vertex::SetColor(Color color)
 {
 	this->color = color;

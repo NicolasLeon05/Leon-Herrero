@@ -28,10 +28,12 @@ public:
 	float GetG();
 	float GetB();
 	float GetA();
+	Color GetColor();
 
 	void SetPosX(float x);
 	void SetPosY(float y);
 	void SetPosZ(float z);
+
 
 	void SetColor(Color color);
 	void SetColor(Color color, float alpha);
