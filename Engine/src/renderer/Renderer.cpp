@@ -16,12 +16,14 @@ Renderer::~Renderer()
 void Renderer::MakeContextCurrent(Window window)
 {
 	glfwMakeContextCurrent(window.GetGlfwWindow());
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void Renderer::Clear()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-	//glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 }
 
 void Renderer::SwapBuffers(Window window)

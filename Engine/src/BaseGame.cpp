@@ -27,9 +27,9 @@ int BaseGame::RunEngine()
 	Shape triangle1 = Shape();
 	triangle1.CreateTriangle(v1, v2, v3); //Color::WHITE);
 
-	Vertex v4 = Vertex(0.75f, 0.0f, 0.0f, Color::BLUE, 0.0f);
-	Vertex v5 = Vertex(0.0f, 0.75f, 0.0f, Color::BLUE, 0.0f);
-	Vertex v6 = Vertex(0.5f, 0.0f, 0.0f, Color::BLUE, 0.0f);
+	Vertex v4 = Vertex(0.75f, 0.0f, 0.0f, Color::BLUE, 0.5f);
+	Vertex v5 = Vertex(0.0f, 0.75f, 0.0f, Color::BLUE, 0.5f);
+	Vertex v6 = Vertex(0.5f, 0.0f, 0.0f, Color::BLUE, 0.5f);
 
 	Shape triangle2 = Shape();
 	triangle2.CreateTriangle(v4, v5, v6); //Color::WHITE);
