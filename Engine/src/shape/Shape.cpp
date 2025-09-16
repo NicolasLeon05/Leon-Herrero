@@ -206,6 +206,15 @@ void Shape::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color)
 	three.SetColor(color);
 }
 
+void Shape::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color, float alpha)
+{
+	CreateTriangle(one, two, three);
+
+	one.SetColor(color, alpha);
+	two.SetColor(color, alpha);
+	three.SetColor(color, alpha);
+}
+
 void Shape::CreateSquare(Vertex one, float width, float height)
 {
 	verticesData.resize(28);
@@ -229,6 +238,20 @@ void Shape::CreateSquare(Vertex one, float width, float height, Color color)
 	Vertex two = Vertex(one.GetPosX() + width, one.GetPosY(), one.GetPosZ(), color);
 	Vertex three = Vertex(one.GetPosX(), one.GetPosY() - height, one.GetPosZ(), color);
 	Vertex four = Vertex(one.GetPosX() + width, one.GetPosY() - height, one.GetPosZ(), color);
+
+	CreateSquare(one, two, three, four);
+}
+
+void Shape::CreateSquare(Vertex one, float width, float height, Color color, float alpha)
+{
+	verticesData.resize(28);
+	indices.resize(6);
+
+	// one is the upper left side vertex
+	one.SetColor(color, alpha);
+	Vertex two = Vertex(one.GetPosX() + width, one.GetPosY(), one.GetPosZ(), color, alpha);
+	Vertex three = Vertex(one.GetPosX(), one.GetPosY() - height, one.GetPosZ(), color, alpha);
+	Vertex four = Vertex(one.GetPosX() + width, one.GetPosY() - height, one.GetPosZ(), color, alpha);
 
 	CreateSquare(one, two, three, four);
 }

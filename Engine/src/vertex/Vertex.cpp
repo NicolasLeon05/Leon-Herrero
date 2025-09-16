@@ -25,9 +25,9 @@ void Vertex::AssignColor()
 		b = 1.0f;
 		break;
 	case Color::BLACK:
-		r = 1.0f;
-		g = 1.0f;
-		b = 1.0f;
+		r = 0.0f;
+		g = 0.0f;
+		b = 0.0f;
 		break;
 	}
 }

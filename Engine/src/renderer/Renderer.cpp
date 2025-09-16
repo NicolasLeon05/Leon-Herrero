@@ -21,6 +21,7 @@ void Renderer::MakeContextCurrent(Window window)
 void Renderer::Clear()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+	//glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 }
 
 void Renderer::SwapBuffers(Window window)
@@ -51,7 +52,7 @@ void Renderer::DrawShape(Entity2D& entity)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 7, 0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)(sizeof(float) * 4));
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)(sizeof(float) * 3));
 	glEnableVertexAttribArray(1);
 }
 
@@ -62,9 +63,9 @@ void Renderer::PollEvents()
 
 void Renderer::Draw(Entity2D* entity, GLsizei count)
 {
-	entity->Translate(0.0f, 0.0f, 0.0f);
-	entity->Rotate(0.0f, 0.0f, 0.0f);
-	entity->Scale(1.0f, 1.0f, 1.0f);
+	//entity->Translate(0.0f, 0.0f, 0.0f);
+	//entity->Rotate(0.0f, 0.0f, 0.0f);
+	//entity->Scale(1.0f, 1.0f, 1.0f);
 
 	unsigned int transformLoc = glGetUniformLocation(entity->GetMaterial().GetShader(), "transform");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(entity->GetTRS()));
