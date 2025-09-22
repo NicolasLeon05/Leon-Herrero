@@ -1,6 +1,11 @@
 #pragma once
 
 #include "GL/glew.h"
+
+#include "glm.hpp"
+#include "gtc/matrix_transform.hpp"
+#include "gtc/type_ptr.hpp"
+
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -34,9 +39,10 @@ public:
 
 	unsigned int GetShader();
 
-	void SetFilepath(std::string filepath);
+	void SetFilepath(std::string filepath);	
 
 	std::string GetFilepath();
 	std::string GetVertexSource();
 	std::string GetFragmentSource();
+	void SetProjection(const std::string& name, const glm::mat4& mat);
 };

@@ -135,3 +135,8 @@ std::string Material::GetFragmentSource()
 {
 	return fragmentSource;
 }
+
+void Material::SetProjection(const std::string& name, const glm::mat4& mat)
+{
+	glUniformMatrix4fv(glGetUniformLocation(GetShader(), name.c_str()), 1, GL_FALSE, &mat[0][0]);
+}

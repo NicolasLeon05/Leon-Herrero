@@ -2,6 +2,9 @@
 // hacerlo único pude ser un singleton
 #include "GL/glew.h"
 #include "../window/Window.h"
+
+#include "glm.hpp"
+
 #include <vector>
 
 using namespace std;
