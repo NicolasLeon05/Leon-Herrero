@@ -16,21 +16,19 @@ using namespace std;
 
 int BaseGame::RunEngine()
 {
-	//BaseGame game = BaseGame();
-
-	Vertex v1 = Vertex(300.0f, 250.0f, 0.0f, Color::BLUE);
+	/*Vertex v1 = Vertex(300.0f, 250.0f, 0.0f, Color::BLUE);
 	Vertex v2 = Vertex(300.0f, 400.0f, 0.0f, Color::GREEN);
 	Vertex v3 = Vertex(500, 350.0f, 0.0f, Color::WHITE);
 
 	Shape triangle1 = Shape();
-	triangle1.CreateTriangle(v1, v2, v3); //Color::WHITE);
+	triangle1.CreateTriangle(v1, v2, v3);
 
 	Vertex v4 = Vertex(400.0f, 200.0f, 0.0f, Color::BLUE, 0.5f);
 	Vertex v5 = Vertex(450.0f, 400.0f, 0.0f, Color::BLUE, 0.5f);
 	Vertex v6 = Vertex(300.0f, 200.0f, 0.0f, Color::BLUE, 0.5f);
 
 	Shape triangle2 = Shape();
-	triangle2.CreateTriangle(v4, v5, v6); //Color::WHITE);
+	triangle2.CreateTriangle(v4, v5, v6);
 
 	float x = 100.0f;
 	float y = 150.0f;
@@ -40,7 +38,7 @@ int BaseGame::RunEngine()
 	Vertex v7 = Vertex(x, y, 0.0f);
 
 	Shape square = Shape();
-	square.CreateSquare(v7, sWidht, sHeight, Color::GREEN, 1.0f);
+	square.CreateSquare(v7, sWidht, sHeight, Color::GREEN, 1.0f);*/
 
 	int width = 640;
 	int height = 480;
@@ -61,6 +59,8 @@ int BaseGame::RunEngine()
 
 	glm::mat4 mvp = proj * view;
 
+	InitGame();
+
 	glewInit();
 
 	for (int i = 0; i < Renderer::shapes.size(); i++)
@@ -73,7 +73,7 @@ int BaseGame::RunEngine()
 	{
 		Renderer::Clear();
 
-		//game.Update();
+		Update();
 
 		if (Renderer::shapes.size() > 0)
 		{
@@ -92,7 +92,7 @@ int BaseGame::RunEngine()
 		Renderer::PollEvents();
 	}
 
-	//game.DeInitGame();
+	DeInitGame();
 
 	for (int i = 0; i < Renderer::shapes.size(); i++)
 	{

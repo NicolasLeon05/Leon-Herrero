@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../EngineAPI.h"
+
 #include "Color.h"
 
 class Vertex
@@ -16,25 +18,25 @@ private:
 
 	void AssignColor();
 public:
-	Vertex(float x, float y, float z);
-	Vertex(float x, float y, float z, Color color);
-	Vertex(float x, float y, float z, Color color, float alpha);
-	~Vertex();
+	ENGINE_API Vertex(float x, float y, float z);
+	ENGINE_API Vertex(float x, float y, float z, Color color);
+	ENGINE_API Vertex(float x, float y, float z, Color color, float alpha);
+	ENGINE_API ~Vertex();
 
-	float GetPosX();
-	float GetPosY();
-	float GetPosZ();
-	float GetR();
-	float GetG();
-	float GetB();
-	float GetA();
-	Color GetColor();
+	ENGINE_API float GetPosX();
+	ENGINE_API float GetPosY();
+	ENGINE_API float GetPosZ();
+	ENGINE_API float GetR();
+	ENGINE_API float GetG();
+	ENGINE_API float GetB();
+	ENGINE_API float GetA();
+	ENGINE_API Color GetColor();
 
-	void SetPosX(float x);
-	void SetPosY(float y);
-	void SetPosZ(float z);
+	ENGINE_API void SetPosX(float x);
+	ENGINE_API void SetPosY(float y);
+	ENGINE_API void SetPosZ(float z);
 
 
-	void SetColor(Color color);
-	void SetColor(Color color, float alpha);
+	ENGINE_API void SetColor(Color color);
+	ENGINE_API void SetColor(Color color, float alpha);
 };

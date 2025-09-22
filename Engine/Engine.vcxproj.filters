@@ -89,6 +89,9 @@
     <ClInclude Include="src\vertex\Color.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="src\EngineAPI.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\material\Basic.shader" />

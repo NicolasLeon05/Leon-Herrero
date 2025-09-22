@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BaseGame.h" />
+    <ClInclude Include="src\EngineAPI.h" />
     <ClInclude Include="src\entity\Entity.h" />
     <ClInclude Include="src\entity\Entity2D.h" />
     <ClInclude Include="src\vertex\Color.h" />

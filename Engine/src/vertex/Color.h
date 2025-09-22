@@ -1,6 +1,8 @@
 #pragma once
 
-enum class Color
+#include "../EngineAPI.h"
+
+enum class ENGINE_API Color
 {
 	WHITE,
 	RED,
