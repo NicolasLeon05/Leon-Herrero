@@ -13,10 +13,7 @@ private:
 
 public:
 	Shape();
-	Shape(SHAPE_TYPE shapeType);
 	~Shape();
-
-	void SetVertices(float posX, float posY, float posZ) override;
 
 	//void CreateCircle();
 	void CreateTriangle(Vertex one, Vertex two, Vertex three);

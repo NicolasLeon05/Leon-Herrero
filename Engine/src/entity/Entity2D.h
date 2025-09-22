@@ -16,5 +16,4 @@ public:
 	void SetMaterial();
 
 	void Draw() override;
-	void virtual SetVertices(float posX, float posY, float posZ);
 };

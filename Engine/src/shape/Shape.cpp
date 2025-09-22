@@ -1,5 +1,7 @@
 #include "Shape.h"
 
+#include "../renderer/Renderer.h"
+
 void Shape::CreateSquare(Vertex one, Vertex two, Vertex three, Vertex four)
 {
 	verticesData[0] = one.GetPosX();
@@ -40,126 +42,26 @@ void Shape::CreateSquare(Vertex one, Vertex two, Vertex three, Vertex four)
 	indices[3] = 2;
 	indices[4] = 3;
 	indices[5] = 1;
+
+	if (!Renderer::IsInShapes(this))
+	{
+		Renderer::shapes.push_back(this);
+	}
 }
 
 Shape::Shape()
 {
-	shapeType = SHAPE_TYPE::TRIANGLE;
-}
 
-Shape::Shape(SHAPE_TYPE shapeType)
-{
-	this->shapeType = shapeType;
-
-	switch (this->shapeType)
-	{
-	case SHAPE_TYPE::POINT:
-	{
-		verticesData.resize(3);
-		indices.resize(1);
-		break;
-	}
-
-	case SHAPE_TYPE::LINE:
-	{
-		verticesData.resize(6);
-		indices.resize(2);
-		break;
-	}
-
-	case SHAPE_TYPE::TRIANGLE:
-	{
-		verticesData.resize(9);
-		indices.resize(3);
-		break;
-	}
-
-	case SHAPE_TYPE::SQUARE:
-	{
-		verticesData.resize(12);
-		indices.resize(6);
-		break;
-	}
-
-	default:
-	{
-		this->shapeType = SHAPE_TYPE::TRIANGLE;
-		verticesData.resize(9);
-		indices.resize(3);
-		break;
-	}
-	}
 }
 
 Shape::~Shape()
 {
-
-}
-
-void Shape::SetVertices(float posX, float posY, float posZ)
-{
-	switch (shapeType)
+	for (int i = 0; i < Renderer::shapes.size(); i++)
 	{
-		//Empty
-	case SHAPE_TYPE::POINT:
-	{
-
-		break;
-	}
-	//Empty
-	case SHAPE_TYPE::LINE:
-	{
-
-		break;
-	}
-
-	case SHAPE_TYPE::TRIANGLE:
-	{
-		verticesData[0] = posX;
-		verticesData[1] = posY;
-		verticesData[2] = posZ;
-		verticesData[3] = posX;
-		verticesData[4] = -posY;
-		verticesData[5] = posZ;
-		verticesData[6] = -posX;
-		verticesData[7] = -posY;
-		verticesData[8] = posZ;
-
-		indices[0] = 0;
-		indices[1] = 1;
-		indices[2] = 2;
-		break;
-	}
-
-	case SHAPE_TYPE::SQUARE:
-	{
-		verticesData[0] = -posX;
-		verticesData[1] = -posY;
-		verticesData[2] = posZ;
-		verticesData[3] = posX;
-		verticesData[4] = -posY;
-		verticesData[5] = posZ;
-		verticesData[6] = posX;
-		verticesData[7] = posY;
-		verticesData[8] = posZ;
-		verticesData[9] = -posX;
-		verticesData[10] = posY;
-		verticesData[11] = posZ;
-
-		indices[0] = 0;
-		indices[1] = 1;
-		indices[2] = 2;
-		indices[3] = 2;
-		indices[4] = 3;
-		indices[5] = 0;
-		break;
-	}
-
-	default:
-	{
-		std::cout << std::endl << "SHAPE default entered. Something went wrong" << std::endl;
-		break;
-	}
+		if (Renderer::shapes[i] == this)
+		{
+			Renderer::shapes.erase(Renderer::shapes.begin() + i);
+		}
 	}
 }
 
@@ -195,6 +97,11 @@ void Shape::CreateTriangle(Vertex one, Vertex two, Vertex three)
 	indices[0] = 0;
 	indices[1] = 1;
 	indices[2] = 2;
+
+	if (!Renderer::IsInShapes(this))
+	{
+		Renderer::shapes.push_back(this);
+	}
 }
 
 void Shape::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color)

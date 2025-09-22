@@ -45,5 +45,4 @@ public:
 	unsigned int* GetIndices();
 
 	virtual void Draw() = 0;
-	virtual void SetVertices(float posX, float posY, float posZ) = 0;
 };

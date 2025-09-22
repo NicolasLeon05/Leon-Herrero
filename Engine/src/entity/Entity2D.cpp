@@ -33,8 +33,3 @@ void Entity2D::Draw()
 	std::cout << "Fragment" << std::endl;
 	std::cout << GetMaterial().GetFragmentSource() << std::endl;
 }
-
-void Entity2D::SetVertices(float posX, float posY, float posZ)
-{
-}
-

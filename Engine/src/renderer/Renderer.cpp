@@ -3,6 +3,8 @@
 
 #include "gtc/type_ptr.hpp"
 
+vector<Entity2D*> Renderer::shapes;
+
 Renderer::Renderer()
 {
 
@@ -29,6 +31,19 @@ void Renderer::Clear()
 void Renderer::SwapBuffers(Window window)
 {
 	glfwSwapBuffers(window.GetGlfwWindow());
+}
+
+bool Renderer::IsInShapes(Entity2D* entity)
+{
+	for (int i = 0; i < Renderer::shapes.size(); i++)
+	{
+		if (Renderer::shapes[i] == entity)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void Renderer::DrawShape(Entity2D& entity)

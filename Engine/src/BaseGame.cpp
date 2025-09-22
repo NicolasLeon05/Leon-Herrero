@@ -18,8 +18,6 @@ int BaseGame::RunEngine()
 {
 	//BaseGame game = BaseGame();
 
-	vector<Shape> shapes;
-
 	Vertex v1 = Vertex(-0.25f, 0.0f, 0.0f, Color::BLUE);
 	Vertex v2 = Vertex(0.0f, -0.5f, 0.0f, Color::GREEN);
 	Vertex v3 = Vertex(-0.5f, 0.0f, 0.0f, Color::WHITE);
@@ -36,19 +34,18 @@ int BaseGame::RunEngine()
 
 	float x = -0.7f;
 	float y = -0.7f;
-	float widht = 0.25f;
-	float height = 0.25f;
+	float sWidht = 0.25f;
+	float sHeight = 0.25f;
 
 	Vertex v7 = Vertex(x, y, 0.0f);
 
 	Shape square = Shape();
-	square.CreateSquare(v7, widht, height, Color::GREEN, 1.0f);
+	square.CreateSquare(v7, sWidht, sHeight, Color::GREEN, 1.0f);
 
-	shapes.push_back(triangle1);
-	shapes.push_back(triangle2);
-	shapes.push_back(square);
+	int width = 640;
+	int height = 480;
 
-	Window window = Window(640, 480, "Engine");
+	Window window = Window(width, height, "Engine");
 
 	if (!glfwInit())
 		return -1;
@@ -57,12 +54,14 @@ int BaseGame::RunEngine()
 
 	Renderer::MakeContextCurrent(window);
 
+	glm::ortho(0.0f, float(width), 0.0f, float(height), 0.1f, 100.0f);
+
 	glewInit();
 
-	for (int i = 0; i < shapes.size(); i++)
+	for (int i = 0; i < Renderer::shapes.size(); i++)
 	{
-		shapes[i].Draw();
-		shapes[i].GetMaterial().InitShader();
+		Renderer::shapes[i]->Draw();
+		Renderer::shapes[i]->GetMaterial().InitShader();
 	}
 
 	while (!window.ShouldClose())
@@ -71,13 +70,15 @@ int BaseGame::RunEngine()
 
 		//game.Update();
 
-		if (shapes.size() > 0)
-
-		shapes[0].Rotate(0.0f, 0.0f, 1.0f);
-		for (int i = 0; i < shapes.size(); i++)
+		if (Renderer::shapes.size() > 0)
 		{
-			shapes[i].GetMaterial().UseShader();
-			Renderer::Draw(&shapes[i], 6);
+			Renderer::shapes[0]->Rotate(0.0f, 0.0f, 1.0f);
+		}
+
+		for (int i = 0; i < Renderer::shapes.size(); i++)
+		{
+			Renderer::shapes[i]->GetMaterial().UseShader();
+			Renderer::Draw(Renderer::shapes[i], 6);
 		}
 
 		Renderer::SwapBuffers(window);
@@ -87,8 +88,10 @@ int BaseGame::RunEngine()
 
 	//game.DeInitGame();
 
-	triangle1.GetMaterial().DeinitShader();
-	triangle2.GetMaterial().DeinitShader();
+	for (int i = 0; i < Renderer::shapes.size(); i++)
+	{
+		Renderer::shapes[i]->GetMaterial().DeinitShader();
+	}
 
 	glfwTerminate();
 	return 0;
