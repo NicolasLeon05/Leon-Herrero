@@ -162,3 +162,15 @@ void Shape::CreateSquare(Vertex one, float width, float height, Color color, flo
 
 	CreateSquare(one, two, three, four);
 }
+
+void Shape::Draw()
+{
+	Renderer::DrawShape(*this);
+
+	GetMaterial().SetFilepath("Basic.shader");
+	SetMaterial();
+	std::cout << "Vertex" << std::endl;
+	std::cout << GetMaterial().GetVertexSource() << std::endl;
+	std::cout << "Fragment" << std::endl;
+	std::cout << GetMaterial().GetFragmentSource() << std::endl;
+}

@@ -15,5 +15,5 @@ public:
 	Material& GetMaterial();
 	void SetMaterial();
 
-	void Draw() override;
+	virtual void Draw();
 };
