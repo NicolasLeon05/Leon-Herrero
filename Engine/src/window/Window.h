@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GLFW/glfw3.h"
+#include "../EngineAPI.h"
 #include <iostream>
 
 class Window
@@ -13,13 +14,13 @@ private:
 
 public:
 	Window();
-	Window(int width, int height, const char* title);
-	~Window();
+	ENGINE_API Window(int width, int height, const char* title);
+	ENGINE_API ~Window();
 
 	void CreateWindow();
 	GLFWwindow* GetGlfwWindow();
-	int GetWidth();
-	int GetHeight();
+	ENGINE_API int GetWidth();
+	ENGINE_API int GetHeight();
 
 	bool ShouldClose();
 };

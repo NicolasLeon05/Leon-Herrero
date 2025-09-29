@@ -85,6 +85,11 @@ unsigned int Entity::GetIndicesSize()
 	return static_cast<unsigned int> (indices.size() * sizeof(unsigned int));
 }
 
+int Entity::GetIndicesCount()
+{
+	return indices.size();
+}
+
 unsigned int* Entity::GetIndices()
 {
 	return &indices[0];

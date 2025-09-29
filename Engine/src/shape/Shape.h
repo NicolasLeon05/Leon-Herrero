@@ -10,6 +10,8 @@ class Shape : public Entity2D
 private:
 	void CreateSquare(Vertex one, Vertex two, Vertex three, Vertex four);
 
+	void Init();
+
 public:
 	ENGINE_API Shape();
 	ENGINE_API ~Shape();
@@ -21,5 +23,5 @@ public:
 	ENGINE_API void CreateSquare(Vertex one, float width, float height);
 	ENGINE_API void CreateSquare(Vertex one, float width, float height, Color color);
 	ENGINE_API void CreateSquare(Vertex one, float width, float height, Color color, float alpha);
-	void Draw() override;
+	ENGINE_API void Draw() override;
 };

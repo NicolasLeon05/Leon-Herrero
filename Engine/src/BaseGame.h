@@ -1,8 +1,9 @@
 #pragma once
 
 #include "EngineAPI.h"
+#include "window/Window.h"
 
-class BaseGame
+ENGINE_API class BaseGame
 {
 protected:
 	virtual void InitGame() = 0;
@@ -10,5 +11,5 @@ protected:
 	virtual void DeInitGame() = 0;
 
 public:
-	ENGINE_API int RunEngine();
+	ENGINE_API int RunEngine(Window window);
 };

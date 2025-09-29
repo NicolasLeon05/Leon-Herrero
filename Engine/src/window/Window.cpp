@@ -10,6 +10,7 @@ Window::Window()
 
 Window::Window(int width, int height, const char* title)
 {
+	glfwWindow = nullptr;
 	this->width = width;
 	this->height = height;
 	this->title = title;

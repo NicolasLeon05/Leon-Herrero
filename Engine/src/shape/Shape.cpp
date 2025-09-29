@@ -4,6 +4,9 @@
 
 void Shape::CreateSquare(Vertex one, Vertex two, Vertex three, Vertex four)
 {
+	verticesData.resize(28);
+	indices.resize(6);
+
 	verticesData[0] = one.GetPosX();
 	verticesData[1] = one.GetPosY();
 	verticesData[2] = one.GetPosZ();
@@ -47,6 +50,21 @@ void Shape::CreateSquare(Vertex one, Vertex two, Vertex three, Vertex four)
 	{
 		Renderer::shapes.push_back(this);
 	}
+}
+
+
+void Shape::Init()
+{
+
+	Renderer::InitShapeBuffers(*this);
+	GetMaterial().SetFilepath("Basic.shader");
+	SetMaterial();
+	GetMaterial().InitShader();
+
+	std::cout << "Vertex" << std::endl;
+	std::cout << GetMaterial().GetVertexSource() << std::endl;
+	std::cout << "Fragment" << std::endl;
+	std::cout << GetMaterial().GetFragmentSource() << std::endl;
 }
 
 Shape::Shape()
@@ -102,6 +120,8 @@ void Shape::CreateTriangle(Vertex one, Vertex two, Vertex three)
 	{
 		Renderer::shapes.push_back(this);
 	}
+
+	Init();
 }
 
 void Shape::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color)
@@ -111,6 +131,8 @@ void Shape::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color)
 	one.SetColor(color);
 	two.SetColor(color);
 	three.SetColor(color);
+
+	Init();
 }
 
 void Shape::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color, float alpha)
@@ -120,26 +142,24 @@ void Shape::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color, fl
 	one.SetColor(color, alpha);
 	two.SetColor(color, alpha);
 	three.SetColor(color, alpha);
+
+	Init();
 }
 
 void Shape::CreateSquare(Vertex one, float width, float height)
 {
-	verticesData.resize(28);
-	indices.resize(6);
-
 	// one is the upper left side vertex
 	Vertex two = Vertex(one.GetPosX() + width, one.GetPosY(), one.GetPosZ(), one.GetColor());
 	Vertex three = Vertex(one.GetPosX(), one.GetPosY() - height, one.GetPosZ(), one.GetColor());
 	Vertex four = Vertex(one.GetPosX() + width, one.GetPosY() - height, one.GetPosZ(), one.GetColor());
 
 	CreateSquare(one, two, three, four);
+
+	Init();
 }
 
 void Shape::CreateSquare(Vertex one, float width, float height, Color color)
 {
-	verticesData.resize(28);
-	indices.resize(6);
-
 	// one is the upper left side vertex
 	one.SetColor(color);
 	Vertex two = Vertex(one.GetPosX() + width, one.GetPosY(), one.GetPosZ(), color);
@@ -147,13 +167,12 @@ void Shape::CreateSquare(Vertex one, float width, float height, Color color)
 	Vertex four = Vertex(one.GetPosX() + width, one.GetPosY() - height, one.GetPosZ(), color);
 
 	CreateSquare(one, two, three, four);
+
+	Init();
 }
 
 void Shape::CreateSquare(Vertex one, float width, float height, Color color, float alpha)
 {
-	verticesData.resize(28);
-	indices.resize(6);
-
 	// one is the upper left side vertex
 	one.SetColor(color, alpha);
 	Vertex two = Vertex(one.GetPosX() + width, one.GetPosY(), one.GetPosZ(), color, alpha);
@@ -161,16 +180,12 @@ void Shape::CreateSquare(Vertex one, float width, float height, Color color, flo
 	Vertex four = Vertex(one.GetPosX() + width, one.GetPosY() - height, one.GetPosZ(), color, alpha);
 
 	CreateSquare(one, two, three, four);
+
+	Init();
 }
 
 void Shape::Draw()
 {
-	Renderer::DrawShape(*this);
-
-	GetMaterial().SetFilepath("Basic.shader");
-	SetMaterial();
-	std::cout << "Vertex" << std::endl;
-	std::cout << GetMaterial().GetVertexSource() << std::endl;
-	std::cout << "Fragment" << std::endl;
-	std::cout << GetMaterial().GetFragmentSource() << std::endl;
+	GetMaterial().UseShader();
+	Renderer::Draw(this, GetIndicesCount());
 }

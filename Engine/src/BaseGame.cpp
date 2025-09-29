@@ -14,15 +14,11 @@
 
 using namespace std;
 
-int BaseGame::RunEngine()
+int BaseGame::RunEngine(Window window)
 {
-	int width = 640;
-	int height = 480;
-
-	Window window = Window(width, height, "Engine");
-
 	if (!glfwInit())
 		return -1;
+
 
 	window.CreateWindow();
 
@@ -31,19 +27,18 @@ int BaseGame::RunEngine()
 	glm::mat4 view = lookAt(glm::vec3(0.0f, 0.0f, 0.1f),
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 proj = glm::ortho(0.0f, float(width), 0.0f, float(height), -0.1f, 100.0f);
+	glm::mat4 proj = glm::ortho(0.0f, float(window.GetWidth()), 0.0f, float(window.GetHeight()), -0.1f, 100.0f);
 
 	glm::mat4 mvp = proj * view;
 
+	glewInit();
 	InitGame();
 
-	glewInit();
-
-	for (int i = 0; i < Renderer::shapes.size(); i++)
-	{
-		Renderer::shapes[i]->Draw();
-		Renderer::shapes[i]->GetMaterial().InitShader();
-	}
+	//for (int i = 0; i < Renderer::shapes.size(); i++)
+	//{
+	//	Renderer::shapes[i]->Draw();
+	//	Renderer::shapes[i]->GetMaterial().InitShader();
+	//}
 
 	while (!window.ShouldClose())
 	{
@@ -51,16 +46,11 @@ int BaseGame::RunEngine()
 
 		Update();
 
-		if (Renderer::shapes.size() > 0)
-		{
-			Renderer::shapes[0]->Rotate(0.0f, 0.0f, 0.01f);
-		}
-
 		for (int i = 0; i < Renderer::shapes.size(); i++)
 		{
-			Renderer::shapes[i]->GetMaterial().UseShader();
+			//Renderer::shapes[i]->GetMaterial().UseShader();
 			Renderer::shapes[i]->GetMaterial().SetProjection("mvp", mvp);
-			Renderer::Draw(Renderer::shapes[i], 6);
+			//Renderer::Draw(Renderer::shapes[i], 6);
 		}
 
 		Renderer::SwapBuffers(window);
