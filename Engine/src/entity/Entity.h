@@ -22,6 +22,8 @@ protected:
 	unsigned int EBO;
 	unsigned int VAO;
 
+	glm::vec3 CalculateCenter();
+
 public:
 	Entity();
 	~Entity();
@@ -34,6 +36,7 @@ public:
 	glm::vec3 GetPosition();
 	glm::vec4 GetRotation();
 	glm::vec3 GetScale();
+
 
 	ENGINE_API void Translate(float x, float y, float z);
 	ENGINE_API void Rotate(float x, float y, float z);

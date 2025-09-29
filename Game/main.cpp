@@ -25,8 +25,8 @@ public:
 };
 
 Shape triangle1 = Shape();
-//Shape triangle2 = Shape();
-//Shape square = Shape();
+Shape triangle2 = Shape();
+Shape square = Shape();
 
 static const float screenWidth = 1920.0f;
 static const float screenHeight = 1080.0f;
@@ -47,27 +47,30 @@ void Game::InitGame()
 
 	triangle1.CreateTriangle(v1, v2, v3); //Color::WHITE);
 
-	//Vertex v4 = Vertex(400.0f, 200.0f, 0.0f, Color::BLUE, 0.5f);
-	//Vertex v5 = Vertex(450.0f, 400.0f, 0.0f, Color::BLUE, 0.5f);
-	//Vertex v6 = Vertex(300.0f, 200.0f, 0.0f, Color::BLUE, 0.5f);
-	//
-	//triangle2.CreateTriangle(v4, v5, v6); //Color::WHITE);
-	//
-	//float x = 100.0f;
-	//float y = 150.0f;
-	//float sWidht = 200.0f;
-	//float sHeight = 200.0f;
-	//
-	//Vertex v7 = Vertex(x, y, 0.0f);
-	//
-	//square.CreateSquare(v7, sWidht, sHeight, Color::GREEN, 1.0f);
+	Vertex v4 = Vertex(400.0f, 200.0f, 0.0f, Color::BLUE, 0.5f);
+	Vertex v5 = Vertex(450.0f, 400.0f, 0.0f, Color::BLUE, 0.5f);
+	Vertex v6 = Vertex(300.0f, 200.0f, 0.0f, Color::BLUE, 0.5f);
+	
+	triangle2.CreateTriangle(v4, v5, v6); //Color::WHITE);
+	
+	float x = 100.0f;
+	float y = 150.0f;
+	float sWidht = 200.0f;
+	float sHeight = 200.0f;
+	
+	Vertex v7 = Vertex(x, y, 0.0f);
+	
+	square.CreateSquare(v7, sWidht, sHeight, Color::GREEN, 1.0f);
 }
 
 void Game::Update()
 {
 	//triangle1.Rotate(0.0f, 0.0f, 0.01f);
-	//triangle1.Scale(1.001f, 1.001f, 1.001f);
+	//triangle1.Scale(1.0f, 1.0f, 1.0f);
+	//triangle1.Translate(0.0f, 0.1f, 0.0f);
 	triangle1.Draw();
+	triangle2.Draw();
+	square.Draw();
 }
 
 void Game::DeInitGame()
