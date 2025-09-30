@@ -72,9 +72,9 @@ glm::vec3 Entity::GetScale()
 
 void Entity::Translate(float x, float y, float z)
 {
-	position = glm::vec3(x, y, z);
+	position += glm::vec3(x, y, z);
 
-	trs = glm::translate(trs, position);
+	trs = glm::translate(trs, glm::vec3(x, y, z));
 }
 
 void Entity::Rotate(float x, float y, float z)
@@ -122,6 +122,21 @@ int Entity::GetIndicesCount()
 unsigned int* Entity::GetIndices()
 {
 	return &indices[0];
+}
+
+float Entity::GetX()
+{
+	return position.x;
+}
+
+float Entity::GetY()
+{
+	return position.y;
+}
+
+float Entity::GetZ()
+{
+	return position.z;
 }
 
 void Entity::Draw()

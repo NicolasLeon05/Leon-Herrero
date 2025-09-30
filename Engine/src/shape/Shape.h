@@ -22,5 +22,6 @@ public:
 	ENGINE_API void CreateSquare(Vertex one, float width, float height);
 	ENGINE_API void CreateSquare(Vertex one, float width, float height, Color color);
 	ENGINE_API void CreateSquare(Vertex one, float width, float height, Color color, float alpha);
+
 	ENGINE_API void Draw() override;
 };

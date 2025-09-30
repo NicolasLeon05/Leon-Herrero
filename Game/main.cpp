@@ -16,8 +16,13 @@ Shape triangle1 = Shape();
 Shape triangle2 = Shape();
 Shape square = Shape();
 
-static const float screenWidth = 1920.0f;
-static const float screenHeight = 1080.0f;
+static const float screenWidth = 720;
+static const float screenHeight = 640.0f;
+
+float sWidth = 100;
+float sHeight = 100;
+float sX = 100.0f;
+float sY = 150.0f;
 
 void main()
 {
@@ -38,17 +43,14 @@ void Game::InitGame()
 	Vertex v4 = Vertex(400.0f, 200.0f, 0.0f, Color::BLUE, 0.5f);
 	Vertex v5 = Vertex(450.0f, 400.0f, 0.0f, Color::BLUE, 0.5f);
 	Vertex v6 = Vertex(300.0f, 200.0f, 0.0f, Color::BLUE, 0.5f);
-	
+
 	triangle2.CreateTriangle(v4, v5, v6); //Color::WHITE);
+
 	
-	float x = 100.0f;
-	float y = 150.0f;
-	float sWidht = 200.0f;
-	float sHeight = 200.0f;
-	
-	Vertex v7 = Vertex(x, y, 0.0f);
-	
-	square.CreateSquare(v7, sWidht, sHeight, Color::GREEN, 1.0f);
+
+	Vertex v7 = Vertex(sX, sY, 0.0f);
+
+	square.CreateSquare(v7, sWidth, sHeight, Color::GREEN, 1.0f);
 }
 
 void Game::Update()
@@ -57,6 +59,18 @@ void Game::Update()
 	//square.Rotate(0.0f, 0.01f, -0.01f);
 	//triangle1.Scale(1.0f, 1.0f, 1.0f);
 	//triangle1.Translate(0.0f, 0.1f, 0.0f);
+
+	float right = sX + sWidth + square.GetX();
+
+	if (right >= screenWidth)
+	{
+		square.Translate(0.0f, 1.0f, 0.0f);
+	}
+	else
+	{
+		square.Translate(1.0f, 0.0f, 0.0f);
+	}
+
 	triangle1.Draw();
 	triangle2.Draw();
 	square.Draw();

@@ -49,5 +49,9 @@ public:
 	int GetIndicesCount();
 	unsigned int* GetIndices();
 
+	ENGINE_API float GetX();
+	ENGINE_API float GetY();
+	ENGINE_API float GetZ();
+
 	virtual void Draw() = 0;
 };
