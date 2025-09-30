@@ -55,7 +55,6 @@ void Shape::CreateSquare(Vertex one, Vertex two, Vertex three, Vertex four)
 
 void Shape::Init()
 {
-
 	Renderer::InitShapeBuffers(*this);
 	GetMaterial().SetFilepath("Basic.shader");
 	SetMaterial();

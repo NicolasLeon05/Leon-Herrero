@@ -4,6 +4,7 @@
 #include "gtc/type_ptr.hpp"
 
 vector<Entity2D*> Renderer::shapes;
+glm::mat4 Renderer::mvp = glm::mat4(1.0f);
 
 Renderer::Renderer()
 {
@@ -33,6 +34,16 @@ void Renderer::SwapBuffers(Window window)
 	glfwSwapBuffers(window.GetGlfwWindow());
 }
 
+void Renderer::SetMvp(Window window)
+{
+	glm::mat4 view = lookAt(glm::vec3(0.0f, 0.0f, 0.1f),
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 proj = glm::ortho(0.0f, float(window.GetWidth()), 0.0f, float(window.GetHeight()), -0.1f, 100.0f);
+
+	mvp = proj * view;
+}
+
 bool Renderer::IsInShapes(Entity2D* entity)
 {
 	for (int i = 0; i < Renderer::shapes.size(); i++)
@@ -48,12 +59,6 @@ bool Renderer::IsInShapes(Entity2D* entity)
 
 void Renderer::InitShapeBuffers(Entity2D& entity)
 {
-	std::cout << "InitShapeBuffers: vertices="
-		<< entity.GetVerticesSize()
-		<< " indices="
-		<< entity.GetIndicesSize()
-		<< std::endl;
-
 	unsigned int* VBO = entity.GetVBO();
 	unsigned int* EBO = entity.GetEBO();
 	unsigned int* VAO = entity.GetVAO();
@@ -86,10 +91,7 @@ void Renderer::PollEvents()
 
 void Renderer::Draw(Entity2D* entity, GLsizei count)
 {
-	//entity->Translate(0.0f, 0.0f, 0.0f);
-	//entity->Rotate(0.0f, 0.0f, 0.01f);
-	//entity->Scale(1.0001f, 1.0f, 1.0f);
-
+	glUniformMatrix4fv(glGetUniformLocation(entity->GetMaterial().GetShader(), "mvp"), 1, GL_FALSE, &mvp[0][0]);
 	unsigned int transformLoc = glGetUniformLocation(entity->GetMaterial().GetShader(), "transform");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(entity->GetTRS()));
 

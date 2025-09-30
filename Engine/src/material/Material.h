@@ -44,5 +44,4 @@ public:
 	std::string GetFilepath();
 	std::string GetVertexSource();
 	std::string GetFragmentSource();
-	void SetProjection(const std::string& name, const glm::mat4& mat);
 };

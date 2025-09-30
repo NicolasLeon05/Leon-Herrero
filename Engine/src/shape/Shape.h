@@ -16,7 +16,6 @@ public:
 	ENGINE_API Shape();
 	ENGINE_API ~Shape();
 
-	//void CreateCircle();
 	ENGINE_API void CreateTriangle(Vertex one, Vertex two, Vertex three);
 	ENGINE_API void CreateTriangle(Vertex one, Vertex two, Vertex three, Color color);
 	ENGINE_API void CreateTriangle(Vertex one, Vertex two, Vertex three, Color color, float alpha);

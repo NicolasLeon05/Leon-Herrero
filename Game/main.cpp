@@ -65,7 +65,8 @@ void Game::InitGame()
 
 void Game::Update()
 {
-	//triangle1.Rotate(0.0f, 0.0f, 0.01f);
+	//triangle2.Rotate(0.0f, 0.0f, 0.01f);
+	//square.Rotate(0.0f, 0.01f, -0.01f);
 	//triangle1.Scale(1.0f, 1.0f, 1.0f);
 	//triangle1.Translate(0.0f, 0.1f, 0.0f);
 	triangle1.Draw();
