@@ -4,18 +4,6 @@
 #include "BaseGame.h"
 #include "window/Window.h"
 
-// preguntar a stef como hacer para que los includes no necesiten de incluir
-// los .h de las librerias y si pueden estar aparte
-
-/*
-preguntar como funciona bien esto
-#ifdef ENGINE_EXPORTS
-#define ENGINE_API __declspec(dllexport)
-#else
-#define ENGINE_API __declspec(dllimport)
-#endif
-*/
-
 class Game : public BaseGame
 {
 public:
