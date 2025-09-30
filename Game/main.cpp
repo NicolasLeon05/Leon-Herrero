@@ -12,12 +12,24 @@ public:
 	void DeInitGame() override;
 };
 
-Shape triangle1 = Shape();
-Shape triangle2 = Shape();
 Shape square = Shape();
 
-static const float screenWidth = 1920.0f;
-static const float screenHeight = 1080.0f;
+Shape triangle1 = Shape();
+Shape triangle2 = Shape();
+
+static const float screenWidth = 720.0f;
+static const float screenHeight = 480.0f;
+
+float width = 100.0f;
+float height = 100.0f;
+
+float triangleRotation = 0.1;
+
+float elapsedTime = 0.0f;
+float elapsedTimeMax = 10.0f;
+float elapsedTimeMin = 0.0f;
+
+bool elapsedTimeReachedMax;
 
 void main()
 {
@@ -29,37 +41,54 @@ void main()
 
 void Game::InitGame()
 {
-	Vertex v1 = Vertex(screenWidth / 2 - 100.0f, screenHeight / 2 - 50, 0.0f, Color::BLUE);
-	Vertex v2 = Vertex(screenWidth / 2 + 100.0f, screenHeight / 2 - 50, 0.0f, Color::GREEN);
-	Vertex v3 = Vertex(screenWidth / 2, screenHeight / 2 + 50, 0.0f, Color::WHITE);
+	Vertex v1 = Vertex(0.0f, screenHeight, 0.1f);
+	square.CreateSquare(v1, width, height, Color::BLUE);
 
-	triangle1.CreateTriangle(v1, v2, v3); //Color::WHITE);
+	Vertex v2 = Vertex(screenWidth / 2 - 300.0f, screenHeight / 2 - 100, 0.1, Color::RED);
+	Vertex v3 = Vertex(screenWidth / 2 - 250, screenHeight / 2 - 50, 0.1, Color::RED);
+	Vertex v4 = Vertex(screenWidth / 2 - 200, screenHeight / 2 - 100, 0.1, Color::RED);
+	triangle1.CreateTriangle(v2, v3, v4);
 
-	Vertex v4 = Vertex(400.0f, 200.0f, 0.0f, Color::BLUE, 0.5f);
-	Vertex v5 = Vertex(450.0f, 400.0f, 0.0f, Color::BLUE, 0.5f);
-	Vertex v6 = Vertex(300.0f, 200.0f, 0.0f, Color::BLUE, 0.5f);
-	
-	triangle2.CreateTriangle(v4, v5, v6); //Color::WHITE);
-	
-	float x = 100.0f;
-	float y = 150.0f;
-	float sWidht = 200.0f;
-	float sHeight = 200.0f;
-	
-	Vertex v7 = Vertex(x, y, 0.0f);
-	
-	square.CreateSquare(v7, sWidht, sHeight, Color::GREEN, 1.0f);
+	Vertex v5 = Vertex(screenWidth / 2 - 300.0f, screenHeight / 2 - 65, 0.1, Color::RED);
+	Vertex v6 = Vertex(screenWidth / 2 - 250, screenHeight / 2 - 130, 0.1, Color::RED);
+	Vertex v7 = Vertex(screenWidth / 2 - 200, screenHeight / 2 - 65, 0.1, Color::RED);
+	triangle2.CreateTriangle(v5, v6, v7);
 }
 
 void Game::Update()
 {
-	//triangle2.Rotate(0.0f, 0.0f, 0.01f);
-	//square.Rotate(0.0f, 0.01f, -0.01f);
-	//triangle1.Scale(1.0f, 1.0f, 1.0f);
-	//triangle1.Translate(0.0f, 0.1f, 0.0f);
+	float translateInX = 1.0f;
+	float translateInY = 1.0f;
+
+	square.Rotate(0.0f, 0.0f, 1.0f);
+	square.Translate(translateInX, 0.0f, 0.0f);
+
+	if (elapsedTimeReachedMax)
+	{
+		triangle1.Rotate(0.0f, 0.0f, triangleRotation - elapsedTime);
+		triangle2.Rotate(0.0f, 0.0f, -triangleRotation + elapsedTime);
+		elapsedTime -= 1;
+	}
+
+	else if (!elapsedTimeReachedMax)
+	{
+		triangle1.Rotate(0.0f, 0.0f, triangleRotation - elapsedTime);
+		triangle2.Rotate(0.0f, 0.0f, -triangleRotation + elapsedTime);
+		elapsedTime += 1;
+	}
+
+	if (elapsedTime >= elapsedTimeMax)
+	{
+		elapsedTimeReachedMax = true;
+	}
+	if (elapsedTime <= elapsedTimeMin)
+	{
+		elapsedTimeReachedMax = false;
+	}
+
+	square.Draw();
 	triangle1.Draw();
 	triangle2.Draw();
-	square.Draw();
 }
 
 void Game::DeInitGame()
