@@ -34,6 +34,11 @@ void Vertex::AssignColor()
 		g = 0.6f;
 		b = 0.0f;
 		break;
+	case Color::PINK:
+		r = 0.9f;
+		g = 0.5f;
+		b = 0.7f;
+		break;
 	}
 }
 

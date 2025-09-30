@@ -21,17 +21,23 @@ Vertex v1 = Vertex(screenWidth / 2 + 200.0f, screenHeight / 2 - triangleHeight /
 Vertex v2 = Vertex(v1.GetPosX() + triangleWidth, v1.GetPosY(), 0.0f, Color::ORANGE);
 Vertex v3 = Vertex(v1.GetPosX() + triangleWidth / 2, v1.GetPosY() + triangleHeight, 0.0f, Color::ORANGE);
 Shape triangle1 = Shape();
+float movementSpeed;
+float maxMovement = v3.GetPosY();
 
 Shape triangle2 = Shape();
-
 Shape triangle3 = Shape();
-
-float movement;
 float initialRotationSpeed;
 float currentRotationSpeed;
 float rotationSpeedChange;
 float maxRotationSpeed;
-bool increasingSpeed;
+
+Shape square = Shape();
+float squareWidth = 100;
+float squareHight = 100;
+float maxScale = 3.0f;
+float minScale = 1.0f;
+float currentScale = minScale;
+float scaleChangeSpeed = 0.01f;
 
 void main()
 {
@@ -44,11 +50,11 @@ void main()
 void Game::InitGame()
 {
 	triangle1.CreateTriangle(v1, v2, v3);
-
 	Vertex v4 = Vertex(screenWidth / 2 - 300, screenHeight / 2 - triangleHeight / 2, 0.0f, Color::RED);
 	Vertex v5 = Vertex(v4.GetPosX() + triangleWidth, v4.GetPosY(), 0.0f, Color::RED);
 	Vertex v6 = Vertex(v4.GetPosX() + triangleWidth / 2, v4.GetPosY() + triangleHeight, 0.0f, Color::RED);
 	triangle2.CreateTriangle(v4, v5, v6);
+	movementSpeed = 1.0f;
 
 
 	float heightOffset = 30;
@@ -58,35 +64,44 @@ void Game::InitGame()
 	triangle3.CreateTriangle(v7, v8, v9);
 
 
-	movement = 1.0f;
+	Vertex v10 = Vertex(screenWidth / 2 - squareWidth / 2, screenHeight / 2 + squareHight / 2, 0.0f, Color::PINK);
+	square.CreateSquare(v10, squareWidth, squareHight);
+
+
 	initialRotationSpeed = 1.0f;
 	currentRotationSpeed = initialRotationSpeed;
 	rotationSpeedChange = 0.01f;
 	maxRotationSpeed = 7.0f;
-	increasingSpeed = true;
 }
 
 void Game::Update()
 {
-	triangle1.Translate(0.0f, movement, 0.0f);
+	triangle1.Translate(0.0f, movementSpeed, 0.0f);
 
 	if (v3.GetPosY() >= screenHeight || v3.GetPosY() <= 0)
 	{
 		triangle1.Rotate(90.0f, 0.0f, 0.0f);
-		movement *= -1;
+		movementSpeed *= -1;
 	}
 
 	currentRotationSpeed += rotationSpeedChange;
 	if (currentRotationSpeed >= maxRotationSpeed || currentRotationSpeed <= initialRotationSpeed)
 		rotationSpeedChange *= -1;
-
 	std::cout << "Current rotation speed: " << currentRotationSpeed << std::endl;
 	triangle2.Rotate(0.0f, 0.0f, currentRotationSpeed);
 	triangle3.Rotate(0.0f, 0.0f, -currentRotationSpeed);
 
+	currentScale += scaleChangeSpeed;
+	if (currentScale >= maxScale - minScale || currentScale <= minScale)
+		scaleChangeSpeed *= -1;
+
+	float scaleModifier = minScale + scaleChangeSpeed;
+	square.Scale(scaleModifier, scaleModifier, 0.0f);
+
 	triangle1.Draw();
 	triangle2.Draw();
 	triangle3.Draw();
+	square.Draw();
 }
 
 void Game::DeInitGame()
