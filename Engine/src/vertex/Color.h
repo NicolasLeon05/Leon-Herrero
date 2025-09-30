@@ -8,5 +8,6 @@ enum class ENGINE_API Color
 	RED,
 	GREEN,
 	BLUE,
-	BLACK
+	BLACK,
+	ORANGE
 };

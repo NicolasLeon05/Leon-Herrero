@@ -29,6 +29,11 @@ void Vertex::AssignColor()
 		g = 0.0f;
 		b = 0.0f;
 		break;
+	case Color::ORANGE:
+		r = 1.0f;
+		g = 0.6f;
+		b = 0.0f;
+		break;
 	}
 }
 
