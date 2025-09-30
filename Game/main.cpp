@@ -17,13 +17,12 @@ static const float screenHeight = 720.0f;
 float triangleHeight = 100.0f;
 float triangleWidth = 100.0f;
 
-
+Vertex v1 = Vertex(screenWidth / 2 + 200.0f, screenHeight / 2 - triangleHeight / 2, 0.0f, Color::ORANGE);
+Vertex v2 = Vertex(v1.GetPosX() + triangleWidth, v1.GetPosY(), 0.0f, Color::ORANGE);
+Vertex v3 = Vertex(v1.GetPosX() + triangleWidth / 2, v1.GetPosY() + triangleHeight, 0.0f, Color::ORANGE);
 Shape triangle1 = Shape();
 float movementSpeed;
-float maxMovement;
-float minMovement;
-float triangle1Position;
-
+float maxMovement = v3.GetPosY();
 
 Shape triangle2 = Shape();
 Shape triangle3 = Shape();
@@ -33,12 +32,12 @@ float rotationSpeedChange;
 float maxRotationSpeed;
 
 Shape square = Shape();
-float squareWidth;
-float squareHight;
-float maxScale;
-float minScale;
-float currentScale;
-float scaleChangeSpeed;
+float squareWidth = 100;
+float squareHight = 100;
+float maxScale = 3.0f;
+float minScale = 1.0f;
+float currentScale = minScale;
+float scaleChangeSpeed = 0.01f;
 
 void main()
 {
@@ -50,51 +49,38 @@ void main()
 
 void Game::InitGame()
 {
-	Vertex v1 = Vertex(screenWidth / 2 + 200.0f, screenHeight / 2 - triangleHeight / 2, 0.0f, Color::ORANGE);
-	Vertex v2 = Vertex(v1.GetPosX() + triangleWidth, v1.GetPosY(), 0.0f, Color::ORANGE);
-	Vertex v3 = Vertex(v1.GetPosX() + triangleWidth / 2, v1.GetPosY() + triangleHeight, 0.0f, Color::ORANGE);
 	triangle1.CreateTriangle(v1, v2, v3);
-	movementSpeed = 1.0f;
-	maxMovement = v3.GetPosY();
-	minMovement = screenHeight - v3.GetPosY();
-	triangle1Position = v3.GetPosY() - triangleHeight / 2;
-
-
 	Vertex v4 = Vertex(screenWidth / 2 - 300, screenHeight / 2 - triangleHeight / 2, 0.0f, Color::RED);
 	Vertex v5 = Vertex(v4.GetPosX() + triangleWidth, v4.GetPosY(), 0.0f, Color::RED);
 	Vertex v6 = Vertex(v4.GetPosX() + triangleWidth / 2, v4.GetPosY() + triangleHeight, 0.0f, Color::RED);
 	triangle2.CreateTriangle(v4, v5, v6);
 	movementSpeed = 1.0f;
 
+
 	float heightOffset = 30;
 	Vertex v7 = Vertex(screenWidth / 2 - 300, screenHeight / 2 + triangleHeight / 2 - heightOffset, 0.0f, Color::RED);
 	Vertex v8 = Vertex(v7.GetPosX() + triangleWidth, v7.GetPosY(), 0.0f, Color::RED);
 	Vertex v9 = Vertex(v7.GetPosX() + triangleWidth / 2, v7.GetPosY() - triangleHeight, 0.0f, Color::RED);
 	triangle3.CreateTriangle(v7, v8, v9);
-	initialRotationSpeed = 1.0f;
-	currentRotationSpeed = initialRotationSpeed;
-	rotationSpeedChange = 0.01f;
-	maxRotationSpeed = 7.0f;
 
 
 	Vertex v10 = Vertex(screenWidth / 2 - squareWidth / 2, screenHeight / 2 + squareHight / 2, 0.0f, Color::PINK);
 	square.CreateSquare(v10, squareWidth, squareHight);
 
-	squareWidth = 100;
-	squareHight = 100;
-	maxScale = 3.0f;
-	minScale = 1.0f;
-	currentScale = minScale;
-	scaleChangeSpeed = 0.01f;
+
+	initialRotationSpeed = 1.0f;
+	currentRotationSpeed = initialRotationSpeed;
+	rotationSpeedChange = 0.01f;
+	maxRotationSpeed = 7.0f;
 }
 
 void Game::Update()
 {
-	triangle1Position += movementSpeed;
 	triangle1.Translate(0.0f, movementSpeed, 0.0f);
-	if (triangle1Position >= maxMovement || triangle1Position <= minMovement)
+
+	if (v3.GetPosY() >= screenHeight || v3.GetPosY() <= 0)
 	{
-		triangle1.Rotate(0.0f, 0.0f, 180.0f);
+		triangle1.Rotate(90.0f, 0.0f, 0.0f);
 		movementSpeed *= -1;
 	}
 
