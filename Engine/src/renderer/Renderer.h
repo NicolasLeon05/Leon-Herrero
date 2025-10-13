@@ -12,10 +12,13 @@ using namespace std;
 
 class Entity2D;
 
+class Shape;
+class Sprite;
+
 class Renderer
 {
 public:
-	static vector<Entity2D*> shapes;
+	static vector<Entity2D*> entities;
 	static glm::mat4 mvp;
 	Renderer();
 	~Renderer();
@@ -24,8 +27,10 @@ public:
 	static void Clear();
 	static void SwapBuffers(Window window);
 	static void SetMvp(Window window);
-	static bool IsInShapes(Entity2D* entity);
-	static void InitShapeBuffers(Entity2D& entity);
+	static bool IsInEntities(Entity2D* entity);
+	static void InitShapeBuffers(Shape& shape);
+	static void InitSpriteBuffers(Sprite& sprite);
 	static void PollEvents();
-	static void Draw(Entity2D* entity, GLsizei count);
+	static void Draw(Shape* shape, GLsizei count);
+	static void Draw(Sprite* sprite, GLsizei count);
 };

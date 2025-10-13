@@ -43,9 +43,9 @@ int BaseGame::RunEngine(Window window)
 
 	DeInitGame();
 
-	for (int i = 0; i < Renderer::shapes.size(); i++)
+	for (int i = 0; i < Renderer::entities.size(); i++)
 	{
-		Renderer::shapes[i]->GetMaterial().DeinitShader();
+		Renderer::entities[i]->GetMaterial().DeinitShader();
 	}
 
 	glfwTerminate();

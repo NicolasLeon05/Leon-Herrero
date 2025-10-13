@@ -46,9 +46,9 @@ void Shape::CreateSquare(Vertex one, Vertex two, Vertex three, Vertex four)
 	indices[4] = 3;
 	indices[5] = 1;
 
-	if (!Renderer::IsInShapes(this))
+	if (!Renderer::IsInEntities(this))
 	{
-		Renderer::shapes.push_back(this);
+		Renderer::entities.push_back(this);
 	}
 }
 
@@ -73,11 +73,11 @@ Shape::Shape()
 
 Shape::~Shape()
 {
-	for (int i = 0; i < Renderer::shapes.size(); i++)
+	for (int i = 0; i < Renderer::entities.size(); i++)
 	{
-		if (Renderer::shapes[i] == this)
+		if (Renderer::entities[i] == this)
 		{
-			Renderer::shapes.erase(Renderer::shapes.begin() + i);
+			Renderer::entities.erase(Renderer::entities.begin() + i);
 		}
 	}
 }
@@ -115,9 +115,9 @@ void Shape::CreateTriangle(Vertex one, Vertex two, Vertex three)
 	indices[1] = 1;
 	indices[2] = 2;
 
-	if (!Renderer::IsInShapes(this))
+	if (!Renderer::IsInEntities(this))
 	{
-		Renderer::shapes.push_back(this);
+		Renderer::entities.push_back(this);
 	}
 
 	Init();

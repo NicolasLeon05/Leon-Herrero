@@ -51,6 +51,9 @@
     <ClCompile Include="src\vertex\Vertex.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="src\sprite\Sprite.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\window\Window.h">
@@ -92,8 +95,12 @@
     <ClInclude Include="src\EngineAPI.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="src\sprite\Sprite.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\material\Basic.shader" />
+    <None Include="src\material\Texture.shader" />
   </ItemGroup>
 </Project>

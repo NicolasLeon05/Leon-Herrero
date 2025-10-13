@@ -14,6 +14,8 @@ private:
 	float g;
 	float b;
 	float a;
+	float s;
+	float t;
 	Color color;
 
 	void AssignColor();
@@ -30,6 +32,8 @@ public:
 	ENGINE_API float GetG();
 	ENGINE_API float GetB();
 	ENGINE_API float GetA();
+	float GetS();
+	float GetT();
 	ENGINE_API Color GetColor();
 
 	ENGINE_API void SetPosX(float x);

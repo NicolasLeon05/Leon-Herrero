@@ -118,6 +118,16 @@ float Vertex::GetA()
 	return a;
 }
 
+float Vertex::GetS()
+{
+	return s;
+}
+
+float Vertex::GetT()
+{
+	return t;
+}
+
 Color Vertex::GetColor()
 {
 	return color;
