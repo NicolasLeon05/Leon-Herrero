@@ -38,7 +38,7 @@ void Game::InitGame()
 {
 	Vertex v7 = Vertex(sX, sY, 0.0f);
 
-	square.SetTexturePath("texture.jpg");
+	square.SetTexture("texture.jpg", 301, 167);
 	square.CreateSquare(v7, sWidth, sHeight, Color::WHITE);
 }
 

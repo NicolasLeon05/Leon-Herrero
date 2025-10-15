@@ -202,14 +202,26 @@ unsigned int* Sprite::GetTexture()
 	return &texture;
 }
 
-void Sprite::SetTexturePath(string path)
+void Sprite::SetTexture(string path, int texWidth, int texHeight)
 {
 	texturePath = path;
+	textureWidth = texWidth;
+	textureHeight = texHeight;
 }
 
 string Sprite::GetTexturePath()
 {
 	return texturePath;
+}
+
+int Sprite::GetTextureWidth()
+{
+	return textureWidth;
+}
+
+int Sprite::GetTextureHeight()
+{
+	return textureHeight;
 }
 
 void Sprite::Draw()

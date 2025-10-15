@@ -134,9 +134,9 @@ void Renderer::InitSpriteBuffers(Sprite& sprite)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
 	// load and generate the texture
-	int width = 0;
-	int height = 0;
-	int nrChannels = 0;
+	int width = sprite.GetTextureWidth();
+	int height = sprite.GetTextureHeight();
+	int nrChannels = 0; //BUSCAR LA FORMA DE OBTENER LOS CANALES DE LA IMAGEN ANTES DE HACER stbi_load
 
 	std::cout << "Trying to load texture from: " << sprite.GetTexturePath() << std::endl;
 	std::cout << "Current working directory: " << current_path() << std::endl;

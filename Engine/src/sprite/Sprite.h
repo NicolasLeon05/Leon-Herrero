@@ -16,6 +16,8 @@ private:
 	unsigned int texture;
 
 	string texturePath;
+	int textureWidth;
+	int textureHeight;
 
 public:
 	ENGINE_API Sprite();
@@ -29,8 +31,11 @@ public:
 	ENGINE_API void CreateSquare(Vertex one, float width, float height, Color color, float alpha);
 
 	unsigned int *GetTexture();
-	ENGINE_API void SetTexturePath(string path);
+	ENGINE_API void SetTexture(string path, int texWidth, int texHeight);
 	string GetTexturePath();
+
+	int GetTextureWidth();
+	int GetTextureHeight();
 
 	ENGINE_API void Draw() override;
 };
