@@ -1,5 +1,6 @@
 #include "shape/Shape.h"
 #include "renderer/Renderer.h"
+#include "clock/Clock.h"
 #include "window/Window.h"
 
 #include "glm.hpp"
@@ -30,11 +31,15 @@ int BaseGame::RunEngine(Window window)
 
 	Renderer::SetMvp(window);
 
+	MyClock::InitClock();
+
 	while (!window.ShouldClose())
 	{
 		Renderer::Clear();
 
 		Update();
+
+		MyClock::UpdateDeltaTime();
 
 		Renderer::SwapBuffers(window);
 

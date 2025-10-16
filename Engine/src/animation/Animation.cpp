@@ -1,5 +1,5 @@
 #include "Animation.h"
-#include <chrono>
+#include "../clock/Clock.h"
 
 Animation::Animation()
 {
@@ -60,8 +60,7 @@ void Animation::AddFrames(float frameX, float frameY, float frameWidth, float fr
 
 void Animation::Update()
 {
-	float deltaTime = 0.0f; //A completar
-	currentTime += deltaTime;
+	currentTime += MyClock::GetDeltaTime();
 
 	while (currentTime > totalDuration)
 		currentTime -= totalDuration;

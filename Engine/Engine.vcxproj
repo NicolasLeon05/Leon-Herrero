@@ -22,6 +22,7 @@
     <ClCompile Include="src\animation\Animation.cpp" />
     <ClCompile Include="src\animation\Frame.cpp" />
     <ClCompile Include="src\BaseGame.cpp" />
+    <ClCompile Include="src\clock\Clock.cpp" />
     <ClCompile Include="src\entity\Entity.cpp" />
     <ClCompile Include="src\entity\Entity2D.cpp" />
     <ClCompile Include="src\material\Material.cpp" />
@@ -35,6 +36,7 @@
     <ClInclude Include="src\animation\Animation.h" />
     <ClInclude Include="src\animation\Frame.h" />
     <ClInclude Include="src\BaseGame.h" />
+    <ClInclude Include="src\clock\Clock.h" />
     <ClInclude Include="src\EngineAPI.h" />
     <ClInclude Include="src\entity\Entity.h" />
     <ClInclude Include="src\entity\Entity2D.h" />
