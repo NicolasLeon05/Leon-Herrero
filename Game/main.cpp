@@ -36,6 +36,11 @@ void main()
 
 void Game::InitGame()
 {
+	Vertex v1 = Vertex(300.0f, 250.0f, 0.0f, Color::BLUE);
+	Vertex v2 = Vertex(300.0f, 400.0f, 0.0f, Color::GREEN);
+	Vertex v3 = Vertex(500, 350.0f, 0.0f, Color::WHITE);
+	triangle1.CreateTriangle(v1, v2, v3);
+
 	Vertex v7 = Vertex(sX, sY, 0.0f);
 
 	square.SetTexture("texture.jpg", 301, 167);
@@ -44,10 +49,9 @@ void Game::InitGame()
 
 void Game::Update()
 {
-	//triangle2.Rotate(0.0f, 0.0f, 0.01f);
-	//square.Rotate(0.0f, 0.01f, -0.01f);
+	triangle1.Rotate(0.0f, 0.0f, 0.1f);
+	triangle1.Translate(0.0f, 0.5f, 0.0f);
 	//triangle1.Scale(1.0f, 1.0f, 1.0f);
-	//triangle1.Translate(0.0f, 0.1f, 0.0f);
 
 	//float right = sX + sWidth + square.GetX();
 
@@ -59,7 +63,8 @@ void Game::Update()
 	//{
 	//	square.Translate(1.0f, 0.0f, 0.0f);
 	//}
-	square.Draw();
+	triangle1.Draw();
+	//square.Draw();
 }
 
 void Game::DeInitGame()

@@ -12,8 +12,8 @@ protected:
 	std::vector <unsigned int> indices;
 
 	glm::mat4 trs;
-	glm::vec3 position;
-	glm::vec4 rotation;
+	glm::vec3 translation;
+	glm::mat4 rotation;
 	glm::vec3 scale;
 
 	float color[4];
@@ -34,9 +34,10 @@ public:
 
 	glm::mat4 GetTRS();
 	glm::vec3 GetPosition();
-	glm::vec4 GetRotation();
+	glm::vec3 GetRotation();
 	glm::vec3 GetScale();
 
+	void UpdateTRS();
 
 	ENGINE_API void Translate(float x, float y, float z);
 	ENGINE_API void Rotate(float x, float y, float z);

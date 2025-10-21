@@ -29,8 +29,8 @@ Renderer::~Renderer()
 void Renderer::MakeContextCurrent(Window window)
 {
 	glfwMakeContextCurrent(window.GetGlfwWindow());
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void Renderer::Clear()
@@ -43,15 +43,21 @@ void Renderer::SwapBuffers(Window window)
 {
 	glfwSwapBuffers(window.GetGlfwWindow());
 }
-
-void Renderer::SetMvp(Window window)
+void Renderer::SetMVP(Window window)
 {
 	glm::mat4 view = lookAt(glm::vec3(0.0f, 0.0f, 0.1f),
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 proj = glm::ortho(0.0f, float(window.GetWidth()), 0.0f, float(window.GetHeight()), -0.1f, 100.0f);
 
-	mvp = proj * view;
+	mvp = proj * view ;
+}
+
+void Renderer::UpdateMVP(Entity2D* entity)
+{	
+	glm::mat4 model = entity->GetTRS();
+
+	mvp *= model;
 }
 
 bool Renderer::IsInEntities(Entity2D* entity)
@@ -166,9 +172,9 @@ void Renderer::PollEvents()
 
 void Renderer::Draw(Shape* shape, GLsizei count)
 {
+	UpdateMVP(shape);
+
 	glUniformMatrix4fv(glGetUniformLocation(shape->GetMaterial().GetShader(), "mvp"), 1, GL_FALSE, &mvp[0][0]);
-	unsigned int transformLoc = glGetUniformLocation(shape->GetMaterial().GetShader(), "transform");
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(shape->GetTRS()));
 
 	glBindVertexArray(*shape->GetVAO());
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
@@ -176,9 +182,9 @@ void Renderer::Draw(Shape* shape, GLsizei count)
 
 void Renderer::Draw(Sprite* sprite, GLsizei count)
 {
+	UpdateMVP(sprite);
+
 	glUniformMatrix4fv(glGetUniformLocation(sprite->GetMaterial().GetShader(), "mvp"), 1, GL_FALSE, &mvp[0][0]);
-	unsigned int transformLoc = glGetUniformLocation(sprite->GetMaterial().GetShader(), "transform");
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(sprite->GetTRS()));
 
 	glBindTexture(GL_TEXTURE_2D, *sprite->GetTexture());
 

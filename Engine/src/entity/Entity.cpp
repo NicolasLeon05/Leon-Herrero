@@ -25,8 +25,11 @@ glm::vec3 Entity::CalculateCenter()
 Entity::Entity()
 {
 	trs = glm::mat4(1.0f);
-	position = glm::vec3(1.0f);
-	rotation = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+	translation = glm::vec3(1.0f);
+	rotation = glm::mat4(1, 0, 0, 0,
+						0, 1, 0, 0,
+						0, 0, 1, 0,
+						0, 0, 0, 1);
 	scale = glm::vec3(1.0f, 1.0f, 1.0f);
 }
 
@@ -57,12 +60,12 @@ glm::mat4 Entity::GetTRS()
 
 glm::vec3 Entity::GetPosition()
 {
-	return position;
+	return translation;
 }
 
-glm::vec4 Entity::GetRotation()
+glm::vec3 Entity::GetRotation()
 {
-	return rotation;
+	return glm::vec3(rotation[0][0], rotation[1][1], rotation[2][2]);
 }
 
 glm::vec3 Entity::GetScale()
@@ -70,32 +73,44 @@ glm::vec3 Entity::GetScale()
 	return scale;
 }
 
+void Entity::UpdateTRS()
+{
+	glm::mat4 translateMatrix = glm::translate(glm::mat4(1.0f), translation);
+	glm::mat4 rotationMatrix = rotation;
+	glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), scale);
+
+	trs = translateMatrix * rotationMatrix * scaleMatrix;
+}
+
 void Entity::Translate(float x, float y, float z)
 {
-	position += glm::vec3(x, y, z);
+	translation = glm::vec3(x, y, z);
 
-	trs = glm::translate(trs, glm::vec3(x, y, z));
+	UpdateTRS();
 }
 
 void Entity::Rotate(float x, float y, float z)
 {
+	rotation = glm::mat4(1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1);
 	glm::vec3 center = CalculateCenter();
 
-	trs = glm::translate(trs, center);
-	trs = glm::rotate(trs, glm::radians(x), glm::vec3(1, 0, 0));
-	trs = glm::rotate(trs, glm::radians(y), glm::vec3(0, 1, 0));
-	trs = glm::rotate(trs, glm::radians(z), glm::vec3(0, 0, 1));
-	trs = glm::translate(trs, -center);
+	rotation = glm::translate(rotation, center);
+	rotation = glm::rotate(rotation, glm::radians(x), glm::vec3(1, 0, 0));
+	rotation = glm::rotate(rotation, glm::radians(y), glm::vec3(0, 1, 0));
+	rotation = glm::rotate(rotation, glm::radians(z), glm::vec3(0, 0, 1));
+	rotation = glm::translate(rotation, -center);
+
+	UpdateTRS();
 }
 
 void Entity::Scale(float x, float y, float z)
 {
-	glm::vec3 center = CalculateCenter();
-
-	trs = glm::translate(trs, center);
 	scale = glm::vec3(x, y, z);
-	trs = glm::scale(trs, scale);
-	trs = glm::translate(trs, -center);
+
+	UpdateTRS();
 }
 
 unsigned int Entity::GetVerticesSize()
@@ -126,17 +141,17 @@ unsigned int* Entity::GetIndices()
 
 float Entity::GetX()
 {
-	return position.x;
+	return translation.x;
 }
 
 float Entity::GetY()
 {
-	return position.y;
+	return translation.y;
 }
 
 float Entity::GetZ()
 {
-	return position.z;
+	return translation.z;
 }
 
 void Entity::Draw()

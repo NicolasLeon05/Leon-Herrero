@@ -26,7 +26,8 @@ public:
 	static void MakeContextCurrent(Window window);
 	static void Clear();
 	static void SwapBuffers(Window window);
-	static void SetMvp(Window window);
+	static void SetMVP(Window window);
+	static void UpdateMVP(Entity2D* entity);
 	static bool IsInEntities(Entity2D* entity);
 	static void InitShapeBuffers(Shape& shape);
 	static void InitSpriteBuffers(Sprite& sprite);

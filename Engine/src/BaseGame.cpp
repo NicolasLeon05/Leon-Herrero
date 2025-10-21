@@ -29,7 +29,7 @@ int BaseGame::RunEngine(Window window)
 	glewInit();
 	InitGame();
 
-	Renderer::SetMvp(window);
+	Renderer::SetMVP(window);
 
 	MyClock::InitClock();
 
