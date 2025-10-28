@@ -39,9 +39,9 @@ public:
 
 	void UpdateTRS();
 
-	ENGINE_API void Translate(float x, float y, float z);
-	ENGINE_API void Rotate(float x, float y, float z);
-	ENGINE_API void Scale(float x, float y, float z);
+	ENGINE_API void SetPosition(float x, float y, float z);
+	ENGINE_API void SetRotatation(float x, float y, float z);
+	ENGINE_API void SetScale(float x, float y, float z);
 
 	unsigned int GetVerticesSize();
 	float* GetVertices();

@@ -73,14 +73,14 @@ glm::vec3 Entity::GetScale()
 	return scale;
 }
 
-void Entity::Translate(float x, float y, float z)
+void Entity::SetPosition(float x, float y, float z)
 {
 	translation = glm::vec3(x, y, z);
 
 	UpdateTRS();
 }
 
-void Entity::Rotate(float x, float y, float z)
+void Entity::SetRotatation(float x, float y, float z)
 {
 	rotation = glm::mat4(1, 0, 0, 0,
 		0, 1, 0, 0,
@@ -97,7 +97,7 @@ void Entity::Rotate(float x, float y, float z)
 	UpdateTRS();
 }
 
-void Entity::Scale(float x, float y, float z)
+void Entity::SetScale(float x, float y, float z)
 {
 	scale = glm::vec3(x, y, z);
 

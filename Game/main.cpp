@@ -26,6 +26,8 @@ float sHeight = 400;
 float sX = 100.0f;
 float sY = screenHeight/2 + 100;
 
+float rotation = 0.0f;
+
 void main()
 {
 	Window window = Window(screenWidth, screenHeight, "Engine");
@@ -49,9 +51,12 @@ void Game::InitGame()
 
 void Game::Update()
 {
-	triangle1.Rotate(0.0f, 0.0f, 0.1f);
-	triangle1.Translate(0.0f, 0.5f, 0.0f);
-	//triangle1.Scale(1.0f, 1.0f, 1.0f);
+	triangle1.SetRotatation(0.0f, 0.0f, rotation);
+
+	rotation += 1.0f;
+
+	triangle1.SetPosition(-rotation, 0.0f, 0.0f);
+	triangle1.SetScale(1.0f, 1.0f, 1.0f);
 
 	//float right = sX + sWidth + square.GetX();
 
@@ -63,8 +68,8 @@ void Game::Update()
 	//{
 	//	square.Translate(1.0f, 0.0f, 0.0f);
 	//}
-	triangle1.Draw();
 	square.Draw();
+	triangle1.Draw();
 }
 
 void Game::DeInitGame()
