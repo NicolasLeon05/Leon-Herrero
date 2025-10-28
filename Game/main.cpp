@@ -36,9 +36,9 @@ void main()
 
 void Game::InitGame()
 {
-	Vertex v1 = Vertex(300.0f, 250.0f, 0.0f, Color::BLUE);
-	Vertex v2 = Vertex(300.0f, 400.0f, 0.0f, Color::GREEN);
-	Vertex v3 = Vertex(500, 350.0f, 0.0f, Color::WHITE);
+	Vertex v1 = Vertex(600.0f, 250.0f, 0.0f, Color::BLUE);
+	Vertex v2 = Vertex(650.0f, 400.0f, 0.0f, Color::GREEN);
+	Vertex v3 = Vertex(700, 350.0f, 0.0f, Color::WHITE);
 	triangle1.CreateTriangle(v1, v2, v3);
 
 	Vertex v7 = Vertex(sX, sY, 0.0f);
@@ -64,7 +64,7 @@ void Game::Update()
 	//	square.Translate(1.0f, 0.0f, 0.0f);
 	//}
 	triangle1.Draw();
-	//square.Draw();
+	square.Draw();
 }
 
 void Game::DeInitGame()

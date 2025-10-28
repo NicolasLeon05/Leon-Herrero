@@ -13,7 +13,7 @@ uniform mat4 mvp;
 
 void main()
 {
-	gl_Position = mvp * transform * vec4(aPos, 1.0);
+	gl_Position = mvp * vec4(aPos, 1.0);
 	color = aColor;
     texCoord = aTexCoord;
 };

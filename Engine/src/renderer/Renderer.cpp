@@ -53,13 +53,6 @@ void Renderer::SetMVP(Window window)
 	mvp = proj * view ;
 }
 
-void Renderer::UpdateMVP(Entity2D* entity)
-{	
-	glm::mat4 model = entity->GetTRS();
-
-	mvp *= model;
-}
-
 bool Renderer::IsInEntities(Entity2D* entity)
 {
 	for (int i = 0; i < Renderer::entities.size(); i++)
@@ -172,9 +165,11 @@ void Renderer::PollEvents()
 
 void Renderer::Draw(Shape* shape, GLsizei count)
 {
-	UpdateMVP(shape);
+	glm::mat4 model = shape->GetTRS();
 
-	glUniformMatrix4fv(glGetUniformLocation(shape->GetMaterial().GetShader(), "mvp"), 1, GL_FALSE, &mvp[0][0]);
+	glm::mat4 mvpMatrix = mvp * model;
+
+	glUniformMatrix4fv(glGetUniformLocation(shape->GetMaterial().GetShader(), "mvp"), 1, GL_FALSE, glm::value_ptr(mvpMatrix));
 
 	glBindVertexArray(*shape->GetVAO());
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
@@ -182,9 +177,11 @@ void Renderer::Draw(Shape* shape, GLsizei count)
 
 void Renderer::Draw(Sprite* sprite, GLsizei count)
 {
-	UpdateMVP(sprite);
+	glm::mat4 model = sprite->GetTRS();
 
-	glUniformMatrix4fv(glGetUniformLocation(sprite->GetMaterial().GetShader(), "mvp"), 1, GL_FALSE, &mvp[0][0]);
+	glm::mat4 mvpMatrix = mvp * model;
+
+	glUniformMatrix4fv(glGetUniformLocation(sprite->GetMaterial().GetShader(), "mvp"), 1, GL_FALSE, glm::value_ptr(mvpMatrix));
 
 	glBindTexture(GL_TEXTURE_2D, *sprite->GetTexture());
 

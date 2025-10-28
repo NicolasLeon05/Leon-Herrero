@@ -73,15 +73,6 @@ glm::vec3 Entity::GetScale()
 	return scale;
 }
 
-void Entity::UpdateTRS()
-{
-	glm::mat4 translateMatrix = glm::translate(glm::mat4(1.0f), translation);
-	glm::mat4 rotationMatrix = rotation;
-	glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), scale);
-
-	trs = translateMatrix * rotationMatrix * scaleMatrix;
-}
-
 void Entity::Translate(float x, float y, float z)
 {
 	translation = glm::vec3(x, y, z);
@@ -111,6 +102,15 @@ void Entity::Scale(float x, float y, float z)
 	scale = glm::vec3(x, y, z);
 
 	UpdateTRS();
+}
+
+void Entity::UpdateTRS()
+{
+	glm::mat4 translateMatrix = glm::translate(glm::mat4(1.0f), translation);
+	glm::mat4 rotationMatrix = rotation;
+	glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), scale);
+
+	trs = translateMatrix * rotationMatrix * scaleMatrix;
 }
 
 unsigned int Entity::GetVerticesSize()
