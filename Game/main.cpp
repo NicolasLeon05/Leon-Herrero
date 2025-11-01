@@ -4,6 +4,7 @@
 #include "sprite/Sprite.h"
 #include "BaseGame.h"
 #include "window/Window.h"
+#include "input/Input.h"
 
 class Game : public BaseGame
 {
@@ -24,7 +25,7 @@ static const float screenHeight = 640.0f;
 float sWidth = 400;
 float sHeight = 400;
 float sX = 100.0f;
-float sY = screenHeight/2 + 100;
+float sY = screenHeight / 2 + 100;
 
 float rotation = 0.0f;
 
@@ -47,15 +48,20 @@ void Game::InitGame()
 
 	square.SetTexture("texture.jpg", 301, 167);
 	square.CreateSquare(v7, sWidth, sHeight, Color::WHITE);
+	triangle1.SetPosition(0.0f, 0.0f, 0.0f);
 }
 
 void Game::Update()
 {
-	triangle1.SetRotatation(0.0f, 0.0f, rotation);
+	//triangle1.SetRotatation(0.0f, 0.0f, rotation);
 
-	rotation += 1.0f;
 
-	triangle1.SetPosition(-rotation, 0.0f, 0.0f);
+	if (Input::IsKeyDown(Key::A))
+	{
+		rotation += 0.1f;
+		triangle1.SetPosition(-rotation, 0.0f, 0.0f);
+	}
+
 	triangle1.SetScale(1.0f, 1.0f, 1.0f);
 
 	//float right = sX + sWidth + square.GetX();

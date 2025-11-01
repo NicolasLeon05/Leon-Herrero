@@ -2,6 +2,7 @@
 #include "renderer/Renderer.h"
 #include "clock/Clock.h"
 #include "window/Window.h"
+#include "input/Input.h"
 
 #include "glm.hpp"
 #include "gtc/matrix_transform.hpp"
@@ -20,30 +21,27 @@ int BaseGame::RunEngine(Window window)
 	if (!glfwInit())
 		return -1;
 
-
 	window.CreateWindow();
 
 	Renderer::MakeContextCurrent(window);
-
+	Input::Init(window.GetGlfwWindow());
 
 	glewInit();
 	InitGame();
-
 	Renderer::SetMVP(window);
 
 	MyClock::InitClock();
 
 	while (!window.ShouldClose())
 	{
-		Renderer::Clear();
+		Input::Update();
+		Renderer::PollEvents();
 
+		Renderer::Clear();
 		Update();
 
 		MyClock::UpdateDeltaTime();
-
 		Renderer::SwapBuffers(window);
-
-		Renderer::PollEvents();
 	}
 
 	DeInitGame();
