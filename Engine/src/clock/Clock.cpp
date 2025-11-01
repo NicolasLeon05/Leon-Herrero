@@ -29,8 +29,6 @@ void MyClock::UpdateDeltaTime()
 	previous = current;
 
 	deltaTime = delta.count();
-
-	std::cout << " delta time: " << deltaTime << std::endl;
 }
 
 float MyClock::GetDeltaTime()

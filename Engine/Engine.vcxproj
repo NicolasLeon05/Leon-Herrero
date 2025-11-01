@@ -25,6 +25,7 @@
     <ClCompile Include="src\clock\Clock.cpp" />
     <ClCompile Include="src\entity\Entity.cpp" />
     <ClCompile Include="src\entity\Entity2D.cpp" />
+    <ClCompile Include="src\input\Input.cpp" />
     <ClCompile Include="src\material\Material.cpp" />
     <ClCompile Include="src\renderer\Renderer.cpp" />
     <ClCompile Include="src\shape\Shape.cpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="src\EngineAPI.h" />
     <ClInclude Include="src\entity\Entity.h" />
     <ClInclude Include="src\entity\Entity2D.h" />
+    <ClInclude Include="src\input\Input.h" />
     <ClInclude Include="src\sprite\Sprite.h" />
     <ClInclude Include="src\vertex\Color.h" />
     <ClInclude Include="src\vertex\Vertex.h" />
