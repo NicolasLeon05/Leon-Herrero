@@ -14,8 +14,10 @@ void Sprite::CreateSquare(Vertex one, Vertex two, Vertex three, Vertex four)
 	verticesData[4] = one.GetG();
 	verticesData[5] = one.GetB();
 	verticesData[6] = one.GetA();
-	verticesData[7] = 0.0f;
-	verticesData[8] = 1.0f;
+	//verticesData[7] = 0.0f;
+	//verticesData[8] = 1.0f;
+	verticesData[7] = animation.GetFrames()[0].frameCoords[0].u;
+	verticesData[8] = animation.GetFrames()[0].frameCoords[0].v;
 
 	verticesData[9] = two.GetPosX();
 	verticesData[10] = two.GetPosY();
@@ -24,8 +26,10 @@ void Sprite::CreateSquare(Vertex one, Vertex two, Vertex three, Vertex four)
 	verticesData[13] = two.GetG();
 	verticesData[14] = two.GetB();
 	verticesData[15] = two.GetA();
-	verticesData[16] = 1.0f;
-	verticesData[17] = 1.0f;
+	//verticesData[16] = 1.0f;
+	//verticesData[17] = 1.0f;
+	verticesData[16] = animation.GetFrames()[0].frameCoords[1].u;
+	verticesData[17] = animation.GetFrames()[0].frameCoords[1].v;
 
 	verticesData[18] = three.GetPosX();
 	verticesData[19] = three.GetPosY();
@@ -34,8 +38,10 @@ void Sprite::CreateSquare(Vertex one, Vertex two, Vertex three, Vertex four)
 	verticesData[22] = three.GetG();
 	verticesData[23] = three.GetB();
 	verticesData[24] = three.GetA();
-	verticesData[25] = 0.0f;
-	verticesData[26] = 0.0f;
+	//verticesData[25] = 0.0f;
+	//verticesData[26] = 0.0f;
+	verticesData[25] = animation.GetFrames()[0].frameCoords[2].u;
+	verticesData[26] = animation.GetFrames()[0].frameCoords[2].v;
 
 	verticesData[27] = four.GetPosX();
 	verticesData[28] = four.GetPosY();
@@ -44,8 +50,10 @@ void Sprite::CreateSquare(Vertex one, Vertex two, Vertex three, Vertex four)
 	verticesData[31] = four.GetG();
 	verticesData[32] = four.GetB();
 	verticesData[33] = four.GetA();
-	verticesData[34] = 1.0f;
-	verticesData[35] = 0.0f;
+	//verticesData[34] = 1.0f;
+	//verticesData[35] = 0.0f;
+	verticesData[34] = animation.GetFrames()[0].frameCoords[3].u;
+	verticesData[35] = animation.GetFrames()[0].frameCoords[3].v;
 
 	indices[0] = 0;
 	indices[1] = 1;
@@ -59,7 +67,6 @@ void Sprite::CreateSquare(Vertex one, Vertex two, Vertex three, Vertex four)
 		Renderer::entities.push_back(this);
 	}
 }
-
 
 void Sprite::Init()
 {
@@ -76,7 +83,7 @@ void Sprite::Init()
 
 Sprite::Sprite()
 {
-
+	animation = Animation();
 }
 
 Sprite::~Sprite()
@@ -207,11 +214,17 @@ void Sprite::SetTexture(string path, int texWidth, int texHeight)
 	texturePath = path;
 	textureWidth = texWidth;
 	textureHeight = texHeight;
+	animation.AddFrame(0,0,textureWidth, textureHeight, textureWidth, textureHeight, 1);
 }
 
 string Sprite::GetTexturePath()
 {
 	return texturePath;
+}
+
+Animation* Sprite::GetAnimation()
+{
+	return &animation;
 }
 
 int Sprite::GetTextureWidth()
@@ -226,6 +239,24 @@ int Sprite::GetTextureHeight()
 
 void Sprite::Draw()
 {
+	//animation.Update(); // actualiza el currentFrameIndex
+
+	int frameIndex = animation.GetCurrentFrameIndex(); // agregaremos este getter
+	Frame frame = animation.GetFrames()[frameIndex];
+
+	// Actualizamos solo los UVs
+	verticesData[7] = frame.frameCoords[0].u; 
+	verticesData[8] = frame.frameCoords[0].v;
+
+	verticesData[16] = frame.frameCoords[1].u; 
+	verticesData[17] = frame.frameCoords[1].v;
+
+	verticesData[25] = frame.frameCoords[2].u;
+	verticesData[26] = frame.frameCoords[2].v;
+
+	verticesData[34] = frame.frameCoords[3].u;
+	verticesData[35] = frame.frameCoords[3].v;
+
 	GetMaterial().UseShader();
 	Renderer::Draw(this, GetIndicesCount());
 }

@@ -2,6 +2,8 @@
 #include "Frame.h"
 #include <vector>
 
+#include "../EngineAPI.h"
+
 class Animation
 {
 private:
@@ -12,18 +14,22 @@ private:
 	int currentFrameIndex;
 
 public:
-	Animation();
-	~Animation();
+	ENGINE_API Animation();
+	ENGINE_API ~Animation();
 
-	void AddFrame(float frameX, float frameY,
+	std::vector<Frame> GetFrames();
+
+	int GetCurrentFrameIndex();
+
+	ENGINE_API void AddFrame(float frameX, float frameY,
 		float frameWidth, float frameHeight,
 		float textureWidth, float textureHeight,
 		float durationInSecs);
 
-	void AddFrames(float frameX, float frameY,
+	ENGINE_API void AddFrames(float frameX, float frameY,
 		float frameWidth, float frameHeight,
 		float textureWidth, float textureHeight,
 		float durationInSecs, int framesCount);
 
-	void Update();
+	ENGINE_API void Update();
 };

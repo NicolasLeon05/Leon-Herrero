@@ -1,6 +1,7 @@
 #pragma once
 #include "../entity/Entity2D.h"
 #include "../vertex/Vertex.h"
+#include "../animation/Animation.h"
 
 #include "../EngineAPI.h"
 
@@ -13,8 +14,9 @@ private:
 
 	void Init();
 
-	unsigned int texture;
+	Animation animation;
 
+	unsigned int texture;
 	string texturePath;
 	int textureWidth;
 	int textureHeight;
@@ -33,6 +35,7 @@ public:
 	unsigned int *GetTexture();
 	ENGINE_API void SetTexture(string path, int texWidth, int texHeight);
 	string GetTexturePath();
+	ENGINE_API Animation* GetAnimation();
 
 	int GetTextureWidth();
 	int GetTextureHeight();

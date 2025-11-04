@@ -18,12 +18,13 @@ Shape triangle1 = Shape();
 Shape triangle2 = Shape();
 
 Sprite square = Sprite();
+Sprite squareAnim = Sprite();
 
 static const float screenWidth = 720;
 static const float screenHeight = 640.0f;
 
-float sWidth = 400;
-float sHeight = 400;
+float sWidth = 128;
+float sHeight = 128;
 float sX = 100.0f;
 float sY = screenHeight / 2 + 100;
 
@@ -48,6 +49,12 @@ void Game::InitGame()
 
 	square.SetTexture("texture.jpg", 301, 167);
 	square.CreateSquare(v7, sWidth, sHeight, Color::WHITE);
+
+
+	squareAnim.SetTexture("pokemon.png", 1, 1);
+	squareAnim.GetAnimation()->AddFrames(0, 128, 64, 64, 256, 256, 1, 4);
+	squareAnim.CreateSquare(v7, sWidth, sHeight, Color::WHITE);
+
 	triangle1.SetPosition(0.0f, 0.0f, 0.0f);
 }
 
@@ -58,9 +65,16 @@ void Game::Update()
 
 	if (Input::IsKeyDown(Key::A))
 	{
-		rotation += 0.1f;
-		triangle1.SetPosition(-rotation, 0.0f, 0.0f);
+		rotation -= 1;		
+		squareAnim.GetAnimation()->Update();
 	}
+
+	if (Input::IsKeyDown(Key::D))
+	{
+		rotation += 1;
+	}
+
+	squareAnim.SetPosition(rotation, 0.0f, 0.0f);
 
 	triangle1.SetScale(1.0f, 1.0f, 1.0f);
 
@@ -74,8 +88,10 @@ void Game::Update()
 	//{
 	//	square.Translate(1.0f, 0.0f, 0.0f);
 	//}
-	square.Draw();
-	triangle1.Draw();
+	//square.Draw();
+	//triangle1.Draw();
+
+	squareAnim.Draw();
 }
 
 void Game::DeInitGame()

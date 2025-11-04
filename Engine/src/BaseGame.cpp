@@ -35,12 +35,15 @@ int BaseGame::RunEngine(Window window)
 	while (!window.ShouldClose())
 	{
 		Input::Update();
+
 		Renderer::PollEvents();
 
 		Renderer::Clear();
+
 		Update();
 
 		MyClock::UpdateDeltaTime();
+
 		Renderer::SwapBuffers(window);
 	}
 
