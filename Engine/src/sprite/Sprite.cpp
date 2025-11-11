@@ -75,6 +75,9 @@ void Sprite::Init()
 	SetMaterial();
 	GetMaterial().InitShader();
 
+	//SetPosition(CalculateCenter().x, CalculateCenter().y, 0);
+	SetPosition(verticesData[0], verticesData[1], 0.0f);
+
 	std::cout << "Vertex" << std::endl;
 	std::cout << GetMaterial().GetVertexSource() << std::endl;
 	std::cout << "Fragment" << std::endl;

@@ -5,7 +5,7 @@ glm::vec3 Entity::CalculateCenter()
 	float minX = verticesData[0], maxX = verticesData[0];
 	float minY = verticesData[1], maxY = verticesData[1];
 
-	for (int i = 0; i < verticesData.size(); i += 7)
+	for (int i = 0; i < verticesData.size(); i += 9)
 	{
 		float x = verticesData[i];
 		float y = verticesData[i + 1];
@@ -80,7 +80,7 @@ void Entity::SetPosition(float x, float y, float z)
 	UpdateTRS();
 }
 
-void Entity::SetRotatation(float x, float y, float z)
+void Entity::SetRotation(float x, float y, float z)
 {
 	rotation = glm::mat4(1, 0, 0, 0,
 		0, 1, 0, 0,

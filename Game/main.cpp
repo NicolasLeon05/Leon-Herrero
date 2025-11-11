@@ -5,6 +5,7 @@
 #include "BaseGame.h"
 #include "window/Window.h"
 #include "input/Input.h"
+#include "glm.hpp"
 
 class Game : public BaseGame
 {
@@ -23,12 +24,12 @@ Sprite squareAnim = Sprite();
 static const float screenWidth = 720;
 static const float screenHeight = 640.0f;
 
-float sWidth = 128;
-float sHeight = 128;
-float sX = 100.0f;
-float sY = screenHeight / 2 + 100;
+float sWidth = screenWidth / 4;
+float sHeight = screenHeight / 4;
+float sX = screenWidth / 2;
+float sY = screenHeight / 2;
 
-float rotation = 0.0f;
+
 
 void main()
 {
@@ -55,26 +56,45 @@ void Game::InitGame()
 	squareAnim.GetAnimation()->AddFrames(0, 128, 64, 64, 256, 256, 1, 4);
 	squareAnim.CreateSquare(v7, sWidth, sHeight, Color::WHITE);
 
+	//squareAnim.SetRotation(0.0f, 0.0f, 0.0f);
+
 	triangle1.SetPosition(0.0f, 0.0f, 0.0f);
 }
 
 void Game::Update()
 {
+	float posChangeX = 0.0f;
+	float posChangeY = 0.0f;
 	//triangle1.SetRotatation(0.0f, 0.0f, rotation);
 
 
 	if (Input::IsKeyDown(Key::A))
 	{
-		rotation -= 1;		
+		posChangeX = -2;
 		squareAnim.GetAnimation()->Update();
 	}
 
 	if (Input::IsKeyDown(Key::D))
 	{
-		rotation += 1;
+		posChangeX = 2;
 	}
 
-	squareAnim.SetPosition(rotation, 0.0f, 0.0f);
+	if (Input::IsKeyDown(Key::W))
+	{
+		posChangeY = -2;
+	}
+
+	if (Input::IsKeyDown(Key::S))
+	{
+		posChangeY = 2;
+	}
+
+
+	squareAnim.SetPosition(squareAnim.GetPosition().x + posChangeX, squareAnim.GetPosition().y + posChangeY, 0);
+	//glm::vec3 asd = squareAnim.GetPosition().x;
+
+	cout << "Position: " << squareAnim.GetPosition().x << ", " << squareAnim.GetPosition().y << ", " << squareAnim.GetPosition().z << endl;
+
 
 	triangle1.SetScale(1.0f, 1.0f, 1.0f);
 

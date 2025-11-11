@@ -33,14 +33,14 @@ public:
 	unsigned int* GetVAO();
 
 	glm::mat4 GetTRS();
-	glm::vec3 GetPosition();
-	glm::vec3 GetRotation();
-	glm::vec3 GetScale();
+	ENGINE_API glm::vec3 GetPosition();
+	ENGINE_API glm::vec3 GetRotation();
+	ENGINE_API glm::vec3 GetScale();
 
 	void UpdateTRS();
 
 	ENGINE_API void SetPosition(float x, float y, float z);
-	ENGINE_API void SetRotatation(float x, float y, float z);
+	ENGINE_API void SetRotation(float x, float y, float z);
 	ENGINE_API void SetScale(float x, float y, float z);
 
 	unsigned int GetVerticesSize();
