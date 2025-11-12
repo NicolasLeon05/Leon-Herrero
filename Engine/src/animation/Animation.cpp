@@ -51,12 +51,12 @@ void Animation::AddFrame(float frameX, float frameY, float frameWidth, float fra
 	frames.push_back(newFrame);
 }
 
-void Animation::AddFrames(float frameX, float frameY, float frameWidth, float frameHeight, float textureWidth, float textureHeight, float durationInSecs, int framesCount)
+void Animation::AddFrames(float frameX, float frameY, float frameWidth, float frameHeight, float textureWidth, float textureHeight, float totalDurationInSecs, int framesCount)
 {
 	if (!frames.empty())
 		frames.clear();
 
-	totalDuration = durationInSecs * 1000.0f;
+	totalDuration = totalDurationInSecs * 1000.0f;
 	int offsetX = 0;
 	for (int i = 0; i < framesCount; i++)
 	{

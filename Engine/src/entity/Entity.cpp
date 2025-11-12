@@ -24,13 +24,10 @@ glm::vec3 Entity::CalculateCenter()
 
 Entity::Entity()
 {
-	trs = glm::mat4(1.0f);
 	translation = glm::vec3(1.0f);
-	rotation = glm::mat4(1, 0, 0, 0,
-						0, 1, 0, 0,
-						0, 0, 1, 0,
-						0, 0, 0, 1);
-	scale = glm::vec3(1.0f, 1.0f, 1.0f);
+	rotation = glm::mat4(1.0f);
+	scale = glm::vec3(1.0f);
+	UpdateTRS();
 }
 
 Entity::~Entity()
