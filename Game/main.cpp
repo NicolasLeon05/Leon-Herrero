@@ -29,8 +29,6 @@ float sHeight = 100;
 float sX = 0;
 float sY = screenHeight - sHeight;
 
-
-
 void main()
 {
 	Window window = Window(screenWidth, screenHeight, "Engine");

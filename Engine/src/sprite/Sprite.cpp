@@ -117,44 +117,20 @@ Sprite::~Sprite()
 
 //------------------------------------------------ PUBLIC -----------------------------------------------------
 
-void Sprite::CreateTriangle(Vertex one, Vertex two, Vertex three)
+void Sprite::CreateTriangle(glm::vec3 pos, float width, float height, glm::vec4 color)
 {
-	verticesData.resize(27);
-	indices.resize(3);
-
-	verticesData[0] = one.GetPosX();
-	verticesData[1] = one.GetPosY();
-	verticesData[2] = one.GetPosZ();
-	verticesData[3] = one.GetR();
-	verticesData[4] = one.GetG();
-	verticesData[5] = one.GetB();
-	verticesData[6] = one.GetA();
-	verticesData[7] = one.GetS();
-	verticesData[8] = one.GetT();
-
-	verticesData[9] = two.GetPosX();
-	verticesData[10] = two.GetPosY();
-	verticesData[11] = two.GetPosZ();
-	verticesData[12] = two.GetR();
-	verticesData[13] = two.GetG();
-	verticesData[14] = two.GetB();
-	verticesData[15] = two.GetA();
-	verticesData[16] = two.GetS();
-	verticesData[17] = two.GetT();
-
-	verticesData[18] = three.GetPosX();
-	verticesData[19] = three.GetPosY();
-	verticesData[20] = three.GetPosZ();
-	verticesData[21] = three.GetR();
-	verticesData[22] = three.GetG();
-	verticesData[23] = three.GetB();
-	verticesData[24] = three.GetA();
-	verticesData[25] = three.GetS();
-	verticesData[26] = three.GetT();
-
-	indices[0] = 0;
-	indices[1] = 1;
-	indices[2] = 2;
+	verticesData = 
+	{
+		// position			/color								/ uv's
+		 0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, 1.0f, 1.0f, // top right
+		 0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, 1.0f, 0.0f, // bottom right
+		-0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 0.0f, // bottom left
+		-0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 1.0f  // top left 
+	};
+	indices = 
+	{  // note that we start from 0!
+		0, 1, 2,   // first triangle
+	};
 
 	if (!Renderer::IsInEntities(this))
 	{
@@ -162,29 +138,31 @@ void Sprite::CreateTriangle(Vertex one, Vertex two, Vertex three)
 	}
 
 	Init();
+	SetScale(width, height, 1.0f);
+	SetPosition(pos.x, pos.y, pos.z);
 }
 
-void Sprite::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color)
-{
-	CreateTriangle(one, two, three);
+//void Sprite::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color)
+//{
+//	CreateTriangle(one, two, three);
+//
+//	one.SetColor(color);
+//	two.SetColor(color);
+//	three.SetColor(color);
+//
+//	Init();
+//}
 
-	one.SetColor(color);
-	two.SetColor(color);
-	three.SetColor(color);
-
-	Init();
-}
-
-void Sprite::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color, float alpha)
-{
-	CreateTriangle(one, two, three);
-
-	one.SetColor(color, alpha);
-	two.SetColor(color, alpha);
-	three.SetColor(color, alpha);
-
-	Init();
-}
+//void Sprite::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color, float alpha)
+//{
+//	CreateTriangle(one, two, three);
+//
+//	one.SetColor(color, alpha);
+//	two.SetColor(color, alpha);
+//	three.SetColor(color, alpha);
+//
+//	Init();
+//}
 
 void Sprite::CreateSquare(glm::vec3 pos, float width, float height, glm::vec4 color)
 {
@@ -193,14 +171,16 @@ void Sprite::CreateSquare(glm::vec3 pos, float width, float height, glm::vec4 co
 	//Vertex three = Vertex(one.GetPosX(), one.GetPosY() - height, one.GetPosZ(), one.GetColor());
 	//Vertex four = Vertex(one.GetPosX() + width, one.GetPosY() - height, one.GetPosZ(), one.GetColor());
 
-	verticesData = {
+	verticesData = 
+	{
 		// position			/color								/ uv's
 		 0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, 1.0f, 1.0f, // top right
 		 0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, 1.0f, 0.0f, // bottom right
 		-0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 0.0f, // bottom left
 		-0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 1.0f  // top left 
 	};
-	indices = {  // note that we start from 0!
+	indices = 
+	{  // note that we start from 0!
 		0, 1, 3,   // first triangle
 		1, 2, 3    // second triangle
 	};
@@ -215,7 +195,7 @@ void Sprite::CreateSquare(glm::vec3 pos, float width, float height, glm::vec4 co
 	SetPosition(pos.x, pos.y, pos.z);
 }
 
-void Sprite::SetVertexColor(glm::vec4 colors[4])
+void Sprite::SetSquareVertexColor(glm::vec4 colors[4])
 {
 	verticesData[3] = colors[0].r;
 	verticesData[4] = colors[0].g;
@@ -236,6 +216,24 @@ void Sprite::SetVertexColor(glm::vec4 colors[4])
 	verticesData[31] = colors[3].g;
 	verticesData[32] = colors[3].b;
 	verticesData[33] = colors[3].a;
+}
+
+void Sprite::SetTriangleVertexColor(glm::vec4 colors[4])
+{
+	verticesData[3] = colors[0].r;
+	verticesData[4] = colors[0].g;
+	verticesData[5] = colors[0].b;
+	verticesData[6] = colors[0].a;
+
+	verticesData[12] = colors[1].r;
+	verticesData[13] = colors[1].g;
+	verticesData[14] = colors[1].b;
+	verticesData[15] = colors[1].a;
+
+	verticesData[21] = colors[2].r;
+	verticesData[22] = colors[2].g;
+	verticesData[23] = colors[2].b;
+	verticesData[24] = colors[2].a;
 }
 
 
