@@ -100,7 +100,7 @@ void Sprite::Init()
 
 Sprite::Sprite()
 {
-	animation = Animation();
+	animation = new Animation();
 }
 
 Sprite::~Sprite()
@@ -112,6 +112,8 @@ Sprite::~Sprite()
 			Renderer::entities.erase(Renderer::entities.begin() + i);
 		}
 	}
+
+	delete animation;
 }
 
 
@@ -119,14 +121,14 @@ Sprite::~Sprite()
 
 void Sprite::CreateTriangle(glm::vec3 pos, float width, float height, glm::vec4 color)
 {
-	verticesData = 
+	verticesData =
 	{
 		// position			/color								/ uv's
 		 0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, 1.0f, 1.0f, // top right
 		 0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, 1.0f, 0.0f, // bottom right
 		-0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 0.0f, // bottom left
 	};
-	indices = 
+	indices =
 	{  // note that we start from 0!
 		0, 1, 2,   // first triangle
 	};
@@ -170,7 +172,7 @@ void Sprite::CreateSquare(glm::vec3 pos, float width, float height, glm::vec4 co
 	//Vertex three = Vertex(one.GetPosX(), one.GetPosY() - height, one.GetPosZ(), one.GetColor());
 	//Vertex four = Vertex(one.GetPosX() + width, one.GetPosY() - height, one.GetPosZ(), one.GetColor());
 
-	verticesData = 
+	verticesData =
 	{
 		// position			/color								/ uv's
 		 0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, 1.0f, 1.0f, // top right
@@ -178,7 +180,7 @@ void Sprite::CreateSquare(glm::vec3 pos, float width, float height, glm::vec4 co
 		-0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 0.0f, // bottom left
 		-0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 1.0f  // top left 
 	};
-	indices = 
+	indices =
 	{  // note that we start from 0!
 		0, 1, 3,   // first triangle
 		1, 2, 3    // second triangle
@@ -272,7 +274,7 @@ void Sprite::SetTexture(string path, int texWidth, int texHeight)
 	texturePath = path;
 	textureWidth = texWidth;
 	textureHeight = texHeight;
-	animation.AddFrame(0, 0, textureWidth, textureHeight, textureWidth, textureHeight, 1);
+	//animation.AddFrame(0, 0, textureWidth, textureHeight, textureWidth, textureHeight, 1);
 }
 
 string Sprite::GetTexturePath()
@@ -282,7 +284,7 @@ string Sprite::GetTexturePath()
 
 Animation* Sprite::GetAnimation()
 {
-	return &animation;
+	return animation;
 }
 
 int Sprite::GetTextureWidth()
@@ -297,24 +299,34 @@ int Sprite::GetTextureHeight()
 
 void Sprite::Draw()
 {
-	//animation.Update(); // actualiza el currentFrameIndex
+	animation->Update(); // actualiza el currentFrameIndex
+	if (animation != nullptr)
+	{
+		int frameIndex = animation->GetCurrentFrameIndex();
+		Frame frame = animation->GetFrames()[frameIndex];
 
-	int frameIndex = animation.GetCurrentFrameIndex();
-	Frame frame = animation.GetFrames()[frameIndex];
+		// Actualizamos solo los UVs
+		verticesData[7] = frame.frameCoords[0].u;
+		verticesData[8] = frame.frameCoords[0].v;
 
-	// Actualizamos solo los UVs
-	verticesData[7] = frame.frameCoords[0].u;
-	verticesData[8] = frame.frameCoords[0].v;
-	
-	verticesData[16] = frame.frameCoords[1].u;
-	verticesData[17] = frame.frameCoords[1].v;
-	
-	verticesData[25] = frame.frameCoords[2].u;
-	verticesData[26] = frame.frameCoords[2].v;
-	
-	verticesData[34] = frame.frameCoords[3].u;
-	verticesData[35] = frame.frameCoords[3].v;
+		verticesData[16] = frame.frameCoords[1].u;
+		verticesData[17] = frame.frameCoords[1].v;
 
+		verticesData[25] = frame.frameCoords[2].u;
+		verticesData[26] = frame.frameCoords[2].v;
+
+		verticesData[34] = frame.frameCoords[3].u;
+		verticesData[35] = frame.frameCoords[3].v;
+
+		std::cout << "Frame Coords:" << std::endl;
+		std::cout << "  0: (" << frame.frameCoords[0].u << ", " << frame.frameCoords[0].v << ")" << std::endl;
+		std::cout << "  1: (" << frame.frameCoords[1].u << ", " << frame.frameCoords[1].v << ")" << std::endl;
+		std::cout << "  2: (" << frame.frameCoords[2].u << ", " << frame.frameCoords[2].v << ")" << std::endl;
+		std::cout << "  3: (" << frame.frameCoords[3].u << ", " << frame.frameCoords[3].v << ")" << std::endl;
+
+	}
+
+	Renderer::BindBuffers(*this);
 	GetMaterial().UseShader();
 	Renderer::Draw(this, GetIndicesCount());
 }

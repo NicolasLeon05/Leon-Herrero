@@ -29,6 +29,10 @@ float sHeight = 100;
 float sX = 0;
 float sY = screenHeight - sHeight;
 
+float posChangeX = 0;
+float posChangeY = 0;
+float posChangeZ = 0;
+
 void main()
 {
 	Window window = Window(screenWidth, screenHeight, "Engine");
@@ -39,60 +43,47 @@ void main()
 
 void Game::InitGame()
 {
-
 	//square.SetTexture("texture.jpg", 301, 167);
 	//square.CreateSquare(v7, sWidth, sHeight, Color::WHITE);
 
 	squareAnim.SetTexture("pokemon.png", 256, 256);
-	squareAnim.GetAnimation()->AddFrames(0, 128, 64, 64, 256, 256, 1, 4);
-	glm::vec3 position = { 100.0f, 100.0f, 0.0f };
+	glm::vec3 position = { 300.0f, 300.0f, 0.0f };
 	squareAnim.CreateSquare(position, 200.0f, 200.0f);
-
+	squareAnim.GetAnimation()->AddFrames(0, 128, 64, 64, 256, 256, 1, 4);
 }
 
 void Game::Update()
 {
-	float posChangeX = 0.0f;
-	float posChangeY = 0.0f;
+	//posChangeX = 0.0f;
+	//posChangeY = 0.0f;
 	//triangle1.SetRotatation(0.0f, 0.0f, rotation);
 
 	//Multiplicar pos change por deltatime
 	if (Input::IsKeyDown(Key::A))
-	{
-		posChangeX = -1;
-	}
+		posChangeX += -1;
 
 	if (Input::IsKeyDown(Key::D))
-		posChangeX = 1;
+		posChangeX += 1;
 
 	if (Input::IsKeyDown(Key::W))
-		posChangeY = 1;
+		posChangeY += 1;
 
 	if (Input::IsKeyDown(Key::S))
-		posChangeY = -1;
+		posChangeY -= 1;
+
+	if (Input::IsKeyDown(Key::Q))
+		posChangeZ += 1;
+
+	if (Input::IsKeyDown(Key::E))
+		posChangeZ += -1;
 
 	squareAnim.GetAnimation()->Update();
 
-	squareAnim.SetPosition(squareAnim.GetPosition().x + posChangeX, squareAnim.GetPosition().y + posChangeY, 0);
-	//glm::vec3 asd = squareAnim.GetPosition().x;
+	//squareAnim.SetPosition(squareAnim.GetPosition().x + posChangeX, squareAnim.GetPosition().y + posChangeY, 0);
 
-	cout << "Position: " << squareAnim.GetPosition().x << ", " << squareAnim.GetPosition().y << ", " << squareAnim.GetPosition().z << endl;
+	squareAnim.SetRotation(squareAnim.GetRotation().x + posChangeX, squareAnim.GetRotation().y + posChangeY, squareAnim.GetRotation().z + posChangeZ);
 
-
-	triangle1.SetScale(1.0f, 1.0f, 1.0f);
-
-	//float right = sX + sWidth + square.GetX();
-
-	//if (right >= screenWidth)
-	//{
-	//	square.Translate(0.0f, 1.0f, 0.0f);
-	//}
-	//else
-	//{
-	//	square.Translate(1.0f, 0.0f, 0.0f);
-	//}
-	//square.Draw();
-	//triangle1.Draw();
+	//cout << "Position: " << squareAnim.GetPosition().x << ", " << squareAnim.GetPosition().y << ", " << squareAnim.GetPosition().z << endl;
 
 	squareAnim.Draw();
 }

@@ -30,8 +30,8 @@ int Animation::GetCurrentFrameIndex()
 
 void Animation::AddFrame(float frameX, float frameY, float frameWidth, float frameHeight, float textureWidth, float textureHeight, float durationInSecs)
 {
-	if (!frames.empty())	
-		frames.clear();	
+	if (!frames.empty())
+		frames.clear();
 
 	totalDuration = durationInSecs * 1000.0f;
 
@@ -61,18 +61,18 @@ void Animation::AddFrames(float frameX, float frameY, float frameWidth, float fr
 	for (int i = 0; i < framesCount; i++)
 	{
 		Frame newFrame;
+		//Top right
 		newFrame.frameCoords[0].u = (frameX + offsetX) / textureWidth;
 		newFrame.frameCoords[0].v = (frameY + frameHeight) / textureHeight;
-
-		newFrame.frameCoords[1].u = (frameX + offsetX + frameWidth) / textureWidth;
-		newFrame.frameCoords[1].v = (frameY + frameHeight) / textureHeight;
-
-		newFrame.frameCoords[2].u = (frameX + offsetX) / textureWidth;
+		//Bottom right
+		newFrame.frameCoords[1].u = (frameX + offsetX) / textureWidth;
+		newFrame.frameCoords[1].v = frameY / textureHeight;
+		//Bottom left
+		newFrame.frameCoords[2].u = (frameX + offsetX + frameWidth) / textureWidth;
 		newFrame.frameCoords[2].v = frameY / textureHeight;
-
+		//Top left
 		newFrame.frameCoords[3].u = (frameX + offsetX + frameWidth) / textureWidth;
-		newFrame.frameCoords[3].v = frameY / textureHeight;
-
+		newFrame.frameCoords[3].v = (frameY + frameHeight) / textureHeight;
 		frames.push_back(newFrame);
 		offsetX += frameWidth;
 	}
@@ -88,6 +88,14 @@ void Animation::Update()
 	while (currentTime > totalDuration)
 		currentTime -= totalDuration;
 
+	lastFrameIndex = currentFrameIndex;
+
 	float frameDuration = totalDuration / frames.size();
 	currentFrameIndex = static_cast<int>(currentTime / frameDuration);
+}
+
+
+bool Animation::HasFrameChanged()
+{
+	return lastFrameIndex != currentFrameIndex;
 }

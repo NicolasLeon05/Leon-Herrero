@@ -22,7 +22,6 @@ protected:
 	unsigned int EBO;
 	unsigned int VAO;
 
-	glm::vec3 CalculateCenter();
 
 public:
 	Entity();

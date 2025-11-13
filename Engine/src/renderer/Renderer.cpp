@@ -30,7 +30,7 @@ void Renderer::MakeContextCurrent(Window window)
 {
 	glfwMakeContextCurrent(window.GetGlfwWindow());
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void Renderer::Clear()
@@ -45,12 +45,12 @@ void Renderer::SwapBuffers(Window window)
 }
 void Renderer::SetMVP(Window window)
 {
-	glm::mat4 view = lookAt(glm::vec3(0.0f, 0.0f, 0.1f),
-		glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 view = lookAt(glm::vec3(0.0f, 0.0f, 10.0f), //Position
+		glm::vec3(0.0f, 0.0f, 0.0f), //Target
+		glm::vec3(0.0f, 1.0f, 0.0f)); //Transform Up
 	glm::mat4 proj = glm::ortho(0.0f, float(window.GetWidth()), 0.0f, float(window.GetHeight()), -0.1f, 100.0f);
 
-	mvp = proj * view ;
+	mvp = proj * view;
 }
 
 bool Renderer::IsInEntities(Entity2D* entity)
@@ -66,25 +66,43 @@ bool Renderer::IsInEntities(Entity2D* entity)
 	return false;
 }
 
+void Renderer::GenBuffers(Entity2D& entity2D)
+{
+	glGenVertexArrays(1, entity2D.GetVAO());
+	glGenBuffers(1, entity2D.GetVBO());
+	glGenBuffers(1, entity2D.GetEBO());
+
+	Sprite* sprite = dynamic_cast<Sprite*>(&entity2D);
+	if (sprite != nullptr)
+	{
+		unsigned int* texture = sprite->GetTexture();
+		glGenTextures(1, texture);
+	}
+}
+
+void Renderer::BindBuffers(Entity2D& entity2D)
+{
+	glBindVertexArray(*entity2D.GetVAO());
+
+	glBindBuffer(GL_ARRAY_BUFFER, *entity2D.GetVBO());
+	glBufferData(GL_ARRAY_BUFFER, entity2D.GetVerticesSize(),
+		entity2D.GetVertices(), GL_STREAM_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *entity2D.GetEBO());
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, entity2D.GetIndicesSize(),
+		entity2D.GetIndices(), GL_STREAM_DRAW);
+
+	Sprite* sprite = dynamic_cast<Sprite*>(&entity2D);
+	if (sprite != nullptr)
+	{
+		glBindTexture(GL_TEXTURE_2D, *sprite->GetTexture());
+	}
+}
+
 void Renderer::InitShapeBuffers(Shape& shape)
 {
-	unsigned int* VBO = shape.GetVBO();
-	unsigned int* EBO = shape.GetEBO();
-	unsigned int* VAO = shape.GetVAO();
-
-	glGenVertexArrays(1, VAO);
-	glGenBuffers(1, VBO);
-	glGenBuffers(1, EBO);
-
-	glBindVertexArray(*VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, *VBO);
-	glBufferData(GL_ARRAY_BUFFER, shape.GetVerticesSize(),
-		shape.GetVertices(), GL_STREAM_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.GetIndicesSize(),
-		shape.GetIndices(), GL_STREAM_DRAW);
+	GenBuffers(shape);
+	BindBuffers(shape);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 7, 0);
 	glEnableVertexAttribArray(0);
@@ -95,23 +113,8 @@ void Renderer::InitShapeBuffers(Shape& shape)
 
 void Renderer::InitSpriteBuffers(Sprite& sprite)
 {
-	unsigned int* VBO = sprite.GetVBO();
-	unsigned int* EBO = sprite.GetEBO();
-	unsigned int* VAO = sprite.GetVAO();
-
-	glGenVertexArrays(1, VAO);
-	glGenBuffers(1, VBO);
-	glGenBuffers(1, EBO);
-
-	glBindVertexArray(*VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, *VBO);
-	glBufferData(GL_ARRAY_BUFFER, sprite.GetVerticesSize(),
-		sprite.GetVertices(), GL_STREAM_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sprite.GetIndicesSize(),
-		sprite.GetIndices(), GL_STREAM_DRAW);
+	GenBuffers(sprite);
+	BindBuffers(sprite);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, 0);
 	glEnableVertexAttribArray(0);
@@ -122,16 +125,12 @@ void Renderer::InitSpriteBuffers(Sprite& sprite)
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(sizeof(float) * 7));
 	glEnableVertexAttribArray(2);
 
-	unsigned int* texture = sprite.GetTexture();
-	glGenTextures(1, texture);
-	glBindTexture(GL_TEXTURE_2D, *sprite.GetTexture());
-
 	// set the texture wrapping/filtering options (on the currently bound texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	
+
 	// load and generate the texture
 	int width = sprite.GetTextureWidth();
 	int height = sprite.GetTextureHeight();
@@ -142,7 +141,7 @@ void Renderer::InitSpriteBuffers(Sprite& sprite)
 
 	stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(sprite.GetTexturePath().c_str(), &width, &height, &nrChannels, 4);
-	
+
 	if (data)
 	{
 		cout << "Texture loaded succesfully" << endl;

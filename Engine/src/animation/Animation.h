@@ -12,6 +12,7 @@ private:
 	float totalDuration;
 	std::vector<Frame> frames;
 	int currentFrameIndex;
+	int lastFrameIndex;
 
 public:
 	ENGINE_API Animation();
@@ -32,4 +33,6 @@ public:
 		float durationInSecs, int framesCount);
 
 	ENGINE_API void Update();
+
+	bool HasFrameChanged();
 };

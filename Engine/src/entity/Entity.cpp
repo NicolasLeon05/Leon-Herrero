@@ -1,26 +1,5 @@
 #include "Entity.h"
 
-glm::vec3 Entity::CalculateCenter()
-{
-	float minX = verticesData[0], maxX = verticesData[0];
-	float minY = verticesData[1], maxY = verticesData[1];
-
-	for (int i = 0; i < verticesData.size(); i += 9)
-	{
-		float x = verticesData[i];
-		float y = verticesData[i + 1];
-
-		if (x < minX) minX = x;
-		if (x > maxX) maxX = x;
-		if (y < minY) minY = y;
-		if (y > maxY) maxY = y;
-	}
-
-	float centerX = (minX + maxX) / 2.0f;
-	float centerY = (minY + maxY) / 2.0f;
-
-	return glm::vec3(centerX, centerY, 0.0f);
-}
 
 Entity::Entity()
 {
@@ -79,17 +58,10 @@ void Entity::SetPosition(float x, float y, float z)
 
 void Entity::SetRotation(float x, float y, float z)
 {
-	rotation = glm::mat4(1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		0, 0, 0, 1);
-	glm::vec3 center = CalculateCenter();
-
-	rotation = glm::translate(rotation, center);
+	rotation = glm::mat4(1);
 	rotation = glm::rotate(rotation, glm::radians(x), glm::vec3(1, 0, 0));
 	rotation = glm::rotate(rotation, glm::radians(y), glm::vec3(0, 1, 0));
 	rotation = glm::rotate(rotation, glm::radians(z), glm::vec3(0, 0, 1));
-	rotation = glm::translate(rotation, -center);
 
 	UpdateTRS();
 }

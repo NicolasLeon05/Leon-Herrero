@@ -14,7 +14,7 @@ private:
 
 	void Init();
 
-	Animation animation;
+	Animation* animation;
 
 	unsigned int texture;
 	string texturePath;

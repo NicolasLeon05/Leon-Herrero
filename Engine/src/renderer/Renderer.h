@@ -28,6 +28,8 @@ public:
 	static void SwapBuffers(Window window);
 	static void SetMVP(Window window);
 	static bool IsInEntities(Entity2D* entity);
+	static void GenBuffers(Entity2D& entity2D);
+	static void BindBuffers(Entity2D& entity2D);
 	static void InitShapeBuffers(Shape& shape);
 	static void InitSpriteBuffers(Sprite& sprite);
 	static void PollEvents();
