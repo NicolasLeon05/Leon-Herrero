@@ -123,6 +123,11 @@ float Entity::GetZ()
 	return translation.z;
 }
 
+void Entity::Update()
+{
+
+}
+
 void Entity::Draw()
 {
 

@@ -5,6 +5,7 @@
 #include "BaseGame.h"
 #include "window/Window.h"
 #include "input/Input.h"
+#include "clock/Clock.h"
 #include "glm.hpp"
 
 class Game : public BaseGame
@@ -54,34 +55,38 @@ void Game::InitGame()
 
 void Game::Update()
 {
+	float deltaTime = MyClock::GetDeltaTime();
+
 	//posChangeX = 0.0f;
 	//posChangeY = 0.0f;
 	//triangle1.SetRotatation(0.0f, 0.0f, rotation);
 
 	//Multiplicar pos change por deltatime
 	if (Input::IsKeyDown(Key::A))
-		posChangeX += -1;
+		posChangeX -= 0.01 * deltaTime;
 
 	if (Input::IsKeyDown(Key::D))
 		posChangeX += 1;
+		posChangeX += 0.01 * deltaTime;
 
 	if (Input::IsKeyDown(Key::W))
 		posChangeY += 1;
+		posChangeY += 0.01 * deltaTime;
 
 	if (Input::IsKeyDown(Key::S))
-		posChangeY -= 1;
+		posChangeY -= 0.01 * deltaTime;
 
 	if (Input::IsKeyDown(Key::Q))
-		posChangeZ += 1;
+		posChangeZ += 0.01 * deltaTime;
 
 	if (Input::IsKeyDown(Key::E))
-		posChangeZ += -1;
+		posChangeZ -= 0.01 * deltaTime;
 
 	squareAnim.GetAnimation()->Update();
 
-	//squareAnim.SetPosition(squareAnim.GetPosition().x + posChangeX, squareAnim.GetPosition().y + posChangeY, 0);
+	squareAnim.SetPosition(squareAnim.GetPosition().x + posChangeX, squareAnim.GetPosition().y + posChangeY, 0);
 
-	squareAnim.SetRotation(squareAnim.GetRotation().x + posChangeX, squareAnim.GetRotation().y + posChangeY, squareAnim.GetRotation().z + posChangeZ);
+	//squareAnim.SetRotation(squareAnim.GetRotation().x + posChangeX, squareAnim.GetRotation().y + posChangeY, squareAnim.GetRotation().z + posChangeZ);
 
 	//cout << "Position: " << squareAnim.GetPosition().x << ", " << squareAnim.GetPosition().y << ", " << squareAnim.GetPosition().z << endl;
 

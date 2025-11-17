@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include "../EngineAPI.h"
 
 typedef std::chrono::high_resolution_clock Clock;
 typedef std::chrono::time_point<Clock> TimePoint;
@@ -22,5 +23,5 @@ public:
 
 	static void UpdateDeltaTime();
 
-	static float GetDeltaTime();
+	ENGINE_API static float GetDeltaTime();
 };
