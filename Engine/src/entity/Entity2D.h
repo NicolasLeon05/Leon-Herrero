@@ -15,5 +15,8 @@ public:
 	Material& GetMaterial();
 	void SetMaterial();
 
+	float GetCollisionWidth();
+	float GetCollisionHeight();
+
 	virtual void Draw();
 };

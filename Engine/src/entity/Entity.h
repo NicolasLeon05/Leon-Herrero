@@ -13,6 +13,7 @@ protected:
 
 	glm::mat4 trs;
 	glm::vec3 translation;
+	glm::vec3 prevPosition;
 	glm::mat4 rotation;
 	glm::vec3 scale;
 
@@ -32,12 +33,14 @@ public:
 
 	glm::mat4 GetTRS();
 	ENGINE_API glm::vec3 GetPosition();
+	ENGINE_API glm::vec3 GetPrevPosition();
 	ENGINE_API glm::vec3 GetRotation();
 	ENGINE_API glm::vec3 GetScale();
 
 	void UpdateTRS();
 
 	ENGINE_API void SetPosition(float x, float y, float z);
+	ENGINE_API void SetPosition(glm::vec3 position);
 	ENGINE_API void SetRotation(float x, float y, float z);
 	ENGINE_API void SetScale(float x, float y, float z);
 

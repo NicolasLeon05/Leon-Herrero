@@ -88,10 +88,10 @@ void Shape::CreateTriangle(glm::vec3 pos, float width, float height, glm::vec4 c
 {
 	verticesData =
 	{
-		// position			/color								/ uv's
-		 0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, 1.0f, 1.0f, // top right
-		 0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, 1.0f, 0.0f, // bottom right
-		-0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 0.0f, // bottom left
+		// position			/color								
+		 0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, // top right
+		 0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, // bottom right
+		-0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a // bottom left
 	};
 	indices =
 	{  // note that we start from 0!
@@ -139,11 +139,11 @@ void Shape::CreateSquare(glm::vec3 pos, float width, float height, glm::vec4 col
 
 	verticesData =
 	{
-		// position			/color								/ uv's
-		 0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, 1.0f, 1.0f, // top right
-		 0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, 1.0f, 0.0f, // bottom right
-		-0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 0.0f, // bottom left
-		-0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 1.0f  // top left 
+		// position			/color							
+		 0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, // top right
+		 0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, // bottom right
+		-0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, // bottom left
+		-0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a // top left 
 	};
 	indices =
 	{  // note that we start from 0!

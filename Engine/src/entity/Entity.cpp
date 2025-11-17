@@ -4,6 +4,7 @@
 Entity::Entity()
 {
 	translation = glm::vec3(1.0f);
+	prevPosition  = glm::vec3(-1.0f);
 	rotation = glm::mat4(1.0f);
 	scale = glm::vec3(1.0f);
 	UpdateTRS();
@@ -39,6 +40,11 @@ glm::vec3 Entity::GetPosition()
 	return translation;
 }
 
+glm::vec3 Entity::GetPrevPosition()
+{
+	return prevPosition;
+}
+
 glm::vec3 Entity::GetRotation()
 {
 	return glm::vec3(rotation[0][0], rotation[1][1], rotation[2][2]);
@@ -51,8 +57,15 @@ glm::vec3 Entity::GetScale()
 
 void Entity::SetPosition(float x, float y, float z)
 {
+	prevPosition = translation;
 	translation = glm::vec3(x, y, z);
+	UpdateTRS();
+}
 
+void Entity::SetPosition(glm::vec3 position)
+{
+	prevPosition = translation;
+	translation = position;
 	UpdateTRS();
 }
 

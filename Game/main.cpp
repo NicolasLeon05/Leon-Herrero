@@ -11,6 +11,7 @@
 class Game : public BaseGame
 {
 public:
+
 	void InitGame() override;
 	void Update() override;
 	void DeInitGame() override;
@@ -49,8 +50,9 @@ void main()
 
 void Game::InitGame()
 {
-	//square.SetTexture("texture.jpg", 301, 167);
-	//square.CreateSquare(v7, sWidth, sHeight, Color::WHITE);
+	square.SetTexture("texture.jpg", 301, 167);
+	glm::vec3 position1 = { 600.0f, 600.0f, 0.0f };
+	square.CreateSquare(position1, sWidth, sHeight);
 
 	squareAnim.SetTexture("pokemon.png", 256, 256);
 	glm::vec3 position = { 300.0f, 300.0f, 0.0f };
@@ -60,61 +62,80 @@ void Game::InitGame()
 
 	squareAnim.CreateSquare(position, 200.0f, 200.0f);
 	squareAnim.SetAnimation(&walkRight);
+
+	triangle1.CreateTriangle(glm::vec3(10.0f, 10.0f, 0.0f), 100.0f, 100.0f, glm::vec4(0.5f, 0.0f, 0.5f, 1));
 }
 
 void Game::Update()
 {
 	float deltaTime = MyClock::GetDeltaTime();
 
-	//posChangeX = 0.0f;
-	//posChangeY = 0.0f;
+	float speed = 0.5f;
+
+	posChangeX = 0.0f;
+	posChangeY = 0.0f;
+
+	if (squareAnim.GetX() - sWidth / 2 > screenWidth)
+	{
+		squareAnim.SetX(-sWidth / 2);
+	}
+	if (squareAnim.GetX() + sWidth / 2 < 0)
+	{
+		squareAnim.SetX(screenWidth + sWidth / 2);
+	}
+
 	//triangle1.SetRotatation(0.0f, 0.0f, rotation);
 
 	//Multiplicar pos change por deltatime
 	if (Input::IsKeyDown(Key::A))
-		posChangeX -= 0.01 * deltaTime;
+		posChangeX = -speed * deltaTime;
 
 	if (Input::IsKeyDown(Key::D))
 	{
-		posChangeX += 0.01 * deltaTime;
+		posChangeX = speed * deltaTime;
 
 		currentAnim = &walkRight;
 
 		if (squareAnim.GetAnimation() != currentAnim)
 			squareAnim.SetAnimation(currentAnim);
-
 	}
 
 	if (Input::IsKeyDown(Key::W))
 	{
-		posChangeY += 0.01 * deltaTime;
+		posChangeY = speed * deltaTime;
 
 		currentAnim = &walkUp;
 
 		if (squareAnim.GetAnimation() != currentAnim)
 			squareAnim.SetAnimation(currentAnim);
-
 	}
 
 	if (Input::IsKeyDown(Key::S))
-		posChangeY -= 0.01 * deltaTime;
+		posChangeY = -speed * deltaTime;
 
 	if (Input::IsKeyDown(Key::Q))
-		posChangeZ += 0.01 * deltaTime;
+		posChangeZ += speed * deltaTime;
 
 	if (Input::IsKeyDown(Key::E))
-		posChangeZ -= 0.01 * deltaTime;
+		posChangeZ -= speed * deltaTime;
 
 	squareAnim.GetAnimation()->Update();
 
 	squareAnim.SetPosition(squareAnim.GetPosition().x + posChangeX, squareAnim.GetPosition().y + posChangeY, 0);
 
-	//squareAnim.SetRotation(squareAnim.GetRotation().x + posChangeX, squareAnim.GetRotation().y + posChangeY, squareAnim.GetRotation().z + posChangeZ);
+	collisionManager.CheckCollision(&squareAnim, &square);
+	collisionManager.CheckCollision(&squareAnim, &triangle1);
+
+	squareAnim.SetRotation(0.0f, 0.0f, squareAnim.GetRotation().z + posChangeZ);
 
 	//cout << "Position: " << squareAnim.GetPosition().x << ", " << squareAnim.GetPosition().y << ", " << squareAnim.GetPosition().z << endl;
 
 	squareAnim.Update();
 	squareAnim.Draw();
+
+	square.Draw();
+
+	triangle1.Draw();
 }
 
 void Game::DeInitGame()

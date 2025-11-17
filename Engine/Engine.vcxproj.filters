@@ -66,6 +66,9 @@
     <ClCompile Include="src\input\Input.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="src\CollisionManager\CollisionManager.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\window\Window.h">
@@ -122,9 +125,13 @@
     <ClInclude Include="src\input\Input.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="src\CollisionManager\CollisionManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\material\Basic.shader" />
     <None Include="src\material\Texture.shader" />
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
