@@ -121,6 +121,27 @@ unsigned int* Entity::GetIndices()
 	return &indices[0];
 }
 
+void Entity::SetX(float x)
+{
+	translation.x = x;
+
+	UpdateTRS();
+}
+
+void Entity::SetY(float y)
+{
+	translation.y = y;
+
+	UpdateTRS();
+}
+
+void Entity::SetZ(float z)
+{
+	translation.z = z;
+
+	UpdateTRS();
+}
+
 float Entity::GetX()
 {
 	return translation.x;

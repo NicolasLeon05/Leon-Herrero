@@ -51,6 +51,10 @@ public:
 	int GetIndicesCount();
 	unsigned int* GetIndices();
 
+	ENGINE_API void SetX(float x);
+	ENGINE_API void SetY(float y);
+	ENGINE_API void SetZ(float z);
+
 	ENGINE_API float GetX();
 	ENGINE_API float GetY();
 	ENGINE_API float GetZ();
