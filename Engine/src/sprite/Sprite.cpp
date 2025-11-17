@@ -4,93 +4,12 @@
 
 //------------------------------------------------ PRIVATE -----------------------------------------------------
 
-//void Sprite::CreateSquare(Vertex pos, float width, float height)
-//{
-//	//verticesData.resize(36);
-//	//indices.resize(6);
-//	//
-//	//verticesData[0] = one.GetPosX();
-//	//verticesData[1] = one.GetPosY();
-//	//verticesData[2] = one.GetPosZ();
-//	//verticesData[3] = one.GetR();
-//	//verticesData[4] = one.GetG();
-//	//verticesData[5] = one.GetB();
-//	//verticesData[6] = one.GetA();
-//	////verticesData[7] = 0.0f;
-//	////verticesData[8] = 1.0f;
-//	//verticesData[7] = animation.GetFrames()[0].frameCoords[0].u;
-//	//verticesData[8] = animation.GetFrames()[0].frameCoords[0].v;
-//	//
-//	//verticesData[9] = two.GetPosX();
-//	//verticesData[10] = two.GetPosY();
-//	//verticesData[11] = two.GetPosZ();
-//	//verticesData[12] = two.GetR();
-//	//verticesData[13] = two.GetG();
-//	//verticesData[14] = two.GetB();
-//	//verticesData[15] = two.GetA();
-//	////verticesData[16] = 1.0f;
-//	////verticesData[17] = 1.0f;
-//	//verticesData[16] = animation.GetFrames()[0].frameCoords[1].u;
-//	//verticesData[17] = animation.GetFrames()[0].frameCoords[1].v;
-//	//
-//	//verticesData[18] = three.GetPosX();
-//	//verticesData[19] = three.GetPosY();
-//	//verticesData[20] = three.GetPosZ();
-//	//verticesData[21] = three.GetR();
-//	//verticesData[22] = three.GetG();
-//	//verticesData[23] = three.GetB();
-//	//verticesData[24] = three.GetA();
-//	////verticesData[25] = 0.0f;
-//	////verticesData[26] = 0.0f;
-//	//verticesData[25] = animation.GetFrames()[0].frameCoords[2].u;
-//	//verticesData[26] = animation.GetFrames()[0].frameCoords[2].v;
-//	//
-//	//verticesData[27] = four.GetPosX();
-//	//verticesData[28] = four.GetPosY();
-//	//verticesData[29] = four.GetPosZ();
-//	//verticesData[30] = four.GetR();
-//	//verticesData[31] = four.GetG();
-//	//verticesData[32] = four.GetB();
-//	//verticesData[33] = four.GetA();
-//	////verticesData[34] = 1.0f;
-//	////verticesData[35] = 0.0f;
-//	//verticesData[34] = animation.GetFrames()[0].frameCoords[3].u;
-//	//verticesData[35] = animation.GetFrames()[0].frameCoords[3].v;
-//	//
-//	//indices[0] = 0;
-//	//indices[1] = 1;
-//	//indices[2] = 2;
-//	//indices[3] = 1;
-//	//indices[4] = 3;
-//	//indices[5] = 2;
-//
-//	verticesData = {
-//	// position			/color					/ uv's
-//	 0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, // top right
-//	 0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, // bottom right
-//	-0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, // bottom left
-//	-0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f  // top left 
-//	};
-//	indices = {  // note that we start from 0!
-//		0, 1, 3,   // first triangle
-//		1, 2, 3    // second triangle
-//	};
-//
-//	if (!Renderer::IsInEntities(this))
-//	{
-//		Renderer::entities.push_back(this);
-//	}
-//}
-
 void Sprite::Init()
 {
 	Renderer::InitSpriteBuffers(*this);
 	GetMaterial().SetFilepath("Texture.shader");
 	SetMaterial();
 	GetMaterial().InitShader();
-
-	//SetPosition(CalculateCenter().x, CalculateCenter().y, 0);
-	//SetPosition(verticesData[0], verticesData[1], 0.0f);
 
 	std::cout << "Vertex" << std::endl;
 	std::cout << GetMaterial().GetVertexSource() << std::endl;
@@ -143,35 +62,10 @@ void Sprite::CreateTriangle(glm::vec3 pos, float width, float height, glm::vec4 
 	SetPosition(pos.x, pos.y, pos.z);
 }
 
-//void Sprite::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color)
-//{
-//	CreateTriangle(one, two, three);
-//
-//	one.SetColor(color);
-//	two.SetColor(color);
-//	three.SetColor(color);
-//
-//	Init();
-//}
-
-//void Sprite::CreateTriangle(Vertex one, Vertex two, Vertex three, Color color, float alpha)
-//{
-//	CreateTriangle(one, two, three);
-//
-//	one.SetColor(color, alpha);
-//	two.SetColor(color, alpha);
-//	three.SetColor(color, alpha);
-//
-//	Init();
-//}
-
 void Sprite::CreateSquare(glm::vec3 pos, float width, float height, glm::vec4 color)
 {
 	// one is the upper left side vertex
-	//Vertex two = Vertex(one.GetPosX() + width, one.GetPosY(), one.GetPosZ(), one.GetColor());
-	//Vertex three = Vertex(one.GetPosX(), one.GetPosY() - height, one.GetPosZ(), one.GetColor());
-	//Vertex four = Vertex(one.GetPosX() + width, one.GetPosY() - height, one.GetPosZ(), one.GetColor());
-
+	
 	verticesData =
 	{
 		// position			/color								/ uv's
@@ -236,34 +130,6 @@ void Sprite::SetTriangleVertexColor(glm::vec4 colors[4])
 	verticesData[23] = colors[2].b;
 	verticesData[24] = colors[2].a;
 }
-
-
-//void Sprite::CreateSquare(Vertex one, float width, float height, Color color)
-//{
-//	// one is the upper left side vertex
-//	one.SetColor(color);
-//	Vertex two = Vertex(one.GetPosX() + width, one.GetPosY(), one.GetPosZ(), color);
-//	Vertex three = Vertex(one.GetPosX(), one.GetPosY() - height, one.GetPosZ(), color);
-//	Vertex four = Vertex(one.GetPosX() + width, one.GetPosY() - height, one.GetPosZ(), color);
-//
-//	CreateSquare(one, two, three, four);
-//
-//	Init();
-//}
-
-//void Sprite::CreateSquare(Vertex one, float width, float height, Color color, float alpha)
-//{
-//	// one is the upper left side vertex
-//	one.SetColor(color, alpha);
-//	Vertex two = Vertex(one.GetPosX() + width, one.GetPosY(), one.GetPosZ(), color, alpha);
-//	Vertex three = Vertex(one.GetPosX(), one.GetPosY() - height, one.GetPosZ(), color, alpha);
-//	Vertex four = Vertex(one.GetPosX() + width, one.GetPosY() - height, one.GetPosZ(), color, alpha);
-//
-//	CreateSquare(one, two, three, four);
-//
-//	Init();
-//}
-
 void Sprite::SetAnimation(Animation* anim)
 {
 	anim->Reset();
@@ -280,7 +146,6 @@ void Sprite::SetTexture(string path, int texWidth, int texHeight)
 	texturePath = path;
 	textureWidth = texWidth;
 	textureHeight = texHeight;
-	//animation.AddFrame(0, 0, textureWidth, textureHeight, textureWidth, textureHeight, 1);
 }
 
 string Sprite::GetTexturePath()
