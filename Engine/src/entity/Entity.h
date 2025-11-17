@@ -22,7 +22,6 @@ protected:
 	unsigned int EBO;
 	unsigned int VAO;
 
-
 public:
 	Entity();
 	~Entity();
@@ -52,6 +51,8 @@ public:
 	ENGINE_API float GetX();
 	ENGINE_API float GetY();
 	ENGINE_API float GetZ();
+
+	virtual void Update();
 
 	virtual void Draw() = 0;
 };

@@ -34,5 +34,7 @@ public:
 
 	ENGINE_API void Update();
 
+	void Reset();
+
 	bool HasFrameChanged();
 };

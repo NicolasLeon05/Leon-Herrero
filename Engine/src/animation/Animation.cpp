@@ -11,6 +11,7 @@ Animation::Animation()
 	totalDuration = 0.0f;
 	frames = std::vector<Frame>();
 	currentFrameIndex = 0;
+	lastFrameIndex = 0;
 }
 
 Animation::~Animation()
@@ -92,6 +93,14 @@ void Animation::Update()
 
 	float frameDuration = totalDuration / frames.size();
 	currentFrameIndex = static_cast<int>(currentTime / frameDuration);
+}
+
+void Animation::Reset()
+{
+	currentTime = 0.0f;
+	lastTime = 0.0f;
+	currentFrameIndex = 0;
+	lastFrameIndex = -1;
 }
 
 

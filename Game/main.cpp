@@ -34,6 +34,11 @@ float posChangeX = 0;
 float posChangeY = 0;
 float posChangeZ = 0;
 
+Animation walkUp;
+Animation walkRight;
+
+Animation* currentAnim;
+
 void main()
 {
 	Window window = Window(screenWidth, screenHeight, "Engine");
@@ -49,8 +54,12 @@ void Game::InitGame()
 
 	squareAnim.SetTexture("pokemon.png", 256, 256);
 	glm::vec3 position = { 300.0f, 300.0f, 0.0f };
+
+	walkUp.AddFrames(0, 256, 64, 64, 256, 256, 1, 4);
+	walkRight.AddFrames(0, 128, 64, 64, 256, 256, 1, 4);
+
 	squareAnim.CreateSquare(position, 200.0f, 200.0f);
-	squareAnim.GetAnimation()->AddFrames(0, 128, 64, 64, 256, 256, 1, 4);
+	squareAnim.SetAnimation(&walkRight);
 }
 
 void Game::Update()
@@ -66,12 +75,26 @@ void Game::Update()
 		posChangeX -= 0.01 * deltaTime;
 
 	if (Input::IsKeyDown(Key::D))
-		posChangeX += 1;
+	{
 		posChangeX += 0.01 * deltaTime;
 
+		currentAnim = &walkRight;
+
+		if (squareAnim.GetAnimation() != currentAnim)
+			squareAnim.SetAnimation(currentAnim);
+
+	}
+
 	if (Input::IsKeyDown(Key::W))
-		posChangeY += 1;
+	{
 		posChangeY += 0.01 * deltaTime;
+
+		currentAnim = &walkUp;
+
+		if (squareAnim.GetAnimation() != currentAnim)
+			squareAnim.SetAnimation(currentAnim);
+
+	}
 
 	if (Input::IsKeyDown(Key::S))
 		posChangeY -= 0.01 * deltaTime;
@@ -90,6 +113,7 @@ void Game::Update()
 
 	//cout << "Position: " << squareAnim.GetPosition().x << ", " << squareAnim.GetPosition().y << ", " << squareAnim.GetPosition().z << endl;
 
+	squareAnim.Update();
 	squareAnim.Draw();
 }
 

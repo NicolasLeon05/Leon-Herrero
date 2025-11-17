@@ -264,6 +264,12 @@ void Sprite::SetTriangleVertexColor(glm::vec4 colors[4])
 //	Init();
 //}
 
+void Sprite::SetAnimation(Animation* anim)
+{
+	anim->Reset();
+	this->animation = anim;
+}
+
 unsigned int* Sprite::GetTexture()
 {
 	return &texture;
@@ -297,36 +303,45 @@ int Sprite::GetTextureHeight()
 	return textureHeight;
 }
 
-void Sprite::Draw()
+void Sprite::Update()
 {
-	animation->Update(); // actualiza el currentFrameIndex
 	if (animation != nullptr)
 	{
-		int frameIndex = animation->GetCurrentFrameIndex();
-		Frame frame = animation->GetFrames()[frameIndex];
+		animation->Update(); // actualiza el currentFrameIndex
 
-		// Actualizamos solo los UVs
-		verticesData[7] = frame.frameCoords[0].u;
-		verticesData[8] = frame.frameCoords[0].v;
+		if (animation->HasFrameChanged())
+		{
+			int frameIndex = animation->GetCurrentFrameIndex();
+			Frame frame = animation->GetFrames()[frameIndex];
 
-		verticesData[16] = frame.frameCoords[1].u;
-		verticesData[17] = frame.frameCoords[1].v;
+			// Actualizamos solo los UVs
+			verticesData[7] = frame.frameCoords[0].u;
+			verticesData[8] = frame.frameCoords[0].v;
 
-		verticesData[25] = frame.frameCoords[2].u;
-		verticesData[26] = frame.frameCoords[2].v;
+			verticesData[16] = frame.frameCoords[1].u;
+			verticesData[17] = frame.frameCoords[1].v;
 
-		verticesData[34] = frame.frameCoords[3].u;
-		verticesData[35] = frame.frameCoords[3].v;
+			verticesData[25] = frame.frameCoords[2].u;
+			verticesData[26] = frame.frameCoords[2].v;
 
-		std::cout << "Frame Coords:" << std::endl;
-		std::cout << "  0: (" << frame.frameCoords[0].u << ", " << frame.frameCoords[0].v << ")" << std::endl;
-		std::cout << "  1: (" << frame.frameCoords[1].u << ", " << frame.frameCoords[1].v << ")" << std::endl;
-		std::cout << "  2: (" << frame.frameCoords[2].u << ", " << frame.frameCoords[2].v << ")" << std::endl;
-		std::cout << "  3: (" << frame.frameCoords[3].u << ", " << frame.frameCoords[3].v << ")" << std::endl;
+			verticesData[34] = frame.frameCoords[3].u;
+			verticesData[35] = frame.frameCoords[3].v;
+
+			Renderer::BindBuffers(*this);
+
+			std::cout << "Frame Coords:" << std::endl;
+			std::cout << "  0: (" << frame.frameCoords[0].u << ", " << frame.frameCoords[0].v << ")" << std::endl;
+			std::cout << "  1: (" << frame.frameCoords[1].u << ", " << frame.frameCoords[1].v << ")" << std::endl;
+			std::cout << "  2: (" << frame.frameCoords[2].u << ", " << frame.frameCoords[2].v << ")" << std::endl;
+			std::cout << "  3: (" << frame.frameCoords[3].u << ", " << frame.frameCoords[3].v << ")" << std::endl;
+
+		}
 
 	}
+}
 
-	Renderer::BindBuffers(*this);
+void Sprite::Draw()
+{
 	GetMaterial().UseShader();
 	Renderer::Draw(this, GetIndicesCount());
 }

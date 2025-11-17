@@ -34,6 +34,7 @@ public:
 	ENGINE_API void SetSquareVertexColor(glm::vec4 colors[4]);
 	ENGINE_API void SetTriangleVertexColor(glm::vec4 colors[4]);
 
+	ENGINE_API void SetAnimation(Animation* animation);
 	unsigned int *GetTexture();
 	ENGINE_API void SetTexture(string path, int texWidth, int texHeight);
 	string GetTexturePath();
@@ -41,6 +42,8 @@ public:
 
 	int GetTextureWidth();
 	int GetTextureHeight();
+
+	ENGINE_API void Update() override;
 
 	ENGINE_API void Draw() override;
 };
