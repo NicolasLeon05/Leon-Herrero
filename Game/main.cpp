@@ -33,7 +33,7 @@ float sY = screenHeight - sHeight;
 
 float posChangeX = 0;
 float posChangeY = 0;
-float posChangeZ = 0;
+float rotationChangeZ = 0;
 
 Animation walkUp;
 Animation walkRight;
@@ -71,9 +71,11 @@ void Game::Update()
 	float deltaTime = MyClock::GetDeltaTime();
 
 	float speed = 0.5f;
+	float rotationSpeed = 0.1f;
 
 	posChangeX = 0.0f;
 	posChangeY = 0.0f;
+	rotationChangeZ = 0.0f;
 
 	if (squareAnim.GetX() - sWidth / 2 > screenWidth)
 	{
@@ -114,10 +116,10 @@ void Game::Update()
 		posChangeY = -speed * deltaTime;
 
 	if (Input::IsKeyDown(Key::Q))
-		posChangeZ += speed * deltaTime;
+		rotationChangeZ = -rotationSpeed * deltaTime;
 
 	if (Input::IsKeyDown(Key::E))
-		posChangeZ -= speed * deltaTime;
+		rotationChangeZ = rotationSpeed * deltaTime;
 
 	squareAnim.GetAnimation()->Update();
 
@@ -126,9 +128,9 @@ void Game::Update()
 	collisionManager.CheckCollision(&squareAnim, &square);
 	collisionManager.CheckCollision(&squareAnim, &triangle1);
 
-	squareAnim.SetRotation(0.0f, 0.0f, squareAnim.GetRotation().z + posChangeZ);
+	squareAnim.SetRotation(0.0f, 0.0f, squareAnim.GetRotation().z + rotationChangeZ);
 
-	//cout << "Position: " << squareAnim.GetPosition().x << ", " << squareAnim.GetPosition().y << ", " << squareAnim.GetPosition().z << endl;
+	cout << "Rotation: " << squareAnim.GetRotation().x << ", " << squareAnim.GetRotation().y << ", " << squareAnim.GetRotation().z << endl;
 
 	squareAnim.Update();
 	squareAnim.Draw();

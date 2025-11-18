@@ -14,4 +14,8 @@ ENGINE_API void CheckCollision(Entity2D* entity,
 
 ENGINE_API void CheckCollision(Entity2D* entity, 
 	std::vector<Entity2D*>others);
+
+private:
+    float CollisionWidthRotated(Entity2D* e);
+	float CollisionHeightRotated(Entity2D* e);
 };
