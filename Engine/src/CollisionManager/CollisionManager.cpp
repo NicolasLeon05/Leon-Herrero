@@ -61,3 +61,39 @@ bool CollisionManager::CheckCollision(Entity2D* entity, std::vector<Entity2D*> o
 	return collided;
 }
 
+void CollisionManager::ResolveCollisionPush(Entity2D* entity, Entity2D* other, float margin)
+{
+    float halfWidthEntity = GetCollisionWidthRotated(entity) * 0.5f;
+    float halfHeightEntity = GetCollisionHeightRotated(entity) * 0.5f;
+
+    float halfWidthOther = GetCollisionWidthRotated(other) * 0.5f;
+    float halfHeightOther = GetCollisionHeightRotated(other) * 0.5f;
+
+    glm::vec3 entityPos = entity->GetPosition();
+    glm::vec3 otherPos = other->GetPosition();
+
+    float deltaX = entityPos.x - otherPos.x;
+    float deltaY = entityPos.y - otherPos.y;
+
+    float penetrationX = (halfWidthEntity + halfWidthOther) - fabs(deltaX);
+    float penetrationY = (halfHeightEntity + halfHeightOther) - fabs(deltaY);
+
+    if (penetrationX <= 0 || penetrationY <= 0)
+        return;
+
+    if (penetrationX < penetrationY)
+    {
+        if (deltaX > 0)
+            entity->SetX(entityPos.x + penetrationX + margin);
+        else
+            entity->SetX(entityPos.x - penetrationX - margin);
+    }
+    else
+    {
+        if (deltaY > 0)
+            entity->SetY(entityPos.y + penetrationY + margin);
+        else
+            entity->SetY(entityPos.y - penetrationY - margin);
+    }
+}
+

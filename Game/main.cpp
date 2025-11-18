@@ -42,8 +42,6 @@ Animation walkRight;
 
 Animation* currentAnim;
 
-CollisionManager* colManager;
-
 void main()
 {
 	Window window = Window(screenWidth, screenHeight, "Engine");
@@ -52,46 +50,8 @@ void main()
 	game.RunEngine(window);
 }
 
-void ResolveCollisionPush(Entity2D* entity, Entity2D* other, float margin = 0.0f)
-{
-	float halfW1 = colManager->GetCollisionWidthRotated(entity) * 0.5f;
-	float halfH1 = colManager->GetCollisionHeightRotated(entity) * 0.5f;
-
-	float halfW2 = colManager->GetCollisionWidthRotated(other) * 0.5f;
-	float halfH2 = colManager->GetCollisionHeightRotated(other) * 0.5f;
-
-	glm::vec3 pos1 = entity->GetPosition();
-	glm::vec3 pos2 = other->GetPosition();
-
-	float dx = pos1.x - pos2.x;
-	float px = (halfW1 + halfW2) - fabs(dx);
-
-	float dy = pos1.y - pos2.y;
-	float py = (halfH1 + halfH2) - fabs(dy);
-
-	if (px <= 0 || py <= 0)
-		return;
-
-	if (px < py)
-	{
-		if (dx > 0)
-			entity->SetX(pos1.x + px + margin);
-		else
-			entity->SetX(pos1.x - px - margin);
-	}
-	else
-	{
-		if (dy > 0)
-			entity->SetY(pos1.y + py + margin);
-		else
-			entity->SetY(pos1.y - py - margin);
-	}
-}
-
 void Game::InitGame()
 {
-	colManager = &collisionManager;
-
 	debugAABB.CreateSquare(glm::vec3(0, 0, 0), 200.0f, 200.0f, glm::vec4(1, 0, 0, 0.2f));
 
 	square.SetTexture("texture.jpg", 301, 167);
@@ -170,10 +130,10 @@ void Game::Update()
 	squareAnim.SetPosition(squareAnim.GetPosition().x + posChangeX, squareAnim.GetPosition().y + posChangeY, 0);
 
 	if (collisionManager.CheckCollision(&squareAnim, &square))
-		ResolveCollisionPush(&squareAnim, &square, 2.0f);   // margen de 2px
+		collisionManager.ResolveCollisionPush(&squareAnim, &square, 2.0f);
 
 	if (collisionManager.CheckCollision(&squareAnim, &triangle1))
-		ResolveCollisionPush(&squareAnim, &triangle1, 2.0f);
+		collisionManager.ResolveCollisionPush(&squareAnim, &triangle1, 2.0f);
 
 	squareAnim.SetRotation(0.0f, 0.0f, squareAnim.GetRotation().z + rotationChangeZ);
 
