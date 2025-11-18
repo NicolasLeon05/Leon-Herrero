@@ -125,7 +125,6 @@ void Game::Update()
 	if (Input::IsKeyDown(Key::E))
 		rotationChangeZ = rotationSpeed * deltaTime;
 
-	squareAnim.GetAnimation()->Update();
 	squareAnim.Update();
 
 	squareAnim.SetPosition(squareAnim.GetPosition().x + posChangeX, squareAnim.GetPosition().y + posChangeY, 0);
