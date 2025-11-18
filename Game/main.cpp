@@ -10,6 +10,7 @@
 
 
 void ChangeAnimation(Sprite& sprite, Animation& animation);
+void KeepOnScreen(Entity2D& entity);
 
 class Game : public BaseGame
 {
@@ -67,9 +68,9 @@ void Game::InitGame()
 	walkRight.AddFrames(335, 384, 40, 42, 646, 473, 0.4f, 4);
 	idle.AddFrames(0, 430.5f, 36, 42, 646, 473, 1, 1);
 	push.AddFrames(422, 341, 37, 40, 646, 473, 1, 4);
-	spin.AddFrames(422, 341, 37, 40, 646, 473, 1, 4);
+	spin.AddFrames(0, 311, 32, 34, 646, 473, 0.3f, 6);
 
-	knuckles.CreateSquare(position, 200.0f, 200.0f);
+	knuckles.CreateSquare(position, 150.0f, 200.0f);
 	knuckles.SetAnimation(&idle);
 
 }
@@ -80,6 +81,8 @@ void Game::Update()
 
 	posChangeX = 0.0f;
 	posChangeY = 0.0f;
+
+	KeepOnScreen(knuckles);
 
 	if (Input::IsKeyDown(Key::A))
 	{
@@ -97,7 +100,7 @@ void Game::Update()
 
 	if (Input::IsKeyDown(Key::SPACE))
 	{
-		ChangeAnimation(knuckles, walkRight);
+		ChangeAnimation(knuckles, spin);
 	}
 
 	if (Input::IsKeyReleased(Key::D) || Input::IsKeyReleased(Key::A) || Input::IsKeyReleased(Key::SPACE))
@@ -138,4 +141,16 @@ void ChangeAnimation(Sprite& sprite, Animation& animation)
 
 	if (sprite.GetAnimation() != currentAnim)
 		sprite.SetAnimation(currentAnim);
+}
+
+void KeepOnScreen(Entity2D& entity)
+{
+	if (entity.GetX() - entity.GetScale().x / 2 > screenWidth)
+	{
+		entity.SetX(-entity.GetScale().x / 2);
+	}
+	if (entity.GetX() + entity.GetScale().x / 2 < 0)
+	{
+		entity.SetX(screenWidth + entity.GetScale().x / 2);
+	}
 }
