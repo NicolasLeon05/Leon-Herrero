@@ -19,7 +19,7 @@ Animation::~Animation()
 
 }
 
-std::vector<Frame> Animation::GetFrames()
+std::vector<Frame>& Animation::GetFrames()
 {
 	return frames;
 }

@@ -126,6 +126,7 @@ void Game::Update()
 		rotationChangeZ = rotationSpeed * deltaTime;
 
 	squareAnim.GetAnimation()->Update();
+	squareAnim.Update();
 
 	squareAnim.SetPosition(squareAnim.GetPosition().x + posChangeX, squareAnim.GetPosition().y + posChangeY, 0);
 
@@ -139,7 +140,6 @@ void Game::Update()
 
 	cout << "Rotation: " << squareAnim.GetRotation().x << ", " << squareAnim.GetRotation().y << ", " << squareAnim.GetRotation().z << endl;
 
-	squareAnim.Update();
 	squareAnim.Draw();
 
 	debugAABB.SetPosition(squareAnim.GetPosition());

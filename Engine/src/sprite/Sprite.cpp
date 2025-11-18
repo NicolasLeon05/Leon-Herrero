@@ -134,6 +134,22 @@ void Sprite::SetAnimation(Animation* anim)
 {
 	anim->Reset();
 	this->animation = anim;
+
+	Frame frame = anim->GetFrames()[0];
+
+	verticesData[7] = frame.frameCoords[0].u;
+	verticesData[8] = frame.frameCoords[0].v;
+
+	verticesData[16] = frame.frameCoords[1].u;
+	verticesData[17] = frame.frameCoords[1].v;
+
+	verticesData[25] = frame.frameCoords[2].u;
+	verticesData[26] = frame.frameCoords[2].v;
+
+	verticesData[34] = frame.frameCoords[3].u;
+	verticesData[35] = frame.frameCoords[3].v;
+
+	Renderer::BindBuffers(*this);
 }
 
 unsigned int* Sprite::GetTexture()

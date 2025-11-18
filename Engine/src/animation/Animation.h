@@ -18,7 +18,7 @@ public:
 	ENGINE_API Animation();
 	ENGINE_API ~Animation();
 
-	std::vector<Frame> GetFrames();
+	std::vector<Frame>& GetFrames();
 
 	int GetCurrentFrameIndex();
 
