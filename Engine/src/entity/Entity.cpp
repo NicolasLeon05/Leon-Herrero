@@ -6,6 +6,7 @@ Entity::Entity()
 	translation = glm::vec3(1.0f);
 	prevPosition  = glm::vec3(-1.0f);
 	rotation = glm::mat4(1.0f);
+	eulerRotation = glm::vec3(0.0f);
 	scale = glm::vec3(1.0f);
 	UpdateTRS();
 }
@@ -47,7 +48,7 @@ glm::vec3 Entity::GetPrevPosition()
 
 glm::vec3 Entity::GetRotation()
 {
-	return glm::vec3(rotation[0][0], rotation[1][1], rotation[2][2]);
+	return eulerRotation;
 }
 
 glm::vec3 Entity::GetScale()
@@ -71,6 +72,8 @@ void Entity::SetPosition(glm::vec3 position)
 
 void Entity::SetRotation(float x, float y, float z)
 {
+	eulerRotation = glm::vec3(x, y, z);
+
 	rotation = glm::mat4(1);
 	rotation = glm::rotate(rotation, glm::radians(x), glm::vec3(1, 0, 0));
 	rotation = glm::rotate(rotation, glm::radians(y), glm::vec3(0, 1, 0));

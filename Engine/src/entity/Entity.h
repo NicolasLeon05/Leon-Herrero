@@ -15,6 +15,7 @@ protected:
 	glm::vec3 translation;
 	glm::vec3 prevPosition;
 	glm::mat4 rotation;
+	glm::vec3 eulerRotation;
 	glm::vec3 scale;
 
 	float color[4];
