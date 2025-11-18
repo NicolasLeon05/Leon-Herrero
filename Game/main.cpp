@@ -83,6 +83,7 @@ void Game::Update()
 	posChangeY = 0.0f;
 
 	KeepOnScreen(knuckles);
+	KeepOnScreen(rock);
 
 	if (Input::IsKeyDown(Key::A))
 	{
@@ -103,27 +104,26 @@ void Game::Update()
 		ChangeAnimation(knuckles, spin);
 	}
 
-	if (Input::IsKeyReleased(Key::D) || Input::IsKeyReleased(Key::A) || Input::IsKeyReleased(Key::SPACE))
+	if (Input::IsKeyUp(Key::D) && Input::IsKeyUp(Key::A) && Input::IsKeyUp(Key::SPACE))
 	{
 		ChangeAnimation(knuckles, idle);
 	}
 
-	if (Input::IsKeyReleased(Key::D) || Input::IsKeyReleased(Key::A))
-	{
-		ChangeAnimation(knuckles, idle);
-	}
 
 	if (collisionManager.CheckCollision(&knuckles, &rock))
 	{
 		//Funciona pero se "rompe la animacion", pueden probarlo
-		//rock.SetPosition(rock.GetPosition().x + posChangeX, rock.GetPosition().y + posChangeY, 0); 
+		//rock.SetPosition(rock.GetPosition().x + posChangeX, rock.GetPosition().y + posChangeY, 0);
 		ChangeAnimation(knuckles, push);
 	}
+
+	knuckles.GetPrevPosition();
 
 
 	knuckles.Update();
 
 	knuckles.SetPosition(knuckles.GetPosition().x + posChangeX, knuckles.GetPosition().y + posChangeY, 0);
+
 
 	knuckles.Draw();
 	rock.Draw();
