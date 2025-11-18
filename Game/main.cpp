@@ -55,7 +55,7 @@ void Game::InitGame()
 	knucles.SetTexture("Knuckles_Sprite_Sheet.png", 646, 473);
 	glm::vec3 position = { 300.0f, 300.0f, 0.0f };
 
-	idle.AddFrame(0, 430, 40, 35, 646, 473, 1);
+	idle.AddFrame(0, 430, 37, 43, 646, 473, 1);
 
 	walkLeft.AddFrames(0, 390, 37.4, 40, 646, 473, 1, 3);
 	walkUp.AddFrames(0, 180, 37.4, 45, 646, 473, 1, 8);
