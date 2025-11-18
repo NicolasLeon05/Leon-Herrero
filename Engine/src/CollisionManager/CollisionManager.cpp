@@ -36,22 +36,28 @@ float CollisionManager::GetCollisionHeightRotated(Entity2D* entity)
 	return fabs(width * sin(theta)) + fabs(height * cos(theta));
 }
 
-void CollisionManager::CheckCollision(Entity2D* entity, Entity2D* other)
+bool CollisionManager::CheckCollision(Entity2D* entity, Entity2D* other)
 {
 	if (IsColliding(entity, other))
 	{
 		entity->SetPosition(entity->GetPrevPosition());
+		return true;
 	}
+	return false;
 }
 
-void CollisionManager::CheckCollision(Entity2D* entity, std::vector<Entity2D*> others)
+bool CollisionManager::CheckCollision(Entity2D* entity, std::vector<Entity2D*> others)
 {
+	bool collided = false;
 	for (int i = 0; i < others.size(); i++)
 	{
 		if (IsColliding(entity, others[i]))
 		{
 			entity->SetPosition(entity->GetPrevPosition());
+			collided = true;
 		}
 	}
+
+	return collided;
 }
 
