@@ -117,9 +117,6 @@ void Game::Update()
 		ChangeAnimation(knuckles, push);
 	}
 
-	knuckles.GetPrevPosition();
-
-
 	knuckles.Update();
 
 	knuckles.SetPosition(knuckles.GetPosition().x + posChangeX, knuckles.GetPosition().y + posChangeY, 0);
