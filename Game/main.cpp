@@ -119,8 +119,8 @@ void Game::Update()
 
 	knuckles.Update();
 
-	knuckles.SetPosition(knuckles.GetPosition().x + posChangeX, knuckles.GetPosition().y + posChangeY, 0);
-
+	if (posChangeX!= 0 || posChangeY != 0)
+		knuckles.SetPosition(knuckles.GetPosition().x + posChangeX, knuckles.GetPosition().y + posChangeY, 0);
 
 	knuckles.Draw();
 	rock.Draw();
