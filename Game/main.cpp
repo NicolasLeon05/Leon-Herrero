@@ -23,7 +23,7 @@ Shape triangle1 = Shape();
 Shape debugAABB = Shape();
 
 Sprite square = Sprite();
-Sprite squareAnim = Sprite();
+Sprite knucles = Sprite();
 
 static const float screenWidth = 720.0f;
 static const float screenHeight = 640.0f;
@@ -39,6 +39,8 @@ float rotationChangeZ = 0;
 
 Animation walkUp;
 Animation walkRight;
+
+Animation idle;
 
 Animation* currentAnim;
 
@@ -58,14 +60,16 @@ void Game::InitGame()
 	glm::vec3 position1 = { 600.0f, 600.0f, 0.0f };
 	square.CreateSquare(position1, sWidth, sHeight);
 
-	squareAnim.SetTexture("pokemon.png", 256, 256);
+	knucles.SetTexture("Knuckles_Sprite_Sheet.png", 646, 473);
 	glm::vec3 position = { 300.0f, 300.0f, 0.0f };
 
-	walkUp.AddFrames(0, 256, 64, 64, 256, 256, 1, 4);
-	walkRight.AddFrames(0, 128, 64, 64, 256, 256, 1, 4);
+	idle.AddFrame(0, 420, 40, 40, 646, 473, 1);
 
-	squareAnim.CreateSquare(position, 200.0f, 200.0f);
-	squareAnim.SetAnimation(&walkRight);
+	walkRight.AddFrames(0, 390, 37.4, 40, 646, 473, 1, 3);
+	walkUp.AddFrames(0, 180, 37.4, 45, 646, 473, 1, 8);
+
+	knucles.CreateSquare(position, 200.0f, 200.0f);
+	knucles.SetAnimation(&idle);
 
 	triangle1.CreateTriangle(glm::vec3(10.0f, 10.0f, 0.0f), 100.0f, 100.0f, glm::vec4(0.5f, 0.0f, 0.5f, 1));
 }
@@ -81,13 +85,13 @@ void Game::Update()
 	posChangeY = 0.0f;	
 	rotationChangeZ = 0.0f;
 
-	if (squareAnim.GetX() - sWidth / 2 > screenWidth)
+	if (knucles.GetX() - sWidth / 2 > screenWidth)
 	{
-		squareAnim.SetX(-sWidth / 2);
+		knucles.SetX(-sWidth / 2);
 	}
-	if (squareAnim.GetX() + sWidth / 2 < 0)
+	if (knucles.GetX() + sWidth / 2 < 0)
 	{
-		squareAnim.SetX(screenWidth + sWidth / 2);
+		knucles.SetX(screenWidth + sWidth / 2);
 	}
 
 	//triangle1.SetRotatation(0.0f, 0.0f, rotation);
@@ -102,8 +106,8 @@ void Game::Update()
 
 		currentAnim = &walkRight;
 
-		if (squareAnim.GetAnimation() != currentAnim)
-			squareAnim.SetAnimation(currentAnim);
+		if (knucles.GetAnimation() != currentAnim)
+			knucles.SetAnimation(currentAnim);
 	}
 
 	if (Input::IsKeyDown(Key::W))
@@ -112,8 +116,8 @@ void Game::Update()
 
 		currentAnim = &walkUp;
 
-		if (squareAnim.GetAnimation() != currentAnim)
-			squareAnim.SetAnimation(currentAnim);
+		if (knucles.GetAnimation() != currentAnim)
+			knucles.SetAnimation(currentAnim);
 	}
 
 	if (Input::IsKeyDown(Key::S))
@@ -125,24 +129,24 @@ void Game::Update()
 	if (Input::IsKeyDown(Key::E))
 		rotationChangeZ = rotationSpeed * deltaTime;
 
-	squareAnim.Update();
+	knucles.Update();
 
-	squareAnim.SetPosition(squareAnim.GetPosition().x + posChangeX, squareAnim.GetPosition().y + posChangeY, 0);
+	knucles.SetPosition(knucles.GetPosition().x + posChangeX, knucles.GetPosition().y + posChangeY, 0);
 
-	if (collisionManager.CheckCollision(&squareAnim, &square))
-		collisionManager.ResolveCollisionPush(&squareAnim, &square, 2.0f);
+	if (collisionManager.CheckCollision(&knucles, &square))
+		collisionManager.ResolveCollisionPush(&knucles, &square, 2.0f);
 
-	if (collisionManager.CheckCollision(&squareAnim, &triangle1))
-		collisionManager.ResolveCollisionPush(&squareAnim, &triangle1, 2.0f);
+	if (collisionManager.CheckCollision(&knucles, &triangle1))
+		collisionManager.ResolveCollisionPush(&knucles, &triangle1, 2.0f);
 
-	squareAnim.SetRotation(0.0f, 0.0f, squareAnim.GetRotation().z + rotationChangeZ);
+	knucles.SetRotation(0.0f, 0.0f, knucles.GetRotation().z + rotationChangeZ);
 
-	cout << "Rotation: " << squareAnim.GetRotation().x << ", " << squareAnim.GetRotation().y << ", " << squareAnim.GetRotation().z << endl;
+	cout << "Rotation: " << knucles.GetRotation().x << ", " << knucles.GetRotation().y << ", " << knucles.GetRotation().z << endl;
 
-	squareAnim.Draw();
+	knucles.Draw();
 
-	debugAABB.SetPosition(squareAnim.GetPosition());
-	debugAABB.SetScale(collisionManager.GetCollisionWidthRotated(&squareAnim), collisionManager.GetCollisionHeightRotated(&squareAnim), 1.0f);
+	debugAABB.SetPosition(knucles.GetPosition());
+	debugAABB.SetScale(collisionManager.GetCollisionWidthRotated(&knucles), collisionManager.GetCollisionHeightRotated(&knucles), 1.0f);
 
 	square.Draw();
 	debugAABB.Draw();
