@@ -18,7 +18,7 @@ public:
 };
 
 Shape triangle1 = Shape();
-Shape triangle2 = Shape();
+Shape debugAABB = Shape();
 
 Sprite square = Sprite();
 Sprite squareAnim = Sprite();
@@ -50,6 +50,8 @@ void main()
 
 void Game::InitGame()
 {
+	debugAABB.CreateSquare(glm::vec3(0, 0, 0), 200.0f, 200.0f, glm::vec4(1, 0, 0, 0.2f));
+
 	square.SetTexture("texture.jpg", 301, 167);
 	glm::vec3 position1 = { 600.0f, 600.0f, 0.0f };
 	square.CreateSquare(position1, sWidth, sHeight);
@@ -74,7 +76,7 @@ void Game::Update()
 	float rotationSpeed = 0.1f;
 
 	posChangeX = 0.0f;
-	posChangeY = 0.0f;
+	posChangeY = 0.0f;	
 	rotationChangeZ = 0.0f;
 
 	if (squareAnim.GetX() - sWidth / 2 > screenWidth)
@@ -135,8 +137,11 @@ void Game::Update()
 	squareAnim.Update();
 	squareAnim.Draw();
 
-	square.Draw();
+	debugAABB.SetPosition(squareAnim.GetPosition());
+	debugAABB.SetScale(collisionManager.GetCollisionWidthRotated(&squareAnim), collisionManager.GetCollisionHeightRotated(&squareAnim), 1.0f);
 
+	square.Draw();
+	debugAABB.Draw();
 	triangle1.Draw();
 }
 
