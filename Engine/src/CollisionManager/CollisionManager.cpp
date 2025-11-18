@@ -2,11 +2,11 @@
 
 bool CollisionManager::IsColliding(Entity2D* entity, Entity2D* other)
 {
-	float width1 = CollisionWidthRotated(entity) / 2.0f;
-	float height1 = CollisionHeightRotated(entity) / 2.0f;
+	float width1 = GetCollisionWidthRotated(entity) / 2.0f;
+	float height1 = GetCollisionHeightRotated(entity) / 2.0f;
 
-	float width2 = CollisionWidthRotated(other) / 2.0f;
-	float height2 = CollisionHeightRotated(other) / 2.0f;
+	float width2 = GetCollisionWidthRotated(other) / 2.0f;
+	float height2 = GetCollisionHeightRotated(other) / 2.0f;
 
 	return (
 		entity->GetX() + width1 >= other->GetX() - width2 &&
@@ -16,7 +16,7 @@ bool CollisionManager::IsColliding(Entity2D* entity, Entity2D* other)
 		);
 }
 
-float CollisionManager::CollisionWidthRotated(Entity2D* entity)
+float CollisionManager::GetCollisionWidthRotated(Entity2D* entity)
 {
 	float width = entity->GetScale().x;
 	float height = entity->GetScale().y;
@@ -26,7 +26,7 @@ float CollisionManager::CollisionWidthRotated(Entity2D* entity)
 	return fabs(width * cos(theta)) + fabs(height * sin(theta));
 }
 
-float CollisionManager::CollisionHeightRotated(Entity2D* entity)
+float CollisionManager::GetCollisionHeightRotated(Entity2D* entity)
 {
 	float width = entity->GetScale().x;
 	float height = entity->GetScale().y;
