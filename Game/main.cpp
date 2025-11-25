@@ -62,7 +62,7 @@ void Game::InitGame()
 	glm::vec3 position = { 300.0f, 300.0f, 0.0f };
 
 	walkUp.AddFrames(0, 256, 64, 64, 256, 256, 1, 4);
-	walkRight.AddFrames(0, 128, 64, 64, 256, 256, 1, 4);
+	walkRight.AddFrames(0, 192, 64, 64, 256, 256, 1, 4);
 
 	squareAnim.CreateSquare(position, 200.0f, 200.0f);
 	squareAnim.SetAnimation(&walkRight);
