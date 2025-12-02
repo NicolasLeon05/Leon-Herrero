@@ -36,13 +36,13 @@ void Shape::CreateTriangle(glm::vec3 pos, float width, float height, glm::vec4 c
 	verticesData =
 	{
 		// position			/color								
-		 0.5f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, // top right
+		 0.0f,  0.5f, 0.0f, color.r, color.g, color.b, color.a, // top
 		 0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a, // bottom right
 		-0.5f, -0.5f, 0.0f, color.r, color.g, color.b, color.a // bottom left
 	};
 	indices =
-	{  // note that we start from 0!
-		0, 1, 2,   // first triangle
+	{
+		0, 1, 2,
 	};
 
 	if (!Renderer::IsInEntities(this))
