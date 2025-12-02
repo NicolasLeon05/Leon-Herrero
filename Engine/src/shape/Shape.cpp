@@ -28,7 +28,7 @@ Shape::~Shape()
 		{
 			Renderer::entities.erase(Renderer::entities.begin() + i);
 		}
-	}
+	}	
 }
 
 void Shape::CreateTriangle(glm::vec3 pos, float width, float height, glm::vec4 color)

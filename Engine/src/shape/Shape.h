@@ -9,7 +9,6 @@ class Shape : public Entity2D
 {
 private:
 
-
 	void Init();
 
 public:

@@ -20,6 +20,7 @@ public:
 };
 
 Shape square = Shape();
+Shape square2 = Shape();
 Shape debugAABB = Shape();
 
 //Sprite square = Sprite();
@@ -33,10 +34,15 @@ float sHeight = 100;
 float sX = 0;
 float sY = screenHeight - sHeight;
 
+float square2Width = 400.0f;
+
 float posChangeX = 0;
+float squarePosChangex = 0;
 float scalex = 0;
 float scaley = 0;
 float rotationChangeZ = 0;
+
+bool borderCollide = false;
 
 Animation idle;
 Animation walkLeft;
@@ -60,7 +66,7 @@ void Game::InitGame()
 	square.CreateSquare(position1, sWidth, sHeight);*/
 
 	Samus.SetTexture("Samus Aran Sprite Sheet.png", 860, 762);
-	glm::vec3 position = { 300.0f, 300.0f, 0.0f };
+	glm::vec3 position = { 300.0f, 300.0f, 0.5f };
 
 	idle.AddFrame(35, 655, 50, 70, 860, 762, 1);
 	walkLeft.AddFrames(0, 480, 84, 70, 860, 762, 1, 20);
@@ -68,7 +74,8 @@ void Game::InitGame()
 	Samus.CreateSquare(position, 200.0f, 200.0f);
 	Samus.SetAnimation(&idle);
 
-	square.CreateSquare(glm::vec3(100.0f, 300.0f, 0.0f), 100.0f, 100.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1));
+	square.CreateSquare(glm::vec3(100.0f, 300.0f, 0.5f), 100.0f, 100.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	square2.CreateSquare(glm::vec3(0.0f, 0.0f, 0.1f), square2Width, 400.0f, glm::vec4(0.0f, 0.0f, 1.0f, 0.2f));
 }
 
 void Game::Update()
@@ -154,9 +161,29 @@ void Game::Update()
 		rotationChangeZ = rotationSpeed * deltaTime;
 	}
 
+	if (square2.GetX() > screenWidth - square2Width/2)
+	{
+		borderCollide = true;
+	}
+
+	if (square2.GetX() < 0 + square2Width / 2)
+	{
+		borderCollide = false;
+	}
+
+	if (borderCollide)
+	{
+		squarePosChangex = -speed * deltaTime;
+	}
+	else
+	{
+		squarePosChangex = speed * deltaTime;
+	}
+
+
 	Samus.Update();
 
-	Samus.SetPosition(Samus.GetPosition().x + posChangeX, Samus.GetPosition().y, 0);
+	Samus.SetPosition(Samus.GetPosition().x + posChangeX, Samus.GetPosition().y, 0.0f);
 
 	if (collisionManager.CheckCollision(&Samus, &square))
 		collisionManager.ResolveCollisionPush(&Samus, &square, 2.0f);
@@ -164,12 +191,15 @@ void Game::Update()
 	square.SetScale(square.GetScale().x + scalex, square.GetScale().y + scaley, 0.0f);
 	square.SetRotation(0.0f, 0.0f, square.GetRotation().z + rotationChangeZ);
 
+	square2.SetPosition(square2.GetPosition().x + squarePosChangex, square.GetPosition().y, 0.0f);
+
 	Samus.Draw();
 
 	//debugAABB.SetPosition(Samus.GetPosition());
 	//debugAABB.SetScale(collisionManager.GetCollisionWidthRotated(&Samus), collisionManager.GetCollisionHeightRotated(&Samus), 1.0f);
 
 	square.Draw();
+	square2.Draw();
 	//debugAABB.Draw();
 	//triangle1.Draw();
 }
