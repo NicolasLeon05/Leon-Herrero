@@ -19,11 +19,11 @@ public:
 	void DeInitGame() override;
 };
 
-Shape triangle1 = Shape();
+Shape square = Shape();
 Shape debugAABB = Shape();
 
-Sprite square = Sprite();
-Sprite squareAnim = Sprite();
+//Sprite square = Sprite();
+Sprite Samus = Sprite();
 
 static const float screenWidth = 720.0f;
 static const float screenHeight = 640.0f;
@@ -34,11 +34,12 @@ float sX = 0;
 float sY = screenHeight - sHeight;
 
 float posChangeX = 0;
-float posChangeY = 0;
+float scalex = 0;
+float scaley = 0;
 float rotationChangeZ = 0;
 
-Animation walkUp;
-Animation walkRight;
+Animation idle;
+Animation walkLeft;
 
 Animation* currentAnim;
 
@@ -54,20 +55,20 @@ void Game::InitGame()
 {
 	debugAABB.CreateSquare(glm::vec3(0, 0, 0), 200.0f, 200.0f, glm::vec4(1, 0, 0, 0.2f));
 
-	square.SetTexture("texture.jpg", 301, 167);
+	/*square.SetTexture("texture.jpg", 301, 167);
 	glm::vec3 position1 = { 600.0f, 600.0f, 0.0f };
-	square.CreateSquare(position1, sWidth, sHeight);
+	square.CreateSquare(position1, sWidth, sHeight);*/
 
-	squareAnim.SetTexture("pokemon.png", 256, 256);
+	Samus.SetTexture("Samus Aran Sprite Sheet.png", 860, 762);
 	glm::vec3 position = { 300.0f, 300.0f, 0.0f };
 
-	walkUp.AddFrames(0, 256, 64, 64, 256, 256, 1, 4);
-	walkRight.AddFrames(0, 192, 64, 64, 256, 256, 1, 4);
+	idle.AddFrame(35, 655, 50, 70, 860, 762, 1);
+	walkLeft.AddFrames(0, 480, 84, 70, 860, 762, 1, 20);
 
-	squareAnim.CreateSquare(position, 200.0f, 200.0f);
-	squareAnim.SetAnimation(&walkRight);
+	Samus.CreateSquare(position, 200.0f, 200.0f);
+	Samus.SetAnimation(&idle);
 
-	triangle1.CreateTriangle(glm::vec3(10.0f, 10.0f, 0.0f), 100.0f, 100.0f, glm::vec4(0.5f, 0.0f, 0.5f, 1));
+	square.CreateSquare(glm::vec3(100.0f, 300.0f, 0.0f), 100.0f, 100.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1));
 }
 
 void Game::Update()
@@ -78,75 +79,99 @@ void Game::Update()
 	float rotationSpeed = 0.1f;
 
 	posChangeX = 0.0f;
-	posChangeY = 0.0f;	
+	scalex = 0.0f;	
 	rotationChangeZ = 0.0f;
 
-	if (squareAnim.GetX() - sWidth / 2 > screenWidth)
+	if (Samus.GetX() - sWidth / 2 > screenWidth)
 	{
-		squareAnim.SetX(-sWidth / 2);
+		Samus.SetX(-sWidth / 2);
 	}
-	if (squareAnim.GetX() + sWidth / 2 < 0)
+	if (Samus.GetX() + sWidth / 2 < 0)
 	{
-		squareAnim.SetX(screenWidth + sWidth / 2);
+		Samus.SetX(screenWidth + sWidth / 2);
 	}
 
 	//triangle1.SetRotatation(0.0f, 0.0f, rotation);
 
+	if (Input::IsKeyReleased(Key::A))
+	{
+		currentAnim = &idle;
+
+		if (Samus.GetAnimation() != currentAnim)
+			Samus.SetAnimation(currentAnim);
+	}
+
 	//Multiplicar pos change por deltatime
 	if (Input::IsKeyDown(Key::A))
+	{
 		posChangeX = -speed * deltaTime;
 
-	if (Input::IsKeyDown(Key::D))
+		currentAnim = &walkLeft;
+
+		if (Samus.GetAnimation() != currentAnim)
+			Samus.SetAnimation(currentAnim);
+	}
+
+	/*if (Input::IsKeyDown(Key::D))
 	{
 		posChangeX = speed * deltaTime;
 
 		currentAnim = &walkRight;
 
-		if (squareAnim.GetAnimation() != currentAnim)
-			squareAnim.SetAnimation(currentAnim);
-	}
+		if (Samus.GetAnimation() != currentAnim)
+			Samus.SetAnimation(currentAnim);
+	}*/
 
-	if (Input::IsKeyDown(Key::W))
+	/*if (Input::IsKeyDown(Key::W))
 	{
 		posChangeY = speed * deltaTime;
 
 		currentAnim = &walkUp;
 
-		if (squareAnim.GetAnimation() != currentAnim)
-			squareAnim.SetAnimation(currentAnim);
-	}
+		if (Samus.GetAnimation() != currentAnim)
+			Samus.SetAnimation(currentAnim);
+	}*/
 
 	if (Input::IsKeyDown(Key::S))
-		posChangeY = -speed * deltaTime;
+	{
+		scalex = -speed * deltaTime;
+		scaley = -speed * deltaTime;
+	}
+
+	if (Input::IsKeyDown(Key::W))
+	{
+		scalex = speed * deltaTime;
+		scaley = speed * deltaTime;
+	}
 
 	if (Input::IsKeyDown(Key::Q))
+	{
 		rotationChangeZ = -rotationSpeed * deltaTime;
+	}
 
 	if (Input::IsKeyDown(Key::E))
+	{
 		rotationChangeZ = rotationSpeed * deltaTime;
+	}
 
-	squareAnim.Update();
+	Samus.Update();
 
-	squareAnim.SetPosition(squareAnim.GetPosition().x + posChangeX, squareAnim.GetPosition().y + posChangeY, 0);
+	Samus.SetPosition(Samus.GetPosition().x + posChangeX, Samus.GetPosition().y, 0);
 
-	if (collisionManager.CheckCollision(&squareAnim, &square))
-		collisionManager.ResolveCollisionPush(&squareAnim, &square, 2.0f);
+	if (collisionManager.CheckCollision(&Samus, &square))
+		collisionManager.ResolveCollisionPush(&Samus, &square, 2.0f);
 
-	if (collisionManager.CheckCollision(&squareAnim, &triangle1))
-		collisionManager.ResolveCollisionPush(&squareAnim, &triangle1, 2.0f);
+	square.SetScale(square.GetScale().x + scalex, square.GetScale().y + scaley, 0.0f);
+	square.SetRotation(0.0f, 0.0f, square.GetRotation().z + rotationChangeZ);
 
-	squareAnim.SetRotation(0.0f, 0.0f, squareAnim.GetRotation().z + rotationChangeZ);
+	Samus.Draw();
 
-	cout << "Rotation: " << squareAnim.GetRotation().x << ", " << squareAnim.GetRotation().y << ", " << squareAnim.GetRotation().z << endl;
-
-	squareAnim.Draw();
-
-	debugAABB.SetPosition(squareAnim.GetPosition());
-	debugAABB.SetScale(collisionManager.GetCollisionWidthRotated(&squareAnim), collisionManager.GetCollisionHeightRotated(&squareAnim), 1.0f);
+	//debugAABB.SetPosition(Samus.GetPosition());
+	//debugAABB.SetScale(collisionManager.GetCollisionWidthRotated(&Samus), collisionManager.GetCollisionHeightRotated(&Samus), 1.0f);
 
 	square.Draw();
-	debugAABB.Draw();
-	triangle1.Draw();
+	//debugAABB.Draw();
+	//triangle1.Draw();
 }
 
 void Game::DeInitGame()
