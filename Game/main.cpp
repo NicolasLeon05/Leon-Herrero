@@ -9,6 +9,8 @@
 #include "glm.hpp"
 
 
+void ChangeAnimation(Sprite& sprite, Animation& animation);
+void KeepOnScreen(Entity2D& entity);
 
 class Game : public BaseGame
 {
@@ -19,26 +21,33 @@ public:
 	void DeInitGame() override;
 };
 
-Shape triangle1 = Shape();
-Shape debugAABB = Shape();
 
-Sprite square = Sprite();
-Sprite squareAnim = Sprite();
-
+//Sprite rock = Sprite();
+//Animation rockSprite;
 static const float screenWidth = 720.0f;
 static const float screenHeight = 640.0f;
 
-float sWidth = 100;
-float sHeight = 100;
-float sX = 0;
-float sY = screenHeight - sHeight;
+Sprite samus = Sprite();
+Animation push;
+Animation walkLeft;
+Animation idle;
+Animation spin;
 
+Shape square = Shape();
+Shape square2 = Shape();
+float rotationDelta = 50.0f;
+float scaleDelta = 50.0f;
+
+//float rockWidth = 130;
+//float rockHeight = 100;
+
+
+float speed = 200.0f;
 float posChangeX = 0;
 float posChangeY = 0;
-float rotationChangeZ = 0;
-
-Animation walkUp;
-Animation walkRight;
+float moveX = 0;
+float moveY = 0;
+float deltaTime;
 
 Animation* currentAnim;
 
@@ -52,104 +61,143 @@ void main()
 
 void Game::InitGame()
 {
-	debugAABB.CreateSquare(glm::vec3(0, 0, 0), 200.0f, 200.0f, glm::vec4(1, 0, 0, 0.2f));
+	//rock.SetTexture("Rock.jfif", 244, 207);
+	//glm::vec3 position1 = { 600.0f, 300.0f, 0.0f };
+	//rockSprite.AddFrames(76, 130, 82, 56, 244, 207, 1, 1);
+	//rock.CreateSquare(position1, rockWidth, rockHeight);
+	//rock.SetAnimation(&rockSprite);
 
-	square.SetTexture("texture.jpg", 301, 167);
-	glm::vec3 position1 = { 600.0f, 600.0f, 0.0f };
-	square.CreateSquare(position1, sWidth, sHeight);
+	samus.SetTexture("Samus Aran Sprite Sheet.png", 860, 762);
+	glm::vec3 samusPosition = { 300.0f, 300.0f, 0.0f };
 
-	squareAnim.SetTexture("pokemon.png", 256, 256);
-	glm::vec3 position = { 300.0f, 300.0f, 0.0f };
+	walkLeft.AddFrames(20, 482, 82, 75, 860, 762, 0.4f, 10);
+	idle.AddFrame(20, 652, 75, 75, 860, 762, 1);
+	//push.AddFrames(422, 341, 37, 40, 860, 762, 1, 4);
+	//spin.AddFrames(0, 311, 32, 34, 860, 762, 0.3f, 6);
 
-	walkUp.AddFrames(0, 256, 64, 64, 256, 256, 1, 4);
-	walkRight.AddFrames(0, 192, 64, 64, 256, 256, 1, 4);
+	samus.CreateSquare(samusPosition, 100.0f, 150.0f);
+	samus.SetAnimation(&idle);
 
-	squareAnim.CreateSquare(position, 200.0f, 200.0f);
-	squareAnim.SetAnimation(&walkRight);
+	glm::vec3 squarePosition = { 100, screenHeight / 2, 0.0f };
+	square.CreateSquare(squarePosition, 100, 100, { 1, 0, 0, 1 });
+	square2.CreateSquare(squarePosition, 300, 300, { 0, 0, 1, 0.5f });
 
-	triangle1.CreateTriangle(glm::vec3(10.0f, 10.0f, 0.0f), 100.0f, 100.0f, glm::vec4(0.5f, 0.0f, 0.5f, 1));
 }
 
 void Game::Update()
 {
-	float deltaTime = MyClock::GetDeltaTime();
-
-	float speed = 0.5f;
-	float rotationSpeed = 0.1f;
+	deltaTime = MyClock::GetDeltaTime() / 1000;
+	cout << deltaTime << endl;
 
 	posChangeX = 0.0f;
-	posChangeY = 0.0f;	
-	rotationChangeZ = 0.0f;
+	posChangeY = 0.0f;
+	moveX = 0;
+	moveY = 0;
 
-	if (squareAnim.GetX() - sWidth / 2 > screenWidth)
-	{
-		squareAnim.SetX(-sWidth / 2);
-	}
-	if (squareAnim.GetX() + sWidth / 2 < 0)
-	{
-		squareAnim.SetX(screenWidth + sWidth / 2);
-	}
+	KeepOnScreen(samus);
+	//KeepOnScreen(rock);
 
-	//triangle1.SetRotatation(0.0f, 0.0f, rotation);
-
-	//Multiplicar pos change por deltatime
 	if (Input::IsKeyDown(Key::A))
+	{
+		ChangeAnimation(samus, walkLeft);
 		posChangeX = -speed * deltaTime;
+		samus.SetRotation(0.0f, 0.0f, 0.0f);
+	}
 
 	if (Input::IsKeyDown(Key::D))
 	{
+		samus.SetRotation(0.0f, 180.0f, 0.0f);
 		posChangeX = speed * deltaTime;
-
-		currentAnim = &walkRight;
-
-		if (squareAnim.GetAnimation() != currentAnim)
-			squareAnim.SetAnimation(currentAnim);
+		ChangeAnimation(samus, walkLeft);
 	}
 
-	if (Input::IsKeyDown(Key::W))
-	{
-		posChangeY = speed * deltaTime;
+	if (Input::IsKeyDown(Key::SPACE))
+		ChangeAnimation(samus, spin);
 
-		currentAnim = &walkUp;
+	if (Input::IsKeyUp(Key::D) && Input::IsKeyUp(Key::A) && Input::IsKeyUp(Key::SPACE))
+		ChangeAnimation(samus, idle);
 
-		if (squareAnim.GetAnimation() != currentAnim)
-			squareAnim.SetAnimation(currentAnim);
-	}
+	if (Input::IsKeyDown(Key::LEFT))
+		square.SetRotation(
+			square.GetRotation().x,
+			square.GetRotation().y,
+			square.GetRotation().z + rotationDelta * deltaTime);
 
-	if (Input::IsKeyDown(Key::S))
-		posChangeY = -speed * deltaTime;
+	if (Input::IsKeyDown(Key::RIGHT))
+		square.SetRotation(
+			square.GetRotation().x,
+			square.GetRotation().y,
+			square.GetRotation().z - rotationDelta * deltaTime);
 
-	if (Input::IsKeyDown(Key::Q))
-		rotationChangeZ = -rotationSpeed * deltaTime;
+	if (Input::IsKeyDown(Key::UP))
+		square.SetScale(
+			square.GetScale().x + scaleDelta * deltaTime,
+			square.GetScale().y + scaleDelta * deltaTime,
+			square.GetScale().z);
 
-	if (Input::IsKeyDown(Key::E))
-		rotationChangeZ = rotationSpeed * deltaTime;
+	if (Input::IsKeyDown(Key::DOWN))
+		square.SetScale(
+			square.GetScale().x - scaleDelta * deltaTime,
+			square.GetScale().y - scaleDelta * deltaTime,
+			square.GetScale().z);
 
-	squareAnim.Update();
+	if (Input::IsKeyDown(Key::I))
+		moveY = speed * deltaTime;
 
-	squareAnim.SetPosition(squareAnim.GetPosition().x + posChangeX, squareAnim.GetPosition().y + posChangeY, 0);
+	if (Input::IsKeyDown(Key::J))
+		moveX = -speed * deltaTime;
 
-	if (collisionManager.CheckCollision(&squareAnim, &square))
-		collisionManager.ResolveCollisionPush(&squareAnim, &square, 2.0f);
+	if (Input::IsKeyDown(Key::K))
+		moveY = -speed * deltaTime;
 
-	if (collisionManager.CheckCollision(&squareAnim, &triangle1))
-		collisionManager.ResolveCollisionPush(&squareAnim, &triangle1, 2.0f);
+	if (Input::IsKeyDown(Key::L))
+		moveX = speed * deltaTime;
 
-	squareAnim.SetRotation(0.0f, 0.0f, squareAnim.GetRotation().z + rotationChangeZ);
+	if (collisionManager.CheckCollision(&samus, &square))
+		collisionManager.ResolveCollisionPush(&samus, &square);
+	//if (collisionManager.CheckCollision(&knuckles, &rock))
+	//{
+	//	//Funciona pero se "rompe la animacion", pueden probarlo
+	//	//rock.SetPosition(rock.GetPosition().x + posChangeX, rock.GetPosition().y + posChangeY, 0);
+	//	ChangeAnimation(knuckles, push);
+	//}
 
-	cout << "Rotation: " << squareAnim.GetRotation().x << ", " << squareAnim.GetRotation().y << ", " << squareAnim.GetRotation().z << endl;
+	samus.Update();
 
-	squareAnim.Draw();
+	if (posChangeX != 0 || posChangeY != 0)
+		samus.SetPosition(samus.GetPosition().x + posChangeX, samus.GetPosition().y + posChangeY, 0);
 
-	debugAABB.SetPosition(squareAnim.GetPosition());
-	debugAABB.SetScale(collisionManager.GetCollisionWidthRotated(&squareAnim), collisionManager.GetCollisionHeightRotated(&squareAnim), 1.0f);
+	if (moveX != 0 || moveY != 0)
+		square2.SetPosition(square2.GetPosition().x + moveX, square2.GetPosition().y + moveY, 0);
 
+	square2.Draw();
+	samus.Draw();
 	square.Draw();
-	debugAABB.Draw();
-	triangle1.Draw();
+	//rock.Draw();
 }
 
 void Game::DeInitGame()
 {
 
+}
+
+
+void ChangeAnimation(Sprite& sprite, Animation& animation)
+{
+	currentAnim = &animation;
+
+	if (sprite.GetAnimation() != currentAnim)
+		sprite.SetAnimation(currentAnim);
+}
+
+void KeepOnScreen(Entity2D& entity)
+{
+	if (entity.GetX() - entity.GetScale().x / 2 > screenWidth)
+	{
+		entity.SetX(-entity.GetScale().x / 2);
+	}
+	if (entity.GetX() + entity.GetScale().x / 2 < 0)
+	{
+		entity.SetX(screenWidth + entity.GetScale().x / 2);
+	}
 }

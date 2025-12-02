@@ -83,8 +83,8 @@ void Animation::Update()
 {
 	currentTime += MyClock::GetDeltaTime();
 
-	cout << endl << "currentTime: " << currentTime << endl;
-	cout << "currentFrameIndex: " << currentFrameIndex << endl;
+	//cout << endl << "currentTime: " << currentTime << endl;
+	//cout << "currentFrameIndex: " << currentFrameIndex << endl;
 
 	while (currentTime > totalDuration)
 		currentTime -= totalDuration;
