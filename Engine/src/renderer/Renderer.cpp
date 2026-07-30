@@ -71,13 +71,6 @@ void Renderer::GenBuffers(Entity2D& entity2D)
 	glGenVertexArrays(1, entity2D.GetVAO());
 	glGenBuffers(1, entity2D.GetVBO());
 	glGenBuffers(1, entity2D.GetEBO());
-
-	Sprite* sprite = dynamic_cast<Sprite*>(&entity2D);
-	if (sprite != nullptr)
-	{
-		unsigned int* texture = sprite->GetTexture();
-		glGenTextures(1, texture);
-	}
 }
 
 void Renderer::BindBuffers(Entity2D& entity2D)
@@ -124,37 +117,6 @@ void Renderer::InitSpriteBuffers(Sprite& sprite)
 
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(sizeof(float) * 7));
 	glEnableVertexAttribArray(2);
-
-	// set the texture wrapping/filtering options (on the currently bound texture object)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	// load and generate the texture
-	int width = sprite.GetTextureWidth();
-	int height = sprite.GetTextureHeight();
-	int nrChannels = 0; //BUSCAR LA FORMA DE OBTENER LOS CANALES DE LA IMAGEN ANTES DE HACER stbi_load
-
-	std::cout << "Trying to load texture from: " << sprite.GetTexturePath() << std::endl;
-	std::cout << "Current working directory: " << current_path() << std::endl;
-
-	stbi_set_flip_vertically_on_load(true);
-	unsigned char* data = stbi_load(sprite.GetTexturePath().c_str(), &width, &height, &nrChannels, 4);
-
-	if (data)
-	{
-		cout << "Texture loaded succesfully" << endl;
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		cout << "Failed to load texture" << endl;
-		cout << "stbi_failure_reason(): " << stbi_failure_reason() << endl;
-	}
-	stbi_image_free(data);
 }
 
 void Renderer::PollEvents()

@@ -20,6 +20,9 @@ void Sprite::Init()
 Sprite::Sprite()
 {
 	animation = new Animation();
+
+	texture = 0;
+	sharedTexture = false;
 }
 
 Sprite::~Sprite()
@@ -29,10 +32,12 @@ Sprite::~Sprite()
 		if (Renderer::entities[i] == this)
 		{
 			Renderer::entities.erase(Renderer::entities.begin() + i);
+			break;
 		}
 	}
 
 	delete animation;
+	animation = nullptr;
 }
 
 
@@ -65,7 +70,7 @@ void Sprite::CreateTriangle(glm::vec3 pos, float width, float height, glm::vec4 
 void Sprite::CreateSquare(glm::vec3 pos, float width, float height, glm::vec4 color)
 {
 	// one is the upper left side vertex
-	
+
 	verticesData =
 	{
 		// position			/color								/ uv's
@@ -159,15 +164,45 @@ unsigned int* Sprite::GetTexture()
 
 void Sprite::SetTexture(string path, int texWidth, int texHeight)
 {
-	texturePath = path;
-	textureWidth = texWidth;
-	textureHeight = texHeight;
+	if (textureImporter.LoadTexture(path))
+		texture = textureImporter.GetTexture();
 }
 
-string Sprite::GetTexturePath()
+void Sprite::SetTextureId(unsigned int textureId)
 {
-	return texturePath;
+	texture = textureId;
 }
+
+void Sprite::SetSharedTexture(unsigned int textureId)
+{
+	texture = textureId;
+	sharedTexture = true;
+}
+
+void Sprite::SetTextureCoordinates(float topRightU, float topRightV, float bottomRightU, float bottomRightV, float bottomLeftU, float bottomLeftV, float topLeftU, float topLeftV)
+{
+	if (verticesData.size() < 36)
+		return;
+
+	//Top right
+	verticesData[7] = topRightU;
+	verticesData[8] = topRightV;
+
+	//Bottom right
+	verticesData[16] = bottomRightU;
+	verticesData[17] = bottomRightV;
+
+	//Bottom left
+	verticesData[25] = bottomLeftU;
+	verticesData[26] = bottomLeftV;
+
+	//Top left
+	verticesData[34] = topLeftU;
+	verticesData[35] = topLeftV;
+
+	Renderer::BindBuffers(*this);
+}
+
 
 Animation* Sprite::GetAnimation()
 {
@@ -176,49 +211,52 @@ Animation* Sprite::GetAnimation()
 
 int Sprite::GetTextureWidth()
 {
-	return textureWidth;
+	return textureImporter.GetTextureWidth();
 }
 
 int Sprite::GetTextureHeight()
 {
-	return textureHeight;
+	return textureImporter.GetTextureHeight();
+}
+
+bool Sprite::UsesSharedTexture()
+{
+	return sharedTexture;
 }
 
 void Sprite::Update()
 {
-	if (animation != nullptr)
-	{
-		animation->Update(); // actualiza el currentFrameIndex
+	if (animation == nullptr || animation->GetFrames().empty())
+		return;
 
-		if (animation->HasFrameChanged())
-		{
-			int frameIndex = animation->GetCurrentFrameIndex();
-			Frame frame = animation->GetFrames()[frameIndex];
+	animation->Update();
 
-			// Actualizamos solo los UVs
-			verticesData[7] = frame.frameCoords[0].u;
-			verticesData[8] = frame.frameCoords[0].v;
+	if (!animation->HasFrameChanged())
+		return;
 
-			verticesData[16] = frame.frameCoords[1].u;
-			verticesData[17] = frame.frameCoords[1].v;
+	int frameIndex = animation->GetCurrentFrameIndex();
+	Frame frame = animation->GetFrames()[frameIndex];
 
-			verticesData[25] = frame.frameCoords[2].u;
-			verticesData[26] = frame.frameCoords[2].v;
+	// Actualizamos solo los UVs
+	verticesData[7] = frame.frameCoords[0].u;
+	verticesData[8] = frame.frameCoords[0].v;
 
-			verticesData[34] = frame.frameCoords[3].u;
-			verticesData[35] = frame.frameCoords[3].v;
+	verticesData[16] = frame.frameCoords[1].u;
+	verticesData[17] = frame.frameCoords[1].v;
 
-			Renderer::BindBuffers(*this);
+	verticesData[25] = frame.frameCoords[2].u;
+	verticesData[26] = frame.frameCoords[2].v;
 
-			std::cout << "Frame Coords:" << std::endl;
-			std::cout << "  0: (" << frame.frameCoords[0].u << ", " << frame.frameCoords[0].v << ")" << std::endl;
-			std::cout << "  1: (" << frame.frameCoords[1].u << ", " << frame.frameCoords[1].v << ")" << std::endl;
-			std::cout << "  2: (" << frame.frameCoords[2].u << ", " << frame.frameCoords[2].v << ")" << std::endl;
-			std::cout << "  3: (" << frame.frameCoords[3].u << ", " << frame.frameCoords[3].v << ")" << std::endl;
+	verticesData[34] = frame.frameCoords[3].u;
+	verticesData[35] = frame.frameCoords[3].v;
 
-		}
+	Renderer::BindBuffers(*this);
 
-	}
+	std::cout << "Frame Coords:" << std::endl;
+	std::cout << "  0: (" << frame.frameCoords[0].u << ", " << frame.frameCoords[0].v << ")" << std::endl;
+	std::cout << "  1: (" << frame.frameCoords[1].u << ", " << frame.frameCoords[1].v << ")" << std::endl;
+	std::cout << "  2: (" << frame.frameCoords[2].u << ", " << frame.frameCoords[2].v << ")" << std::endl;
+	std::cout << "  3: (" << frame.frameCoords[3].u << ", " << frame.frameCoords[3].v << ")" << std::endl;
 }
 
 void Sprite::Draw()
