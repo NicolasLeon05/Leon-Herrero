@@ -3,11 +3,16 @@
 
 Entity::Entity()
 {
+	VBO = 0;
+	EBO = 0;
+	VAO = 0;
+
 	translation = glm::vec3(1.0f);
 	prevPosition  = glm::vec3(-1.0f);
 	rotation = glm::mat4(1.0f);
 	eulerRotation = glm::vec3(0.0f);
 	scale = glm::vec3(1.0f);
+
 	UpdateTRS();
 }
 

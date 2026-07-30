@@ -33,6 +33,8 @@
     <ClCompile Include="src\sprite\Sprite.cpp" />
     <ClCompile Include="src\vertex\Vertex.cpp" />
     <ClCompile Include="src\window\Window.cpp" />
+    <ClCompile Include="src\tilemap\Tile.cpp" />
+    <ClCompile Include="src\tilemap\Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\animation\Animation.h" />
@@ -52,6 +54,8 @@
     <ClInclude Include="src\shape\Shape.h" />
     <ClInclude Include="src\shape\ShapeType.h" />
     <ClInclude Include="src\window\Window.h" />
+    <ClInclude Include="src\tilemap\Tile.h" />
+    <ClInclude Include="src\tilemap\Tilemap.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -120,14 +124,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)lib\glfw-3.4.bin.WIN32\include;$(ProjectDir)lib\glew-2.2.0\include;$(ProjectDir)lib\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)lib\glfw-3.4.bin.WIN32\include;$(ProjectDir)lib\glew-2.2.0\include;$(ProjectDir)lib\glm;$(ProjectDir)lib\tinyxml2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib\glew-2.2.0\lib;$(ProjectDir)lib\glfw-3.4.bin.WIN32\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32.lib;Opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\glew-2.2.0\lib;$(ProjectDir)lib\glfw-3.4.bin.WIN32\lib-vc2022;$(ProjectDir)lib\tinyxml2\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;glew32.lib;Opengl32.lib;tinyxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)lib\glew-2.2.0\lib\glew32.dll" "$(OutDir)" /y /i /s</Command>
