@@ -10,11 +10,11 @@
 #include <sstream>
 #include <utility>
 
-static const unsigned int FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
-static const unsigned int FLIPPED_VERTICALLY_FLAG = 0x40000000;
-static const unsigned int FLIPPED_DIAGONALLY_FLAG = 0x20000000;
+static const int FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
+static const int FLIPPED_VERTICALLY_FLAG = 0x40000000;
+static const int FLIPPED_DIAGONALLY_FLAG = 0x20000000;
 
-static const unsigned int FLIP_FLAGS_MASK = FLIPPED_HORIZONTALLY_FLAG | FLIPPED_VERTICALLY_FLAG | FLIPPED_DIAGONALLY_FLAG;
+static const int FLIP_FLAGS_MASK = FLIPPED_HORIZONTALLY_FLAG | FLIPPED_VERTICALLY_FLAG | FLIPPED_DIAGONALLY_FLAG;
 
 TileMap::TileMap() : Entity2D()
 {
@@ -224,13 +224,12 @@ bool TileMap::LoadTileset(const std::string& path)
 
 	tileWalkability.clear();
 
-	for (
-		tinyxml2::XMLElement* tileElement = tilesetElement->FirstChildElement("tile");
+	for (tinyxml2::XMLElement* tileElement = tilesetElement->FirstChildElement("tile");
 		tileElement != nullptr;
 		tileElement = tileElement->NextSiblingElement("tile")
 		)
 	{
-		unsigned int localId = tileElement->UnsignedAttribute("id");
+		int localId = tileElement->UnsignedAttribute("id");
 
 		bool walkable = true;
 
@@ -238,8 +237,7 @@ bool TileMap::LoadTileset(const std::string& path)
 
 		if (propertiesElement != nullptr)
 		{
-			for (
-				tinyxml2::XMLElement* propertyElement = propertiesElement->FirstChildElement("property");
+			for (tinyxml2::XMLElement* propertyElement = propertiesElement->FirstChildElement("property");
 				propertyElement != nullptr;
 				propertyElement = propertyElement->NextSiblingElement("property")
 				)
@@ -261,7 +259,7 @@ bool TileMap::LoadLayers(tinyxml2::XMLElement* mapElement)
 {
 	layers.clear();
 
-	unsigned int layerIndex = 0;
+	int layerIndex = 0;
 
 	for (
 		tinyxml2::XMLElement* layerElement = mapElement->FirstChildElement("layer");
@@ -299,12 +297,12 @@ bool TileMap::LoadLayers(tinyxml2::XMLElement* mapElement)
 			return false;
 		}
 
-		std::vector<unsigned int> gids;
+		std::vector<int> gids;
 
 		if (!ReadCsvData(dataElement->GetText(), gids))
 			return false;
 
-		unsigned int expectedTileCount = layer.width * layer.height;
+		int expectedTileCount = layer.width * layer.height;
 
 		if (gids.size() != expectedTileCount)
 		{
@@ -315,12 +313,12 @@ bool TileMap::LoadLayers(tinyxml2::XMLElement* mapElement)
 
 		layer.tiles.resize(expectedTileCount);
 
-		for (unsigned int row = 0; row < layer.height; row++)
+		for (int row = 0; row < layer.height; row++)
 		{
-			for (unsigned int column = 0; column < layer.width; column++)
+			for (int column = 0; column < layer.width; column++)
 			{
-				unsigned int tileIndex = row * layer.width + column;
-				unsigned int rawGid = gids[tileIndex];
+				int tileIndex = row * layer.width + column;
+				int rawGid = gids[tileIndex];
 
 				if (rawGid == 0)
 					continue;
@@ -338,7 +336,7 @@ bool TileMap::LoadLayers(tinyxml2::XMLElement* mapElement)
 	return !layers.empty();
 }
 
-bool TileMap::ReadCsvData(const char* csvText, std::vector<unsigned int>& gids)
+bool TileMap::ReadCsvData(const char* csvText, std::vector<int>& gids)
 {
 	gids.clear();
 
@@ -352,7 +350,7 @@ bool TileMap::ReadCsvData(const char* csvText, std::vector<unsigned int>& gids)
 	{
 		value.erase
 		(
-			std::remove_if(value.begin(), value.end(), [](unsigned char character)
+			std::remove_if(value.begin(), value.end(), [](char character)
 				{
 					return std::isspace(character) != 0;
 				}),
@@ -366,8 +364,8 @@ bool TileMap::ReadCsvData(const char* csvText, std::vector<unsigned int>& gids)
 
 		try
 		{
-			unsigned long long parsedValue = std::stoull(value);
-			gids.push_back(static_cast<unsigned int>(parsedValue));
+			long long parsedValue = std::stoull(value);
+			gids.push_back(static_cast<int>(parsedValue));
 		}
 		catch (...)
 		{
@@ -379,18 +377,18 @@ bool TileMap::ReadCsvData(const char* csvText, std::vector<unsigned int>& gids)
 	return true;
 }
 
-bool TileMap::CreateTile(TileLayer& layer, unsigned int rawGid, unsigned int column, unsigned int row)
+bool TileMap::CreateTile(TileLayer& layer, int rawGid, int column, int row)
 {
 	bool flippedHorizontally = (rawGid & FLIPPED_HORIZONTALLY_FLAG) != 0;
 	bool flippedVertically = (rawGid & FLIPPED_VERTICALLY_FLAG) != 0;
 	bool flippedDiagonally = (rawGid & FLIPPED_DIAGONALLY_FLAG) != 0;
 
-	unsigned int gid = rawGid & ~FLIP_FLAGS_MASK;
+	int gid = rawGid & ~FLIP_FLAGS_MASK;
 
 	if (gid < firstGid)
 		return false;
 
-	unsigned int localId = gid - firstGid;
+	int localId = gid - firstGid;
 
 	if (localId >= tilesetTileCount)
 	{
@@ -435,13 +433,13 @@ bool TileMap::CreateTile(TileLayer& layer, unsigned int rawGid, unsigned int col
 		topLeftU, topLeftV
 	);
 
-	unsigned int tileIndex = row * layer.width + column;
+	int tileIndex = row * layer.width + column;
 	layer.tiles[tileIndex] = std::move(tile);
 
 	return true;
 }
 
-bool TileMap::GetTileWalkable(unsigned int localId) const
+bool TileMap::GetTileWalkable(int localId)
 {
 	auto iterator = tileWalkability.find(localId);
 
@@ -451,35 +449,35 @@ bool TileMap::GetTileWalkable(unsigned int localId) const
 	return iterator->second;
 }
 
-Tile* TileMap::GetTile(TileLayer& layer, unsigned int column, unsigned int row)
+Tile* TileMap::GetTile(TileLayer& layer, int column, int row)
 {
 	if (column >= layer.width || row >= layer.height)
 		return nullptr;
 
-	unsigned int tileIndex = row * layer.width + column;
+	int tileIndex = row * layer.width + column;
 	return layer.tiles[tileIndex].get();
 }
 
-const Tile* TileMap::GetTile(const TileLayer& layer, unsigned int column, unsigned int row) const
+const Tile* TileMap::GetTile(const TileLayer& layer, int column, int row)
 {
 	if (column >= layer.width || row >= layer.height)
 		return nullptr;
 
-	unsigned int tileIndex = row * layer.width + column;
+	int tileIndex = row * layer.width + column;
 	return layer.tiles[tileIndex].get();
 }
 
 void TileMap::CalculateTextureCoordinates(
-	unsigned int localId,
+	int localId,
 	bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally,
 	float& topRightU, float& topRightV,
 	float& bottomRightU, float& bottomRightV,
 	float& bottomLeftU, float& bottomLeftV,
 	float& topLeftU, float& topLeftV
-) const
+)
 {
-	unsigned int tilesetColumn = localId % tilesetColumns;
-	unsigned int tilesetRow = localId / tilesetColumns;
+	int tilesetColumn = localId % tilesetColumns;
+	int tilesetRow = localId / tilesetColumns;
 
 	float pixelX = static_cast<float>(tilesetMargin + tilesetColumn * (tileWidth + tilesetSpacing));
 	float pixelY = static_cast<float>(tilesetMargin + tilesetRow * (tileHeight + tilesetSpacing));
@@ -501,7 +499,7 @@ void TileMap::CalculateFlippedUv(
 	float uMin, float uMax,
 	float vMin, float vMax,
 	bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally,
-	float& u, float& v) const
+	float& u, float& v)
 {
 	if (flippedDiagonally)
 		std::swap(x, y);
@@ -557,15 +555,10 @@ void TileMap::Update()
 
 	for (TileLayer& layer : layers)
 	{
-		for (
-			std::unique_ptr<Tile>& tile :
-			layer.tiles
-			)
+		for (std::unique_ptr<Tile>& tile : layer.tiles)
 		{
 			if (tile != nullptr)
-			{
 				tile->Update();
-			}
 		}
 	}
 }
@@ -588,27 +581,84 @@ void TileMap::Draw()
 	}
 }
 
-unsigned int TileMap::GetWidth() const
+int TileMap::GetWidth()
 {
 	return width;
 }
 
-unsigned int TileMap::GetHeight() const
+int TileMap::GetHeight()
 {
 	return height;
 }
 
-unsigned int TileMap::GetTileWidth() const
+int TileMap::GetTileWidth()
 {
 	return tileWidth;
 }
 
-unsigned int TileMap::GetTileHeight() const
+int TileMap::GetTileHeight()
 {
 	return tileHeight;
 }
 
-bool TileMap::IsLoaded() const
+bool TileMap::IsLoaded()
 {
 	return loaded;
+}
+
+bool TileMap::IsCellWalkable(int column, int row)
+{
+	if (column < 0 || row < 0 || column >= static_cast<int>(width) || row >= static_cast<int>(height))
+		return false;
+
+	bool walkable = false;
+
+	for (TileLayer& layer : layers)
+	{
+		Tile* tile = GetTile(layer, column, row);
+
+		if (tile != nullptr)
+			walkable = tile->IsWalkable();
+	}
+
+	return walkable;
+}
+
+bool TileMap::CheckCollision(Entity2D& entity)
+{
+	if (!loaded)
+		return false;
+
+	float scaledTileWidth = static_cast<float>(tileWidth) * GetScale().x;
+	float scaledTileHeight = static_cast<float>(tileHeight) * GetScale().y;
+	float halfEntityWidth = collisionManager.GetCollisionWidthRotated(&entity) * 0.5f;
+	float halfEntityHeight = collisionManager.GetCollisionHeightRotated(&entity) * 0.5f;
+
+	float localLeft = entity.GetX() - halfEntityWidth - GetX();
+	float localRight = entity.GetX() + halfEntityWidth - GetX();
+	float localBottom = entity.GetY() - halfEntityHeight - GetY();
+	float localTop = entity.GetY() + halfEntityHeight - GetY();
+
+	const float margin = 0.001f;
+
+	int leftColumn = (std::floor(localLeft / scaledTileWidth));
+	int rightColumn = (std::floor((localRight - margin) / scaledTileWidth));
+	int bottomRow = (std::floor(localBottom / scaledTileHeight));
+	int topRow = (std::floor((localTop - margin) / scaledTileHeight));
+
+	for (int rowFromBottom = bottomRow; rowFromBottom <= topRow; rowFromBottom++)
+	{
+		int tiledRow = (height) - rowFromBottom - 1;
+
+		for (int column = leftColumn; column <= rightColumn; column++)
+		{
+			if (!IsCellWalkable(column, tiledRow))
+			{
+				entity.SetPosition(entity.GetPrevPosition());
+				return true;
+			}
+		}
+	}
+
+	return false;
 }

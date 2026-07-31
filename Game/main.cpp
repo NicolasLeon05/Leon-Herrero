@@ -10,7 +10,6 @@
 #include "glm.hpp"
 
 
-
 class Game : public BaseGame
 {
 public:
@@ -21,44 +20,19 @@ public:
 };
 
 
-static const float screenWidth = 720.0f;
-static const float screenHeight = 640.0f;
-
-Shape redSquare = Shape();
-Shape pinkSquare = Shape();
-Shape orangeTriangle = Shape();
-float shapeWidth = 100.0f;
-float shapeHeight = 100.0f;
-float scaleMultiplier = 1;
-float scaleSpeed = 0.002f;
+static const float screenWidth = 480.0f * 2.5f;
+static const float screenHeight = 272.0f * 2.5f;
 
 TileMap tileMap;
+Sprite player;
 
-glm::vec3 maxScale;
-glm::vec3 startScale;
+static const float playerWidth = 30.0f;
+static const float playerHeight = 36.0f;
+static const float playerSpeed = 0.1f;
 
-glm::vec3 trianglePosition = { screenWidth - shapeWidth, screenHeight / 2, 0 };
-glm::vec3 pinkSquarePosition = { screenWidth / 2, screenHeight / 2, 0 };
-
-
-glm::vec3 target1 = { screenWidth - shapeWidth / 2, screenHeight - shapeHeight / 2, 0 };
-glm::vec3 target2 = { screenWidth - shapeWidth / 2, shapeHeight / 2, 0 };
-glm::vec3 target3 = { shapeWidth / 2, shapeHeight / 2, 0 };
-glm::vec3 target4 = { shapeWidth / 2, screenHeight - shapeHeight / 2, 0 };
-
-int stepsRedSquare = 0;
-int stepsOrangeTriangle = 0;
-int stepsPinkSquare = 0;
-
-
-//Ejercicio 4
-Shape redTriA;
-Shape redTriB;
-
-static float triRotSpeed = 0.01f;
-static float triRotSpeedMin = 0.01f;
-static float triRotSpeedMax = 0.1f;
-static float triRotSpeedModifier = 0.002f;
+float scaledTileWidth;
+float scaledTileHeight;
+float speedLimitCounter;
 
 void main()
 {
@@ -68,184 +42,18 @@ void main()
 	game.RunEngine(window);
 }
 
-//Old code
-
-//void Game::InitGame()
-//{
-//	redSquare.CreateSquare(target4, shapeWidth, shapeHeight, { 0,0,1,1 });
-//	pinkSquare.CreateSquare(pinkSquarePosition, shapeWidth / 2, shapeHeight / 2, { 1,0.55f,0.71f,1 });
-//	orangeTriangle.CreateTriangle(trianglePosition, shapeWidth, shapeHeight, { 1, 0.65f, 0, 1 });
-//
-//	maxScale = { pinkSquare.GetScale().x * 3,  pinkSquare.GetScale().y * 3, pinkSquare.GetScale().z * 3 };
-//	startScale = { pinkSquare.GetScale().x,  pinkSquare.GetScale().y, pinkSquare.GetScale().z };
-//
-//	//Ejercicio 4
-//	glm::vec3 starPos = { screenWidth * 0.25f, screenHeight * 0.5f, 0 };
-//
-//	redTriA.CreateTriangle(starPos, shapeWidth, shapeHeight, { 1,0,0,1 });
-//	redTriB.CreateTriangle(starPos, shapeWidth, shapeHeight, { 1,0,0,1 });
-//
-//	redTriB.SetRotation(0, 0, 180);
-//}
-//
-//void Game::Update()
-//{
-//	float deltaTime = MyClock::GetDeltaTime();
-//
-//	float mov = 0.5f * deltaTime;
-//	float movMargin = 3;
-//
-//	float movSpeedX = 0;
-//	float movSpeedY = 0;
-//
-//	float rotSpeed = 0.5f * deltaTime;
-//
-//	switch (stepsRedSquare)
-//	{
-//	case 0:
-//	{
-//		if (redSquare.GetPosition().x - target1.x > movMargin || target1.x - redSquare.GetPosition().x > movMargin)
-//			movSpeedX = (redSquare.GetPosition().x < target2.x) ? mov : -mov;
-//		else
-//			stepsRedSquare++;
-//		break;
-//	}
-//
-//	case 1:
-//	{
-//		if (redSquare.GetPosition().y - target2.y > movMargin || target2.y - redSquare.GetPosition().y > movMargin)
-//			movSpeedY = (redSquare.GetPosition().y > target1.y) ? mov : -mov;
-//		else
-//			stepsRedSquare++;
-//		break;
-//	}
-//
-//	case 2:
-//	{
-//		if (redSquare.GetPosition().x - target3.x > movMargin || target3.x - redSquare.GetPosition().x > movMargin)
-//			movSpeedX = (redSquare.GetPosition().x > target4.x) ? -mov : mov;
-//		else
-//			stepsRedSquare++;
-//
-//		break;
-//	}
-//
-//	case 3:
-//	{
-//		if (redSquare.GetPosition().y - target4.y > movMargin || target4.y - redSquare.GetPosition().y > movMargin)
-//			movSpeedY = (redSquare.GetPosition().y < target1.y) ? mov : -mov;
-//		else
-//			stepsRedSquare++;
-//		break;
-//	}
-//
-//	default:
-//		stepsRedSquare = 0;
-//		break;
-//	}
-//
-//	redSquare.SetPosition(redSquare.GetPosition().x + movSpeedX, redSquare.GetPosition().y + movSpeedY, //redSquare.GetPosition().z);
-//	redSquare.SetRotation(redSquare.GetRotation().x, redSquare.GetRotation().y, redSquare.GetRotation().z - rotSpeed);
-//
-//	movSpeedY = 0;
-//	switch (stepsOrangeTriangle)
-//	{
-//	case 0:
-//	{
-//		if (orangeTriangle.GetPosition().y - screenHeight - shapeHeight / 2 > movMargin || screenHeight - /shapeHeight / /2 - orangeTriangle.GetPosition().y > movMargin)
-//			movSpeedY = mov;
-//		else
-//		{
-//			stepsOrangeTriangle++;
-//			orangeTriangle.SetRotation(orangeTriangle.GetRotation().x, orangeTriangle.GetRotation().y, 180);
-//		}
-//		break;
-//	}
-//
-//	case 1:
-//	{
-//		if (orangeTriangle.GetPosition().y - shapeHeight / 2 > movMargin || shapeHeight / 2 - /orangeTriangle.GetPosition/().y > movMargin)
-//			movSpeedY = -mov;
-//		else
-//		{
-//			stepsOrangeTriangle++;
-//			orangeTriangle.SetRotation(orangeTriangle.GetRotation().x, orangeTriangle.GetRotation().y, 0);
-//		}
-//		break;
-//	}
-//
-//	default:
-//	{
-//		stepsOrangeTriangle = 0;
-//		break;
-//	}
-//	}
-//
-//	orangeTriangle.SetPosition(orangeTriangle.GetPosition().x, orangeTriangle.GetPosition().y + movSpeedY, //orangeTriangle.GetPosition().z);
-//
-//
-//	scaleMultiplier += scaleSpeed * deltaTime;
-//
-//	if (scaleMultiplier > 3.0f)
-//	{
-//		scaleMultiplier = 3.0f;
-//		scaleSpeed = -fabs(scaleSpeed);
-//	}
-//	else if (scaleMultiplier < 1.0f)
-//	{
-//		scaleMultiplier = 1.0f;
-//		scaleSpeed = fabs(scaleSpeed);
-//	}
-//
-//
-//	pinkSquare.SetScale(startScale.x * scaleMultiplier, startScale.y * scaleMultiplier, 0);
-//
-//	triRotSpeed += triRotSpeedModifier * deltaTime;
-//
-//	if (triRotSpeed > triRotSpeedMax)
-//	{
-//		triRotSpeed = triRotSpeedMax;
-//		triRotSpeedModifier = -fabs(triRotSpeedModifier);
-//	}
-//	else if (triRotSpeed < triRotSpeedMin)
-//	{
-//		triRotSpeed = triRotSpeedMin;
-//		triRotSpeedModifier = fabs(triRotSpeedModifier);
-//	}
-//
-//	cout << "Delta time: " << deltaTime << endl;
-//
-//	redTriA.SetRotation(
-//		redTriA.GetRotation().x,
-//		redTriA.GetRotation().y,
-//		redTriA.GetRotation().z + triRotSpeed
-//	);
-//
-//	redTriB.SetRotation(
-//		redTriB.GetRotation().x,
-//		redTriB.GetRotation().y,
-//		redTriB.GetRotation().z - triRotSpeed
-//	);
-//
-//
-//
-//	redSquare.Draw();
-//	orangeTriangle.Draw();
-//	pinkSquare.Draw();
-//	redTriA.Draw();
-//	redTriB.Draw();
-//}
 
 void Game::InitGame()
 {
-	float mapWidth = 30.0f * 16.0f;
-	float mapHeight = 17.0f * 16.0f;
+	speedLimitCounter = 0.0f;
 
-	float mapX = (screenWidth - mapWidth) * 0.5f;
-	float mapY = (screenHeight - mapHeight) * 0.5f;
+	float mapWidth = 30.0f * 16.0f; //480
+	float mapHeight = 17.0f * 16.0f; //272
 
+	tileMap.SetScale(screenWidth / mapWidth, screenHeight / mapHeight, 1.0f);
+	float mapX = (screenWidth - mapWidth * tileMap.GetScale().x) * 0.5f;
+	float mapY = (screenHeight - mapHeight * tileMap.GetScale().y) * 0.5f;
 	tileMap.SetPosition(mapX, mapY, 0.0f);
-	tileMap.SetScale(1.0f, 1.0f, 1.0f);
 
 	bool loaded = tileMap.Load("Assets/TileMap/sampleMap.tmx");
 
@@ -268,16 +76,63 @@ void Game::InitGame()
 			<< tileMap.GetTileHeight()
 			<< std::endl;
 	}
+
+	scaledTileWidth = static_cast<float>(tileMap.GetTileWidth()) * tileMap.GetScale().x;
+	scaledTileHeight = static_cast<float>(tileMap.GetTileHeight()) * tileMap.GetScale().y;
+
+	int startColumn = 12;
+	int startRow = 8;
+
+	float playerX = tileMap.GetX() + (static_cast<float>(startColumn) + 0.5f) * scaledTileWidth;
+	float playerY = tileMap.GetY() + (static_cast<float>(tileMap.GetHeight()) - static_cast<float>(startRow) - 0.5f) * scaledTileHeight;
+
+	player.SetTexture("Assets/Player/pokemon.png", 256, 256);
+	player.CreateSquare(glm::vec3(playerX, playerY, 0.0f), playerWidth, playerHeight);
+	player.SetTextureCoordinates(
+		0.25f, 1.0f,
+		0.25f, 0.75f,
+		0.0f, 0.75f,
+		0.0f, 1.0f
+	);
+
 }
 
 void Game::Update()
 {
-	float deltaTime = MyClock::GetDeltaTime();
+	float deltaTimeInSeconds = MyClock::GetDeltaTime() / 1000;
 
-	//tileMap.SetPosition(tileMap.GetX() + 0.05f * deltaTime, tileMap.GetY(), tileMap.GetZ());
+	speedLimitCounter += deltaTimeInSeconds;
+
+	if (speedLimitCounter >= 0.1f)
+	{
+		float movementX = 0.0f;
+		float movementY = 0.0f;
+
+		if (Input::IsKeyDown(Key::W))
+			movementY = scaledTileHeight;
+		else if (Input::IsKeyDown(Key::S))
+			movementY = -scaledTileHeight;
+		else if (Input::IsKeyDown(Key::A))
+			movementX = -scaledTileWidth;
+		else if (Input::IsKeyDown(Key::D))
+			movementX = scaledTileWidth;
+
+		if (movementX != 0.0f || movementY != 0.0f)
+		{
+			player.SetPosition(player.GetX() + movementX, player.GetY() + movementY, player.GetZ());
+
+			if (tileMap.CheckCollision(player))
+				std::cout << "Tile collision" << std::endl;
+
+			speedLimitCounter = 0.0f;
+		}
+	}
 
 	tileMap.Update();
+	player.Update();
+
 	tileMap.Draw();
+	player.Draw();
 }
 
 void Game::DeInitGame()

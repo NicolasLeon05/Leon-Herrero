@@ -9,7 +9,7 @@ Tile::Tile()
 	row = 0;
 	layerIndex = 0;
 
-	walkable = true;
+	walkable = false;
 }
 
 Tile::~Tile()
@@ -17,44 +17,44 @@ Tile::~Tile()
 
 }
 
-void Tile::SetId(unsigned int value)
+void Tile::SetId(int value)
 {
 	id = value;
 }
 
-unsigned int Tile::GetId() const
+int Tile::GetId()
 {
 	return id;
 }
 
-void Tile::SetGid(unsigned int value)
+void Tile::SetGid(int value)
 {
 	gid = value;
 }
 
-unsigned int Tile::GetGid() const
+int Tile::GetGid()
 {
 	return gid;
 }
 
-void Tile::SetGridPosition(unsigned int tileColumn, unsigned int tileRow, unsigned int tileLayerIndex)
+void Tile::SetGridPosition(int tileColumn, int tileRow, int tileLayerIndex)
 {
 	column = tileColumn;
 	row = tileRow;
 	layerIndex = tileLayerIndex;
 }
 
-unsigned int Tile::GetColumn() const
+int Tile::GetColumn()
 {
 	return column;
 }
 
-unsigned int Tile::GetRow() const
+int Tile::GetRow()
 {
 	return row;
 }
 
-unsigned int Tile::GetLayerIndex() const
+int Tile::GetLayerIndex()
 {
 	return layerIndex;
 }
@@ -64,7 +64,7 @@ void Tile::SetWalkable(bool value)
 	walkable = value;
 }
 
-bool Tile::IsWalkable() const
+bool Tile::IsWalkable()
 {
 	return walkable;
 }
