@@ -6,6 +6,7 @@
 #include "window/Window.h"
 #include "input/Input.h"
 #include "clock/Clock.h"
+#include "tilemap/Tilemap.h"
 #include "glm.hpp"
 
 
@@ -30,6 +31,8 @@ float shapeWidth = 100.0f;
 float shapeHeight = 100.0f;
 float scaleMultiplier = 1;
 float scaleSpeed = 0.002f;
+
+TileMap tileMap;
 
 glm::vec3 maxScale;
 glm::vec3 startScale;
@@ -65,173 +68,219 @@ void main()
 	game.RunEngine(window);
 }
 
+//Old code
+
+//void Game::InitGame()
+//{
+//	redSquare.CreateSquare(target4, shapeWidth, shapeHeight, { 0,0,1,1 });
+//	pinkSquare.CreateSquare(pinkSquarePosition, shapeWidth / 2, shapeHeight / 2, { 1,0.55f,0.71f,1 });
+//	orangeTriangle.CreateTriangle(trianglePosition, shapeWidth, shapeHeight, { 1, 0.65f, 0, 1 });
+//
+//	maxScale = { pinkSquare.GetScale().x * 3,  pinkSquare.GetScale().y * 3, pinkSquare.GetScale().z * 3 };
+//	startScale = { pinkSquare.GetScale().x,  pinkSquare.GetScale().y, pinkSquare.GetScale().z };
+//
+//	//Ejercicio 4
+//	glm::vec3 starPos = { screenWidth * 0.25f, screenHeight * 0.5f, 0 };
+//
+//	redTriA.CreateTriangle(starPos, shapeWidth, shapeHeight, { 1,0,0,1 });
+//	redTriB.CreateTriangle(starPos, shapeWidth, shapeHeight, { 1,0,0,1 });
+//
+//	redTriB.SetRotation(0, 0, 180);
+//}
+//
+//void Game::Update()
+//{
+//	float deltaTime = MyClock::GetDeltaTime();
+//
+//	float mov = 0.5f * deltaTime;
+//	float movMargin = 3;
+//
+//	float movSpeedX = 0;
+//	float movSpeedY = 0;
+//
+//	float rotSpeed = 0.5f * deltaTime;
+//
+//	switch (stepsRedSquare)
+//	{
+//	case 0:
+//	{
+//		if (redSquare.GetPosition().x - target1.x > movMargin || target1.x - redSquare.GetPosition().x > movMargin)
+//			movSpeedX = (redSquare.GetPosition().x < target2.x) ? mov : -mov;
+//		else
+//			stepsRedSquare++;
+//		break;
+//	}
+//
+//	case 1:
+//	{
+//		if (redSquare.GetPosition().y - target2.y > movMargin || target2.y - redSquare.GetPosition().y > movMargin)
+//			movSpeedY = (redSquare.GetPosition().y > target1.y) ? mov : -mov;
+//		else
+//			stepsRedSquare++;
+//		break;
+//	}
+//
+//	case 2:
+//	{
+//		if (redSquare.GetPosition().x - target3.x > movMargin || target3.x - redSquare.GetPosition().x > movMargin)
+//			movSpeedX = (redSquare.GetPosition().x > target4.x) ? -mov : mov;
+//		else
+//			stepsRedSquare++;
+//
+//		break;
+//	}
+//
+//	case 3:
+//	{
+//		if (redSquare.GetPosition().y - target4.y > movMargin || target4.y - redSquare.GetPosition().y > movMargin)
+//			movSpeedY = (redSquare.GetPosition().y < target1.y) ? mov : -mov;
+//		else
+//			stepsRedSquare++;
+//		break;
+//	}
+//
+//	default:
+//		stepsRedSquare = 0;
+//		break;
+//	}
+//
+//	redSquare.SetPosition(redSquare.GetPosition().x + movSpeedX, redSquare.GetPosition().y + movSpeedY, //redSquare.GetPosition().z);
+//	redSquare.SetRotation(redSquare.GetRotation().x, redSquare.GetRotation().y, redSquare.GetRotation().z - rotSpeed);
+//
+//	movSpeedY = 0;
+//	switch (stepsOrangeTriangle)
+//	{
+//	case 0:
+//	{
+//		if (orangeTriangle.GetPosition().y - screenHeight - shapeHeight / 2 > movMargin || screenHeight - /shapeHeight / /2 - orangeTriangle.GetPosition().y > movMargin)
+//			movSpeedY = mov;
+//		else
+//		{
+//			stepsOrangeTriangle++;
+//			orangeTriangle.SetRotation(orangeTriangle.GetRotation().x, orangeTriangle.GetRotation().y, 180);
+//		}
+//		break;
+//	}
+//
+//	case 1:
+//	{
+//		if (orangeTriangle.GetPosition().y - shapeHeight / 2 > movMargin || shapeHeight / 2 - /orangeTriangle.GetPosition/().y > movMargin)
+//			movSpeedY = -mov;
+//		else
+//		{
+//			stepsOrangeTriangle++;
+//			orangeTriangle.SetRotation(orangeTriangle.GetRotation().x, orangeTriangle.GetRotation().y, 0);
+//		}
+//		break;
+//	}
+//
+//	default:
+//	{
+//		stepsOrangeTriangle = 0;
+//		break;
+//	}
+//	}
+//
+//	orangeTriangle.SetPosition(orangeTriangle.GetPosition().x, orangeTriangle.GetPosition().y + movSpeedY, //orangeTriangle.GetPosition().z);
+//
+//
+//	scaleMultiplier += scaleSpeed * deltaTime;
+//
+//	if (scaleMultiplier > 3.0f)
+//	{
+//		scaleMultiplier = 3.0f;
+//		scaleSpeed = -fabs(scaleSpeed);
+//	}
+//	else if (scaleMultiplier < 1.0f)
+//	{
+//		scaleMultiplier = 1.0f;
+//		scaleSpeed = fabs(scaleSpeed);
+//	}
+//
+//
+//	pinkSquare.SetScale(startScale.x * scaleMultiplier, startScale.y * scaleMultiplier, 0);
+//
+//	triRotSpeed += triRotSpeedModifier * deltaTime;
+//
+//	if (triRotSpeed > triRotSpeedMax)
+//	{
+//		triRotSpeed = triRotSpeedMax;
+//		triRotSpeedModifier = -fabs(triRotSpeedModifier);
+//	}
+//	else if (triRotSpeed < triRotSpeedMin)
+//	{
+//		triRotSpeed = triRotSpeedMin;
+//		triRotSpeedModifier = fabs(triRotSpeedModifier);
+//	}
+//
+//	cout << "Delta time: " << deltaTime << endl;
+//
+//	redTriA.SetRotation(
+//		redTriA.GetRotation().x,
+//		redTriA.GetRotation().y,
+//		redTriA.GetRotation().z + triRotSpeed
+//	);
+//
+//	redTriB.SetRotation(
+//		redTriB.GetRotation().x,
+//		redTriB.GetRotation().y,
+//		redTriB.GetRotation().z - triRotSpeed
+//	);
+//
+//
+//
+//	redSquare.Draw();
+//	orangeTriangle.Draw();
+//	pinkSquare.Draw();
+//	redTriA.Draw();
+//	redTriB.Draw();
+//}
+
 void Game::InitGame()
 {
-	redSquare.CreateSquare(target4, shapeWidth, shapeHeight, { 0,0,1,1 });
-	pinkSquare.CreateSquare(pinkSquarePosition, shapeWidth / 2, shapeHeight / 2, { 1,0.55f,0.71f,1 });
-	orangeTriangle.CreateTriangle(trianglePosition, shapeWidth, shapeHeight, { 1, 0.65f, 0, 1 });
+	float mapWidth = 30.0f * 16.0f;
+	float mapHeight = 17.0f * 16.0f;
 
-	maxScale = { pinkSquare.GetScale().x * 3,  pinkSquare.GetScale().y * 3, pinkSquare.GetScale().z * 3 };
-	startScale = { pinkSquare.GetScale().x,  pinkSquare.GetScale().y, pinkSquare.GetScale().z };
+	float mapX = (screenWidth - mapWidth) * 0.5f;
+	float mapY = (screenHeight - mapHeight) * 0.5f;
 
-	//Ejercicio 4
-	glm::vec3 starPos = { screenWidth * 0.25f, screenHeight * 0.5f, 0 };
+	tileMap.SetPosition(mapX, mapY, 0.0f);
+	tileMap.SetScale(1.0f, 1.0f, 1.0f);
 
-	redTriA.CreateTriangle(starPos, shapeWidth, shapeHeight, { 1,0,0,1 });
-	redTriB.CreateTriangle(starPos, shapeWidth, shapeHeight, { 1,0,0,1 });
+	bool loaded = tileMap.Load("Assets/TileMap/sampleMap.tmx");
 
-	redTriB.SetRotation(0, 0, 180);
+	if (!loaded)
+	{
+		std::cout << "Tilemap loading failed" << std::endl;
+	}
+	else
+	{
+		std::cout << "Tilemap loaded correctly" << std::endl;
+		std::cout << "Map size: "
+			<< tileMap.GetWidth()
+			<< " x "
+			<< tileMap.GetHeight()
+			<< std::endl;
+
+		std::cout << "Tile size: "
+			<< tileMap.GetTileWidth()
+			<< " x "
+			<< tileMap.GetTileHeight()
+			<< std::endl;
+	}
 }
 
 void Game::Update()
 {
 	float deltaTime = MyClock::GetDeltaTime();
 
-	float mov = 0.5f * deltaTime;
-	float movMargin = 3;
+	//tileMap.SetPosition(tileMap.GetX() + 0.05f * deltaTime, tileMap.GetY(), tileMap.GetZ());
 
-	float movSpeedX = 0;
-	float movSpeedY = 0;
-
-	float rotSpeed = 0.5f * deltaTime;
-
-	switch (stepsRedSquare)
-	{
-	case 0:
-	{
-		if (redSquare.GetPosition().x - target1.x > movMargin || target1.x - redSquare.GetPosition().x > movMargin)
-			movSpeedX = (redSquare.GetPosition().x < target2.x) ? mov : -mov;
-		else
-			stepsRedSquare++;
-		break;
-	}
-
-	case 1:
-	{
-		if (redSquare.GetPosition().y - target2.y > movMargin || target2.y - redSquare.GetPosition().y > movMargin)
-			movSpeedY = (redSquare.GetPosition().y > target1.y) ? mov : -mov;
-		else
-			stepsRedSquare++;
-		break;
-	}
-
-	case 2:
-	{
-		if (redSquare.GetPosition().x - target3.x > movMargin || target3.x - redSquare.GetPosition().x > movMargin)
-			movSpeedX = (redSquare.GetPosition().x > target4.x) ? -mov : mov;
-		else
-			stepsRedSquare++;
-
-		break;
-	}
-
-	case 3:
-	{
-		if (redSquare.GetPosition().y - target4.y > movMargin || target4.y - redSquare.GetPosition().y > movMargin)
-			movSpeedY = (redSquare.GetPosition().y < target1.y) ? mov : -mov;
-		else
-			stepsRedSquare++;
-		break;
-	}
-
-	default:
-		stepsRedSquare = 0;
-		break;
-	}
-
-	redSquare.SetPosition(redSquare.GetPosition().x + movSpeedX, redSquare.GetPosition().y + movSpeedY, redSquare.GetPosition().z);
-	redSquare.SetRotation(redSquare.GetRotation().x, redSquare.GetRotation().y, redSquare.GetRotation().z - rotSpeed);
-
-	movSpeedY = 0;
-	switch (stepsOrangeTriangle)
-	{
-	case 0:
-	{
-		if (orangeTriangle.GetPosition().y - screenHeight - shapeHeight / 2 > movMargin || screenHeight - shapeHeight / 2 - orangeTriangle.GetPosition().y > movMargin)
-			movSpeedY = mov;
-		else
-		{
-			stepsOrangeTriangle++;
-			orangeTriangle.SetRotation(orangeTriangle.GetRotation().x, orangeTriangle.GetRotation().y, 180);
-		}
-		break;
-	}
-
-	case 1:
-	{
-		if (orangeTriangle.GetPosition().y - shapeHeight / 2 > movMargin || shapeHeight / 2 - orangeTriangle.GetPosition().y > movMargin)
-			movSpeedY = -mov;
-		else
-		{
-			stepsOrangeTriangle++;
-			orangeTriangle.SetRotation(orangeTriangle.GetRotation().x, orangeTriangle.GetRotation().y, 0);
-		}
-		break;
-	}
-
-	default:
-	{
-		stepsOrangeTriangle = 0;
-		break;
-	}
-	}
-
-	orangeTriangle.SetPosition(orangeTriangle.GetPosition().x, orangeTriangle.GetPosition().y + movSpeedY, orangeTriangle.GetPosition().z);
-
-
-	scaleMultiplier += scaleSpeed * deltaTime;
-
-	if (scaleMultiplier > 3.0f)
-	{
-		scaleMultiplier = 3.0f;
-		scaleSpeed = -fabs(scaleSpeed);
-	}
-	else if (scaleMultiplier < 1.0f)
-	{
-		scaleMultiplier = 1.0f;
-		scaleSpeed = fabs(scaleSpeed);
-	}
-
-
-	pinkSquare.SetScale(startScale.x * scaleMultiplier, startScale.y * scaleMultiplier, 0);
-
-	triRotSpeed += triRotSpeedModifier * deltaTime;
-
-	if (triRotSpeed > triRotSpeedMax)
-	{
-		triRotSpeed = triRotSpeedMax;
-		triRotSpeedModifier = -fabs(triRotSpeedModifier);
-	}
-	else if (triRotSpeed < triRotSpeedMin)
-	{
-		triRotSpeed = triRotSpeedMin;
-		triRotSpeedModifier = fabs(triRotSpeedModifier);
-	}
-
-	cout << "Delta time: " << deltaTime << endl;
-
-	redTriA.SetRotation(
-		redTriA.GetRotation().x,
-		redTriA.GetRotation().y,
-		redTriA.GetRotation().z + triRotSpeed
-	);
-
-	redTriB.SetRotation(
-		redTriB.GetRotation().x,
-		redTriB.GetRotation().y,
-		redTriB.GetRotation().z - triRotSpeed
-	);
-
-
-
-	redSquare.Draw();
-	orangeTriangle.Draw();
-	pinkSquare.Draw();
-	redTriA.Draw();
-	redTriB.Draw();
+	tileMap.Update();
+	tileMap.Draw();
 }
 
 void Game::DeInitGame()
 {
-
+	tileMap.Unload();
 }

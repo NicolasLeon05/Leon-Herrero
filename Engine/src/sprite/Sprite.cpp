@@ -11,10 +11,10 @@ void Sprite::Init()
 	SetMaterial();
 	GetMaterial().InitShader();
 
-	std::cout << "Vertex" << std::endl;
-	std::cout << GetMaterial().GetVertexSource() << std::endl;
-	std::cout << "Fragment" << std::endl;
-	std::cout << GetMaterial().GetFragmentSource() << std::endl;
+	//std::cout << "Vertex" << std::endl;
+	//std::cout << GetMaterial().GetVertexSource() << std::endl;
+	//std::cout << "Fragment" << std::endl;
+	//std::cout << GetMaterial().GetFragmentSource() << std::endl;
 }
 
 Sprite::Sprite()
