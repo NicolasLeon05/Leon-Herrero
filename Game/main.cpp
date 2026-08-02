@@ -20,11 +20,12 @@ public:
 };
 
 
-static const float screenWidth = 480.0f * 2.5f;
-static const float screenHeight = 272.0f * 2.5f;
+static const float screenWidth = 320.0f * 2.5f;
+static const float screenHeight = 320.0f * 2.5f;
 
 TileMap tileMap;
 Sprite player;
+Animation animation;
 
 static const float playerWidth = 30.0f;
 static const float playerHeight = 36.0f;
@@ -47,15 +48,15 @@ void Game::InitGame()
 {
 	speedLimitCounter = 0.0f;
 
-	float mapWidth = 30.0f * 16.0f; //480
-	float mapHeight = 17.0f * 16.0f; //272
+	float mapWidth = 20.0f * 16.0f; //320
+	float mapHeight = 20.0f * 16.0f; //320
 
 	tileMap.SetScale(screenWidth / mapWidth, screenHeight / mapHeight, 1.0f);
 	float mapX = (screenWidth - mapWidth * tileMap.GetScale().x) * 0.5f;
 	float mapY = (screenHeight - mapHeight * tileMap.GetScale().y) * 0.5f;
 	tileMap.SetPosition(mapX, mapY, 0.0f);
 
-	bool loaded = tileMap.Load("Assets/TileMap/sampleMap.tmx");
+	bool loaded = tileMap.Load("Assets/TileMap/TestFinal/tilemap.tmx");
 
 	if (!loaded)
 	{
@@ -86,15 +87,11 @@ void Game::InitGame()
 	float playerX = tileMap.GetX() + (static_cast<float>(startColumn) + 0.5f) * scaledTileWidth;
 	float playerY = tileMap.GetY() + (static_cast<float>(tileMap.GetHeight()) - static_cast<float>(startRow) - 0.5f) * scaledTileHeight;
 
-	player.SetTexture("Assets/Player/pokemon.png", 256, 256);
+	player.SetTexture("Assets/TileMap/TestFinal/tilemap.png", 305.0f, 186.0f);
 	player.CreateSquare(glm::vec3(playerX, playerY, 0.0f), playerWidth, playerHeight);
-	player.SetTextureCoordinates(
-		0.25f, 1.0f,
-		0.25f, 0.75f,
-		0.0f, 0.75f,
-		0.0f, 1.0f
-	);
 
+	animation.AddFrames(84.5f, 17.0f, 17.0f, 16.0f, 305.0f, 186.0f, 5.0f, 7);
+	player.SetAnimation(&animation);
 }
 
 void Game::Update()
