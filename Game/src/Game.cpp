@@ -9,15 +9,18 @@
 const float Game::screenWidth = 320.0f * 2.5f;
 const float Game::screenHeight = 320.0f * 2.5f;
 
-const float Game::playerWidth = 30.0f;
-const float Game::playerHeight = 36.0f;
-const float Game::movementCooldown = 0.1f;
 
 Game::Game()
 {
 	scaledTileWidth = 0.0f;
 	scaledTileHeight = 0.0f;
+
 	speedLimitCounter = 0.0f;
+
+	playerWidth = 30.0f;
+	playerHeight = 36.0f;
+
+	timeToMove = 0.1f;
 }
 
 void Game::InitGame()
@@ -32,12 +35,12 @@ void Game::InitGame()
 
 void Game::InitializeTileMap()
 {
-	float mapWidth = 20.0f * 16.0f;
-	float mapHeight = 20.0f * 16.0f;
+	float mapWidth = 20.0f * 16.0f; //Tile size in x * tiles in x axys
+	float mapHeight = 20.0f * 16.0f;//Tile size in y * tiles in y axys
 	tileMap.SetScale(screenWidth / mapWidth, screenHeight / mapHeight, 1.0f);
 
-	float mapX = (screenWidth - mapWidth * tileMap.GetScale().x) * 0.5f;
-	float mapY = (screenHeight - mapHeight * tileMap.GetScale().y) * 0.5f;
+	float mapX = screenWidth - mapWidth * tileMap.GetScale().x;
+	float mapY = screenHeight - mapHeight * tileMap.GetScale().y;
 	tileMap.SetPosition(mapX, mapY, 0.0f);
 
 	bool loaded = tileMap.Load("Assets/TileMap/TestFinal/tilemap.tmx");
@@ -88,7 +91,7 @@ void Game::UpdatePlayerMovement(float deltaTime)
 {
 	speedLimitCounter += deltaTime;
 
-	if (speedLimitCounter < movementCooldown)
+	if (speedLimitCounter < timeToMove)
 		return;
 
 	float movementX = 0.0f;
@@ -112,9 +115,7 @@ void Game::UpdatePlayerMovement(float deltaTime)
 	}
 
 	if (movementX == 0.0f && movementY == 0.0f)
-	{
 		return;
-	}
 
 	player.SetPosition(player.GetX() + movementX, player.GetY() + movementY, player.GetZ());
 

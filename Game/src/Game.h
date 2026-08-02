@@ -19,9 +19,9 @@ private:
 	static const float screenWidth;
 	static const float screenHeight;
 
-	static const float playerWidth;
-	static const float playerHeight;
-	static const float movementCooldown;
+	float playerWidth;
+	float playerHeight;
+	float timeToMove;
 
 	void InitializeTileMap();
 	void InitializePlayer();
