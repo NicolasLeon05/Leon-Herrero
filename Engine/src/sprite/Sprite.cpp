@@ -19,8 +19,6 @@ void Sprite::Init()
 
 Sprite::Sprite()
 {
-	animation = new Animation();
-
 	texture = 0;
 	sharedTexture = false;
 }
@@ -36,7 +34,6 @@ Sprite::~Sprite()
 		}
 	}
 
-	delete animation;
 	animation = nullptr;
 }
 
@@ -137,6 +134,15 @@ void Sprite::SetTriangleVertexColor(glm::vec4 colors[4])
 }
 void Sprite::SetAnimation(Animation* anim)
 {
+	if (anim == nullptr)
+		return;
+
+	if (anim->GetFrames().empty())
+	{
+		std::cout << "Cannot set an animation without frames" << std::endl;
+		return;
+	}
+
 	anim->Reset();
 	this->animation = anim;
 
