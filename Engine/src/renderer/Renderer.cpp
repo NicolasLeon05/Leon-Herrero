@@ -108,13 +108,13 @@ void Renderer::InitSpriteBuffers(Sprite& sprite)
 {
 	GenBuffers(sprite);
 	BindBuffers(sprite);
-
+													//STRIDE		  OFFSET
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, 0);
 	glEnableVertexAttribArray(0);
-
+													//STRIDE			OFFSET
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(sizeof(float) * 3));
 	glEnableVertexAttribArray(1);
-
+													//STRIDE			OFFSET
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(sizeof(float) * 7));
 	glEnableVertexAttribArray(2);
 }

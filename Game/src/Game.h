@@ -1,6 +1,7 @@
 #pragma once
 
 #include "sprite/Sprite.h"
+#include "shape/Shape.h"
 #include "animation/Animation.h"
 #include "tilemap/Tilemap.h"
 #include "BaseGame.h"
@@ -11,6 +12,7 @@ private:
 	TileMap tileMap;
 	Sprite player;
 	Animation animation;
+	Shape shape;
 
 	float scaledTileWidth;
 	float scaledTileHeight;

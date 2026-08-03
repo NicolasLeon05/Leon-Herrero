@@ -72,6 +72,8 @@ void Game::InitializePlayer()
 
 	animation.AddFrames(84.5f, 17.0f, 17.0f, 16.0f, 305.0f, 186.0f, 5.0f, 7);
 	player.SetAnimation(&animation);
+
+	shape.CreateSquare(glm::vec3(playerX, playerY, 0.0f), playerWidth, playerHeight, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 }
 
 void Game::Update()
@@ -84,6 +86,7 @@ void Game::Update()
 	player.Update();
 
 	tileMap.Draw();
+	shape.Draw();
 	player.Draw();
 }
 
@@ -121,6 +124,8 @@ void Game::UpdatePlayerMovement(float deltaTime)
 
 	if (tileMap.CheckCollision(player))
 		std::cout << "Tile collision" << std::endl;
+
+	shape.SetPosition(player.GetX(), player.GetY(), player.GetZ());
 
 	speedLimitCounter = 0.0f;
 }
