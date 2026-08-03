@@ -67,13 +67,15 @@ void Game::InitializePlayer()
 	float playerX = tileMap.GetX() + (static_cast<float>(startColumn) + 0.5f) * scaledTileWidth;
 	float playerY = tileMap.GetY() + (static_cast<float>(tileMap.GetHeight()) - static_cast<float>(startRow) - 0.5f) * scaledTileHeight;
 
+	float shapeY = tileMap.GetY() + (static_cast<float>(tileMap.GetHeight()) - static_cast<float>(startRow - 2) - 0.5f) * scaledTileHeight;
+
 	player.SetTexture("Assets/TileMap/TestFinal/tilemap.png", 305, 186);
 	player.CreateSquare(glm::vec3(playerX, playerY, 0.0f), playerWidth, playerHeight);
 
 	animation.AddFrames(84.5f, 17.0f, 17.0f, 16.0f, 305.0f, 186.0f, 5.0f, 7);
 	player.SetAnimation(&animation);
 
-	shape.CreateSquare(glm::vec3(playerX, playerY, 0.0f), playerWidth, playerHeight, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	shape.CreateSquare(glm::vec3(playerX, shapeY, 0.0f), playerWidth, playerHeight, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 }
 
 void Game::Update()
@@ -81,9 +83,10 @@ void Game::Update()
 	float deltaTimeInSeconds = MyClock::GetDeltaTime() / 1000.0f;
 
 	UpdatePlayerMovement(deltaTimeInSeconds);
-
 	tileMap.Update();
 	player.Update();
+
+
 
 	tileMap.Draw();
 	shape.Draw();
@@ -99,34 +102,44 @@ void Game::UpdatePlayerMovement(float deltaTime)
 
 	float movementX = 0.0f;
 	float movementY = 0.0f;
+	float movementSpeed = 5.0f;
+
 
 	if (Input::IsKeyDown(Key::W))
 	{
-		movementY = scaledTileHeight;
+		movementY = movementSpeed;
 	}
 	else if (Input::IsKeyDown(Key::S))
 	{
-		movementY = -scaledTileHeight;
+		movementY = -movementSpeed;
 	}
 	else if (Input::IsKeyDown(Key::A))
 	{
-		movementX = -scaledTileWidth;
+		movementX = -movementSpeed;
 	}
 	else if (Input::IsKeyDown(Key::D))
 	{
-		movementX = scaledTileWidth;
+		movementX = movementSpeed;
 	}
 
 	if (movementX == 0.0f && movementY == 0.0f)
 		return;
 
 	player.SetPosition(player.GetX() + movementX, player.GetY() + movementY, player.GetZ());
+	shape.SetPosition(shape.GetX() + movementX, shape.GetY() - movementY, shape.GetZ());
 
-	if (tileMap.CheckCollision(player))
-		std::cout << "Tile collision" << std::endl;
+	bool collidedWithShape = collisionManager.IsColliding(&player, &shape);
+	if (collidedWithShape)
+		collisionManager.ResolveCollisionPush(&player, &shape);
 
-	shape.SetPosition(player.GetX(), player.GetY(), player.GetZ());
+	bool playerCollidedWithMap = tileMap.CheckCollision(player);
+	if (collidedWithShape && playerCollidedWithMap)
+	{
+		player.RestorePreviousPosition();
+		shape.RestorePreviousPosition();
+	}
 
+	//shape.SetPosition(player.GetX(), player.GetY(), player.GetZ());
 	speedLimitCounter = 0.0f;
 }
 

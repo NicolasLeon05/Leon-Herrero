@@ -36,24 +36,26 @@ float CollisionManager::GetCollisionHeightRotated(Entity2D* entity)
 	return fabs(width * sin(theta)) + fabs(height * cos(theta));
 }
 
-bool CollisionManager::CheckCollision(Entity2D* entity, Entity2D* other)
+bool CollisionManager::CheckCollision(Entity2D* movingEntity, Entity2D* obstacle)
 {
-	if (IsColliding(entity, other))
+	if (IsColliding(movingEntity, obstacle))
 	{
-		entity->SetPosition(entity->GetPrevPosition());
+		movingEntity->RestorePreviousPosition();
+		obstacle->RestorePreviousPosition();
 		return true;
 	}
 	return false;
 }
 
-bool CollisionManager::CheckCollision(Entity2D* entity, std::vector<Entity2D*> others)
+bool CollisionManager::CheckCollision(Entity2D* movingEntity, std::vector<Entity2D*> obstacles)
 {
 	bool collided = false;
-	for (int i = 0; i < others.size(); i++)
+	for (int i = 0; i < obstacles.size(); i++)
 	{
-		if (IsColliding(entity, others[i]))
+		if (IsColliding(movingEntity, obstacles[i]))
 		{
-			entity->SetPosition(entity->GetPrevPosition());
+			movingEntity->RestorePreviousPosition();
+			obstacles[i]->RestorePreviousPosition();
 			collided = true;
 		}
 	}
@@ -61,39 +63,43 @@ bool CollisionManager::CheckCollision(Entity2D* entity, std::vector<Entity2D*> o
 	return collided;
 }
 
-void CollisionManager::ResolveCollisionPush(Entity2D* entity, Entity2D* other, float margin)
+void CollisionManager::ResolveCollisionPush(Entity2D* entityToPush, Entity2D* pushingEntity, float margin)
 {
-    float halfWidthEntity = GetCollisionWidthRotated(entity) * 0.5f;
-    float halfHeightEntity = GetCollisionHeightRotated(entity) * 0.5f;
+	float halfWidthEntity = GetCollisionWidthRotated(entityToPush) * 0.5f;
+	float halfHeightEntity = GetCollisionHeightRotated(entityToPush) * 0.5f;
 
-    float halfWidthOther = GetCollisionWidthRotated(other) * 0.5f;
-    float halfHeightOther = GetCollisionHeightRotated(other) * 0.5f;
+	float halfWidthOther = GetCollisionWidthRotated(pushingEntity) * 0.5f;
+	float halfHeightOther = GetCollisionHeightRotated(pushingEntity) * 0.5f;
 
-    glm::vec3 entityPos = entity->GetPosition();
-    glm::vec3 otherPos = other->GetPosition();
+	glm::vec3 entityPos = entityToPush->GetPosition();
+	glm::vec3 otherPos = pushingEntity->GetPosition();
 
-    float deltaX = entityPos.x - otherPos.x;
-    float deltaY = entityPos.y - otherPos.y;
+	float deltaX = entityPos.x - otherPos.x;
+	float deltaY = entityPos.y - otherPos.y;
 
-    float penetrationX = (halfWidthEntity + halfWidthOther) - fabs(deltaX);
-    float penetrationY = (halfHeightEntity + halfHeightOther) - fabs(deltaY);
+	float penetrationX = (halfWidthEntity + halfWidthOther) - fabs(deltaX);
+	float penetrationY = (halfHeightEntity + halfHeightOther) - fabs(deltaY);
 
-    if (penetrationX <= 0 || penetrationY <= 0)
-        return;
+	if (penetrationX <= 0.0f || penetrationY <= 0.0f)
+		return;
 
-    if (penetrationX < penetrationY)
-    {
-        if (deltaX > 0)
-            entity->SetX(entityPos.x + penetrationX + margin);
-        else
-            entity->SetX(entityPos.x - penetrationX - margin);
-    }
-    else
-    {
-        if (deltaY > 0)
-            entity->SetY(entityPos.y + penetrationY + margin);
-        else
-            entity->SetY(entityPos.y - penetrationY - margin);
-    }
+	glm::vec3 resolvedPosition = entityPos;
+
+	if (penetrationX < penetrationY)
+	{
+		if (deltaX > 0.0f)
+			resolvedPosition.x += penetrationX + margin;
+		else
+			resolvedPosition.x -= penetrationX + margin;
+	}
+	else
+	{
+		if (deltaY > 0.0f)
+			resolvedPosition.y += penetrationY + margin;
+		else
+			resolvedPosition.y -= penetrationY + margin;
+	}
+
+	entityToPush->SetResolvedPosition(resolvedPosition.x, resolvedPosition.y, resolvedPosition.z);
 }
 

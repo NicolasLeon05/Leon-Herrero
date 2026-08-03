@@ -30,18 +30,15 @@ Material Material::ParseShader()
 	std::string line;
 	std::stringstream ss[2];
 	ShaderType type = ShaderType::NONE;
+
 	while (getline(stream, line))
 	{
 		if (line.find("#shader") != std::string::npos)
 		{
 			if (line.find("vertex") != std::string::npos)
-			{
 				type = ShaderType::VERTEX;
-			}
 			else if (line.find("fragment") != std::string::npos)
-			{
 				type = ShaderType::FRAGMENT;
-			}
 		}
 		else
 		{
@@ -61,15 +58,18 @@ unsigned int Material::CompileShader(unsigned int type, const std::string& sourc
 
 	int result;
 	glGetShaderiv(id, GL_COMPILE_STATUS, &result);
+
 	if (result == GL_FALSE)
 	{
 		int length;
 		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
 		char* message = (char*)alloca(length * sizeof(char));
 		glGetShaderInfoLog(id, length, &length, message);
+
 		std::cout << "Failed to compile " << (type == GL_VERTEX_SHADER ? "vertex" : "fragment")
 			<< " shader" << std::endl;
 		std::cout << message << std::endl;
+
 		glDeleteShader(id);
 		return 0;
 	}

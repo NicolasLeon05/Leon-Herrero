@@ -35,6 +35,8 @@ public:
 	glm::mat4 GetTRS();
 	ENGINE_API glm::vec3 GetPosition();
 	ENGINE_API glm::vec3 GetPrevPosition();
+	ENGINE_API void RestorePreviousPosition();
+	ENGINE_API void SetResolvedPosition(float x, float y, float z);
 	ENGINE_API glm::vec3 GetRotation();
 	ENGINE_API glm::vec3 GetScale();
 

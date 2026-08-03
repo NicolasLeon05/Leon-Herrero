@@ -6,12 +6,10 @@
 
 class CollisionManager
 {
-private:
-	bool IsColliding(Entity2D* entity, Entity2D* other);
-
 public:
 	ENGINE_API bool CheckCollision(Entity2D* entity, Entity2D* other);
 	ENGINE_API bool CheckCollision(Entity2D* entity, std::vector<Entity2D*>others);
+	ENGINE_API bool IsColliding(Entity2D* entity, Entity2D* other);
 
 	ENGINE_API void ResolveCollisionPush(Entity2D* entity, Entity2D* other, float margin = 0.0f);
 

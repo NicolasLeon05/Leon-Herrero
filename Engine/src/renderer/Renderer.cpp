@@ -45,7 +45,8 @@ void Renderer::SwapBuffers(Window window)
 }
 void Renderer::SetMVP(Window window)
 {
-	glm::mat4 view = lookAt(glm::vec3(0.0f, 0.0f, 10.0f), //Position
+	glm::mat4 view = lookAt(
+		glm::vec3(0.0f, 0.0f, 10.0f), //Position
 		glm::vec3(0.0f, 0.0f, 0.0f), //Target
 		glm::vec3(0.0f, 1.0f, 0.0f)); //Transform Up
 	glm::mat4 proj = glm::ortho(0.0f, float(window.GetWidth()), 0.0f, float(window.GetHeight()), -0.1f, 100.0f);

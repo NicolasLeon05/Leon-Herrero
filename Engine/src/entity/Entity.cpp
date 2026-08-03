@@ -7,8 +7,9 @@ Entity::Entity()
 	EBO = 0;
 	VAO = 0;
 
-	translation = glm::vec3(1.0f);
-	prevPosition  = glm::vec3(-1.0f);
+	translation = glm::vec3(0.0f);
+	prevPosition = translation;
+
 	rotation = glm::mat4(1.0f);
 	eulerRotation = glm::vec3(0.0f);
 	scale = glm::vec3(1.0f);
@@ -49,6 +50,18 @@ glm::vec3 Entity::GetPosition()
 glm::vec3 Entity::GetPrevPosition()
 {
 	return prevPosition;
+}
+
+void Entity::RestorePreviousPosition()
+{
+	translation = prevPosition;
+	UpdateTRS();
+}
+
+void Entity::SetResolvedPosition(float x, float y, float z)
+{
+	translation = glm::vec3(x, y, z);
+	UpdateTRS();
 }
 
 glm::vec3 Entity::GetRotation()
