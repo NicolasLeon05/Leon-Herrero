@@ -1,33 +1,42 @@
 #pragma once
 
 #include "sprite/Sprite.h"
-#include "shape/Shape.h"
 #include "animation/Animation.h"
 #include "tilemap/Tilemap.h"
 #include "BaseGame.h"
+#include "Direction.h"
 
 class Game : public BaseGame
 {
 private:
 	TileMap tileMap;
 	Sprite player;
-	Animation animation;
-	Shape shape;
+
+	Animation playerUp;
+	Animation playerDown;
+	Animation playerLeft;
+	Animation playerRight;
+
+	Sprite bulletSprite;
+	Animation bulletUp;
+	Animation bulletDown;
+	Animation bulletRight;
+	Animation bulletLeft;
+	Animation explosion;
+
+	bool bulletFired;
 
 	float scaledTileWidth;
 	float scaledTileHeight;
-	float speedLimitCounter;
 
 	static const float screenWidth;
 	static const float screenHeight;
 
-	float playerWidth;
-	float playerHeight;
-	float timeToMove;
-
 	void InitializeTileMap();
-	void InitializePlayer();
+	void InitializeEntities();
 	void UpdatePlayerMovement(float deltaTime);
+	void SetBulletFirstMovement(float speed);
+	void UpdateBulletMovement(float deltaTime, float speed);
 
 public:
 	Game();

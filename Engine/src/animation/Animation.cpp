@@ -12,6 +12,7 @@ Animation::Animation()
 	frames = std::vector<Frame>();
 	currentFrameIndex = 0;
 	lastFrameIndex = 0;
+	hasAnimationFinishedAtLeastOnce = false;
 }
 
 Animation::~Animation()
@@ -86,6 +87,9 @@ void Animation::Update()
 	cout << endl << "currentTime: " << currentTime << endl;
 	cout << "currentFrameIndex: " << currentFrameIndex << endl;
 
+	if (currentTime > totalDuration)
+		hasAnimationFinishedAtLeastOnce = true;
+
 	while (currentTime > totalDuration)
 		currentTime -= totalDuration;
 
@@ -95,12 +99,18 @@ void Animation::Update()
 	currentFrameIndex = static_cast<int>(currentTime / frameDuration);
 }
 
+bool Animation::HasAnimationFinished()
+{
+	return hasAnimationFinishedAtLeastOnce;
+}
+
 void Animation::Reset()
 {
 	currentTime = 0.0f;
 	lastTime = 0.0f;
 	currentFrameIndex = 0;
 	lastFrameIndex = -1;
+	hasAnimationFinishedAtLeastOnce = false;
 }
 
 

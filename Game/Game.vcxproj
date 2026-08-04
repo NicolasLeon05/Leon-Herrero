@@ -145,6 +145,7 @@ xcopy "$(SolutionDir)EngineDLL\lib\glew32.dll" "$(OutDir)" /y /i /s</Command>
     <None Include="Texture.shader" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Direction.h" />
     <ClInclude Include="src\Game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

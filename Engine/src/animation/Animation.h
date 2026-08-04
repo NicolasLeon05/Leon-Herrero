@@ -13,6 +13,7 @@ private:
 	std::vector<Frame> frames;
 	int currentFrameIndex;
 	int lastFrameIndex;
+	bool hasAnimationFinishedAtLeastOnce;
 
 public:
 	ENGINE_API Animation();
@@ -33,6 +34,7 @@ public:
 		float durationInSecs, int framesCount);
 
 	ENGINE_API void Update();
+	ENGINE_API bool HasAnimationFinished();
 
 	void Reset();
 
