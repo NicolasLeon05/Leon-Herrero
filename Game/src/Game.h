@@ -35,7 +35,7 @@ private:
 	void InitializeTileMap();
 	void InitializeEntities();
 	void UpdatePlayerMovement(float deltaTime);
-	void SetBulletFirstMovement(float speed);
+	void SetBulletFirstMovement();
 	void UpdateBulletMovement(float deltaTime, float speed);
 
 public:

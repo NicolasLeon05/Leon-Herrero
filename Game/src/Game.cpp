@@ -98,26 +98,21 @@ void Game::Update()
 	float deltaTimeInSeconds = MyClock::GetDeltaTime() / 1000.0f;
 
 	UpdatePlayerMovement(deltaTimeInSeconds);
+	UpdateBulletMovement(deltaTimeInSeconds, 100.0f);
 
 	tileMap.Update();
 	player.Update();
-	if (bulletFired)
-	{
-		UpdateBulletMovement(deltaTimeInSeconds, 100.0f);
 	bulletSprite.Update();
-	}
-
-
 
 
 	tileMap.Draw();
 	player.Draw();
 
 	//Explosion animation finished
-	if (!(bulletSprite.GetAnimation() == &explosion && bulletSprite.GetAnimation()->HasAnimationFinished()))
-		bulletSprite.Draw();
-	else
+	if (bulletSprite.GetAnimation() == &explosion && bulletSprite.GetAnimation()->HasAnimationFinished())
 		bulletFired = false;
+	else
+		bulletSprite.Draw();
 
 
 	//Draw(bullet);
@@ -157,14 +152,15 @@ void Game::UpdatePlayerMovement(float deltaTime)
 
 	if (Input::IsKeyReleased(Key::SPACE))
 	{
+		if (bulletFired)
+			return;
+
 		bulletDirection = GetDirection(lastKeyPressed);
-		SetBulletFirstMovement(movementSpeed * 1.5f);
-		lastKeyPressed = Key::SPACE;
+		SetBulletFirstMovement();
 	}
 
 	if (movementX == 0.0f && movementY == 0.0f)
 		return;
-
 
 	player.SetPosition(player.GetX() + movementX, player.GetY() + movementY, player.GetZ());
 	//bulletSprite.SetPosition(bulletSprite.GetX() + movementX * 1.1f, bulletSprite.GetY() + movementY * 1.1f, bulletSprite.GetZ());
@@ -172,33 +168,31 @@ void Game::UpdatePlayerMovement(float deltaTime)
 	bool playerCollidedWithMap = tileMap.CheckCollision(player);
 }
 
-void Game::SetBulletFirstMovement(float speed)
+void Game::SetBulletFirstMovement()
 {
 	float posX = player.GetPosition().x;
 	float posY = player.GetPosition().y;
 	float posZ = player.GetPosition().z;
-
-	if (bulletFired)
-		return;
+	float playerHalfWidth = player.GetScale().x / 2;
+	float playerHalfHeight = player.GetScale().y / 2;
 
 	switch (bulletDirection)
 	{
 	case Direction::Up:
-		//bulletSprite.SetPosition();
 		ChangeAnimation(bulletSprite, bulletUp);
-		bulletSprite.SetPosition(posX, posY + speed, posZ);
+		bulletSprite.SetPosition(posX, posY + playerHalfHeight, posZ);
 		break;
 	case Direction::Down:
 		ChangeAnimation(bulletSprite, bulletDown);
-		bulletSprite.SetPosition(posX, posY - speed, posZ);
+		bulletSprite.SetPosition(posX, posY - playerHalfHeight, posZ);
 		break;
 	case Direction::Right:
 		ChangeAnimation(bulletSprite, bulletRight);
-		bulletSprite.SetPosition(posX + speed, posY, posZ);
+		bulletSprite.SetPosition(posX + playerHalfWidth, posY, posZ);
 		break;
 	case Direction::Left:
 		ChangeAnimation(bulletSprite, bulletLeft);
-		bulletSprite.SetPosition(posX - speed, posY, posZ);
+		bulletSprite.SetPosition(posX - playerHalfWidth, posY, posZ);
 		break;
 	default:
 		break;
@@ -209,6 +203,9 @@ void Game::SetBulletFirstMovement(float speed)
 
 void Game::UpdateBulletMovement(float deltaTime, float speed)
 {
+	if (!bulletFired)
+		return;
+
 	float posX = bulletSprite.GetPosition().x;
 	float posY = bulletSprite.GetPosition().y;
 	float posZ = bulletSprite.GetPosition().z;
@@ -218,19 +215,15 @@ void Game::UpdateBulletMovement(float deltaTime, float speed)
 	switch (bulletDirection)
 	{
 	case Direction::Up:
-		ChangeAnimation(bulletSprite, bulletUp);
 		bulletSprite.SetPosition(posX, posY + speed, posZ);
 		break;
 	case Direction::Down:
-		ChangeAnimation(bulletSprite, bulletDown);
 		bulletSprite.SetPosition(posX, posY - speed, posZ);
 		break;
 	case Direction::Right:
-		ChangeAnimation(bulletSprite, bulletRight);
 		bulletSprite.SetPosition(posX + speed, posY, posZ);
 		break;
 	case Direction::Left:
-		ChangeAnimation(bulletSprite, bulletLeft);
 		bulletSprite.SetPosition(posX - speed, posY, posZ);
 		break;
 	default:
